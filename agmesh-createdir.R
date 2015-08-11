@@ -1,0 +1,1 @@
+dir.create(paste("agmesh-scenarios/", scen[,1], sep=""))

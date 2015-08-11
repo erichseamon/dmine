@@ -1,0 +1,8 @@
+dirnamedata <- paste("/agmesh-data/shapefiles/", sep = "")
+agmetfullnamemask <- file.path(dirnamedata, paste("tmmx_1979.nc", sep = ""))
+rastermaskbrick <- raster(agmetfullnamemask)
+extent(rastermaskbrick) <- extent(mlra)
+#mlra_raster <- raster(ncol=585, nrow=1386)
+mlra_raster <- rasterize(mlra, rastermaskbrick, 'MLRA_ID')
+setwd("/agmesh-data/rasters/")
+writeRaster(mlra_raster, filename="mlra_raster", overwrite=TRUE)
