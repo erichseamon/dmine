@@ -1,0 +1,5 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0251379712	5.1	57.4	31	11.6	fine gravelly loam		1.39	10100629	1
+0251379712	10.2	57.4	31	11.6	fine gravelly loam		1.39	10102021	2
+0251379712	20.3	65.5	46.3	8.2	fine gravelly loam		1.23	10102854	3
+0251379712	50.8	72.8	19.6	7.6	fine gravelly coarse sandy loam		1.48	10103627	4

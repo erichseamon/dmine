@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080511112	Cosmic Ray Soil Moisture Observing Station	UVA	Palmyra	Fluvanna	Virginia	37.9229	-78.2739	393	2011	2012	Daily	52		1	 silty loams with 5 cm organic layer overtop.	37.9229	-78.2739	20.5279998779297	20.5279998779297

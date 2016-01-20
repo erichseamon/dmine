@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0180020713	NOAA HMT	Big Bend	Emigrant Gap	Placer	CA	39.3	-120.52	1739	2007	2013	Daily	42		2	Soil Metadata came from SSURGO.  LULC is from NLCD.	39.3	-120.52	15	10

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240570106	AmeriFlux	Sylvania Wilderness	Watersmeet	Gogebic	Michigan	46.242	-89.3476	540	2001	2006	Daily	43		5	All soil metadata is from SSURGO	46.242	-89.3476	100	1

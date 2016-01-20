@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080421112	Cosmic Ray Soil Moisture Observing Station	Park Falls	Chequamegon National Forest, Park Falls	Price	Wisconsin	45.9459	-90.2723	1541.994	2011	2012	Daily	71		1	sand gravel outwash and sandy-loamy till	45.9459	-90.2723	21.3780002593994	21.3780002593994

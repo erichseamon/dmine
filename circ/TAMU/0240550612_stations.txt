@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240550612	AmeriFlux	Konza Prairie	Manhattan	Riley	Kansas	39.0824	-96.5603	443	2006	2012	Daily	71		1	All soil metadata is from SSURGO	39.0824	-96.5603	2	2

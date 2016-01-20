@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0180240813	NOAA HMT	Whetstone	Huachuca City	Cochise	AZ	31.69	-110.28	1277	2008	2013	Daily	52		5	Soil Metadata came from SSURGO.  LULC is from NLCD.	31.69	-110.28	50	5

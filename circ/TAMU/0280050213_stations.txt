@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0280050213	MAWN	Bear Lake	Bear Lake	Manistee 	Michigan	44.3719	-86.1627	794	2002	2013	Daily	71		2	Soil Metadata came from SSURGO	44.3719	-86.1627	10	4

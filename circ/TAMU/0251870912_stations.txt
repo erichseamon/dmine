@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251870912	SNOTEL	Toe Jam	Tuscarora	Elko 	Nevada	41.32	-116.34	7750	2009	2012	Hourly	50		3		41.32	-116.34	50.7999992370605	5.09999990463257

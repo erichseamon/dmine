@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0180180210	NOAA HMT	Lost Hills	Lost Hills	Kern	CA	35.62	-119.69	80	2002	2010	Daily	21		1	Soil Metadata came from SSURGO.  LULC is from NLCD.	35.62	-119.69	10	10

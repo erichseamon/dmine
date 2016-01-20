@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080381012	Cosmic Ray Soil Moisture Observing Station	Rosemount	Rosemount	Dakota	Minnesota	44.7143	-93.0898	943	2011	2012	Daily	82		1	well drained silty loams 0.3-2 m deep with underlying coarse material.	44.7143	-93.0898	19.8139991760254	19.8139991760254

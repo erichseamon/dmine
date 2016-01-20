@@ -1,0 +1,5 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0031020512	5.1				-	42.34-141.14		10101199	1
+0031020512	10.2				cobbly medial loam	42.34-141.14		10102222	2
+0031020512	30.5				cobbly loamy sand	42.34-141.14		10103251	3
+0031020512	50.8				loamy sand	42.34-141.14		10103722	4

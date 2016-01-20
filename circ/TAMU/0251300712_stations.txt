@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251300712	SNOTEL	Mica Creek	Fernwood	Shoshone 	Idaho	47.15	-116.27	4510	2007	2012	Hourly	43		3		47.15	-116.27	50.7999992370605	5.09999990463257

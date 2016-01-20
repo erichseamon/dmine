@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240080204	AmeriFlux	Delta Junction 1999 Burn	Fort Greely	Southeast Fairbanks	Alaska	63.9217	-145.7456	469	2002	2004	Daily	51		4	All soil metadata is from SSURGO	63.9217	-145.7456	37	1

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0280321213	MAWN	Gaylord	Gaylord	Otsego 	Michigan	45.0315	-84.8481	1424	2012	2013	Daily	71		2	Soil Metadata came from SSURGO	45.0315	-84.8481	10	4

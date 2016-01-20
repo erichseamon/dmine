@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0241040107	AmeriFlux	Corral Pocket	Monticello	San Juan	Utah	38.09	-109.39	1520	2001	2007	Daily	71		5	All soil metadata is from SSURGO	38.09	-109.39	60	1

@@ -1,0 +1,4 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0252189612	5.1	39.2	37.3	23.5	slightly decomposed plant material	4.00-14.00	1.20-1.40	10100706	1
+0252189612	10.2	34.3	39.1	26.6	gravelly ashy loam	4.00-14.00	1.01	10101893	2
+0252189612	20.3	34.3	39.1	26.6	gravelly ashy loam	4.00-14.00	1.01	10102931	3

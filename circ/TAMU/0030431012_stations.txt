@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0030431012	Soil Climate Analysis Network	Goshute	West Juab	Tooele	Utah	39.59	-114	5470	2010	2012	Daily	52		5	Saturated Hydraulic Conductivity (SHC) values not listed past 72in; SHC values obtained from SSURGO Database	39.59	-114	101.599998474121	5.09999990463257

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0300010611	Water and Environmental Research Center	South White Hills Met Station (DFM1)	Nuiqsut	North Slope Borough	Alaska	69.2	-149.55	961.04	2006	2011	Daily	71			All soil metadata is from SSURGO	69.2	-149.55	40	10

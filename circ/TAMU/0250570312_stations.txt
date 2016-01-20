@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0250570312	SNOTEL	Burnside Lake	Markleeville	Alpine 	California	38.72	-119.89	8129	2003	2012	Hourly	43		3		38.72	-119.89	50.7999992370605	5.09999990463257

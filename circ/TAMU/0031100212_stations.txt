@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0031100212	Soil Climate Analysis Network	Powell Gardens	Urich	Johnson	Missouri	38.52	-94.02	960	2002	2012	Daily	21		5	Saturated Hydraulic Conductivity (SHC) values not listed past 76in; SHC values obtained from SSURGO Database	38.52	-94.02	101.599998474121	5.09999990463257

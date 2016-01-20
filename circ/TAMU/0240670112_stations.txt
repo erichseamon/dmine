@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240670112	AmeriFlux	Mead Irrigated	Mead	Saunders	Nebraska	41.165	-96.4766	361	2001	2012	Daily	82		4	All soil metadata is from SSURGO	41.165	-96.4766	100	18

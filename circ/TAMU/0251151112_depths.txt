@@ -1,0 +1,4 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0251151112	5.1	33.9	59.1	7	silt loam	14.11-42.34	.65-.85	10100608	1
+0251151112	20.3	33.9	59.1	7	silt loam	14.11-141.14	.65-.85	10101836	2
+0251151112	50.8	33.9	59.1	7	silt loam	14.11-141.14	.65-.85	10102833	3

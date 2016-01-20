@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240700408	AmeriFlux	Nebraska SandHills Dry Valley	Whitman	Grant	Nebraska	42.0693	-101.4072	1081	2004	2008	Daily	71		4	All soil metadata is from SSURGO	42.0693	-101.4072	100	1

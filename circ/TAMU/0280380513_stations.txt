@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0280380513	MAWN	Hudson	Clayton	Lenawee 	Michigan	41.8729	-84.2259	869	2005	2013	Daily	82		2	Soil Metadata came from SSURGO	41.8729	-84.2259	10	4

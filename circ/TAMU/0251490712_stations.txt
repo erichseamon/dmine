@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251490712	SNOTEL	Nevada Ridge	Canyon Creek	Lewis And Clark 	Montana	46.84	-112.51	7020	2007	2012	Hourly	43		4		46.84	-112.51	101.599998474121	10.1999998092651

@@ -1,0 +1,6 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0031180412	5.1	5.6	81.2	13.2	silt loam	1.41-4.23	1.2	10101215	1
+0031180412	10.2	5.6	81.2	13.2	silt loam	1.41-4.23	1.2	10102238	2
+0031180412	20.3	6.9	77	16.1	broken face silt loam	1.41-4.23	1.45	10103131	3
+0031180412	50.8	4.8	62	33.2	broken face silty clay	1.41-4.23	1.47	10103738	4
+0031180412	101.6	5.6	70.1	24.3	broken face silty clay loam	0.42-1.41	1.38	10104311	5

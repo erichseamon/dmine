@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0330181112	CHILI	Leakesville	Leakesville	Greene	MS	31.1764	-88.6001	234.91	2011	2012	Daily	81		1	Near road; All soil metadata is from SSURGO	31.1764	-88.6001	100	100

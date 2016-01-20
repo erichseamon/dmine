@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240890404	AmeriFlux	Metolius Eyerly Burn	Culver	Jefferson	Oregon	44.5794	-121.5	914	2004	2004	Daily	42		1	All soil metadata is from SSURGO	44.5794	-121.5	1	1

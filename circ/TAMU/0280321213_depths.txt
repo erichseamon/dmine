@@ -1,0 +1,3 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0280321213	4	93.6	1.4	5	sand	42.34-141.14	1.25-1.45	10100973	1
+0280321213	10	93.6	1.4	5	sand	42.34-141.14	1.25-1.45	10102072	2

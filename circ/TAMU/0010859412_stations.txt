@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0010859412	Oklahoma Mesonet	Newkirk	Newkirk	Kay	Oklahoma	36.9	-96.91	1200	2000	2012	Daily	71		4	Saturated Hydraulic Conductivity (SHC) values not listed, Bulk Density values not listed past 60cm; SHC values obtained from SSURGO Database. Soil Texture not listed past 60cm. Soil Texture obtained from Soil Texture Triangle. Soil Percentages past 60cm obtained from SSURGO Database.	36.9	-96.91	75	5

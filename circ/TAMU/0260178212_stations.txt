@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0260178212	ECONET	LAKE	Raleigh	Wake	North Carolina	35.72816	-78.67981	382	2001	2012	Hourly	81		1		35.72816	-78.67981	20	20

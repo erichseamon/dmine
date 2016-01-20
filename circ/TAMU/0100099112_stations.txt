@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0100099112	Illinois Climate Network	Fairfield	Fairfield	Wayne	Illinois	38.381944	-88.39	451	2003	2012	Daily	71		6	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. Elevations taken from Google Earth.	38.38194	-88.39	150	5

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251640912	SNOTEL	Navajo Whiskey Ck	Samostee	San Juan 	New Mexico	36.18	-108.95	9050	2009	2012	Hourly			3		36.18	-108.95	50.7999992370605	5.09999990463257

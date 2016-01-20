@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0030789312	Soil Climate Analysis Network	Mandan	Hazelwood	Morton	North Dakota	46.46	-100.55	1930	1993	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 62in; SHC values obtained from SSURGO Database; soil texture derived using the NRCS Soil Texture Calculator	46.46	-100.55	101.599998474121	5.09999990463257

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0030440712	Soil Climate Analysis Network	Mountain Home	Duchesne	Duchesne	Utah	40.22	-110.24	6950	2007	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 62in; SHC values obtained from SSURGO Database	40.22	-110.24	101.599998474121	5.09999990463257

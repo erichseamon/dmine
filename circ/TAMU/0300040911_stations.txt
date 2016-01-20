@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0300040911	Water and Environmental Research Center	Itikmalakpak Met (DUM1)	Anaktuvuk Pass	North Slope Borough	Alaska	68.29008	-151.12	3831.04	2009	2011	Daily	72			Mountainous Terrain. Texture is from SSURGO	68.29008	-151.12	40	10

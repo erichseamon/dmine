@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080451112	Cosmic Ray Soil Moisture Observing Station	Morgan Monroe	Unionville	Monroe	Indiana	39.3232	-86.4131	902.23	2011	2012	Daily	41		1	well drained clay loam with bedrock layer at about 4 m at the tower	39.3232	-86.4131	9.57569980621338	9.57569980621338

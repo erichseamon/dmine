@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0010889402	Oklahoma Mesonet	Norman	Norman	Cleveland	Oklahoma	35.26	-97.48	1181	2000	2002	Daily	71		4	Saturated Hydraulic Conductivity (SHC) values not listed; SHC values obtained from SSURGO Database. Percentages obtained from SSURGO Database.	35.26	-97.48	75	5

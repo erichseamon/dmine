@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0031391012	Soil Climate Analysis Network	Selma	Lowndesboro	Dallas	Alabama	32.24	-86.53	140	2010	2012	Daily	82		5	Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 80in; SHC & Bulk Density values obtained from SSURGO Database	32.24	-86.53	101.599998474121	5.09999990463257

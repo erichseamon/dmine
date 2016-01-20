@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080561112	Cosmic Ray Soil Moisture Observing Station	Howland	Howland	Penobscot	Maine	45.2041	-68.7402	196.85	2011	2012	Daily	52		1	thick black organic zone (10 cm), white e horizon, followed by orange silty layer. Large cobbles often present around the footprint	45.2041	-68.7402	8.04660034179688	8.04660034179688

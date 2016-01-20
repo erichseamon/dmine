@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0290070713	South Dakota Automated Weather Network	Leola	Leola	McPherson	South Dakota	45.72	-98.93	488	2007	2013	Daily	22		5		45.72	-98.93	100	10

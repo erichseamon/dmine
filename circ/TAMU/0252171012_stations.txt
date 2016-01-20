@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0252171012	SNOTEL	Clear Lake	Maupin	Wasco 	Oregon	45.19	-121.69	3810	2010	2012	Hourly	43		4		45.19	-121.69	50.7999992370605	5.09999990463257

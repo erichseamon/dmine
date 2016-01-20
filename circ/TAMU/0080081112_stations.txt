@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080081112	Cosmic Ray Soil Moisture Observing Station	San Pedro 2	Sierra Vista	Cochise	Arizona	31.5615	-110.1404	4045.275	2010	2012	Daily	71		1	Located near the San Pedro River; Within five meters of San Pedro probe	31.5615	-110.1404	20.3409996032715	20.3409996032715

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0030290712	Soil Climate Analysis Network	Hayford Peak	Alamo	Clark	Nevada	37.39	-115.12	9886	2007	2012	Daily	43		5	cultivated field nearby; Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 60in; SHC & Bulk Density values obtained from SSURGO Database	37.39	-115.12	101.599998474121	5.09999990463257

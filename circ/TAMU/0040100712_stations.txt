@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0040100712	Automated Weather Data Network	Brule North Table	Brule	Keith	Nebraska	41.15	-101.98	3722	2007	2010	Daily	82				41.15	-101.98		

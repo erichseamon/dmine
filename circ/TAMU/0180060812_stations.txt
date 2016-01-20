@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0180060812	NOAA HMT	Canelo	Elgin	Santa Cruz	AZ	31.55	-110.52	1505	2008	2012	Daily	52		5	Soil Metadata came from SSURGO.  LULC is from NLCD.	31.55	-110.52	70	5

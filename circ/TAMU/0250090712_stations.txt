@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0250090712	SNOTEL	Atigun Pass	Gates of the Arctic National Park and Preserve	North Slope	Alaska	68.13	-149.48	4800	2007	2012	Hourly	30		3		68.13	-149.48	50.7999992370605	5.09999990463257

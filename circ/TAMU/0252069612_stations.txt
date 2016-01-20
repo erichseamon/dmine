@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0252069612	SNOTEL	Silvies	Diamond	Harney 	Oregon	42.75	-118.69	6990	2007	2012	Hourly	71		5		42.75	-118.69	101.599998474121	5.09999990463257

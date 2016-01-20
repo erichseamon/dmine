@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080540612	Cosmic Ray Soil Moisture Observing Station	Shale Hills	Petersburg	Huntingtdon	Pennsylvania	40.6646	-77.9067	858	2012	2012	Daily	52		1	Soils contain large pieces of fractured shales and range in depth from 40 cm to 2 m at the valley bottom. Loamy soils are heavily compacted but well draining. Organic layer is 2-5 cm in most places	40.6646	-77.9067	28.7789993286133	28.7789993286133

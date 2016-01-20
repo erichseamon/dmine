@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0031310212	Soil Climate Analysis Network	Starksville	Columbus	Oktibbiha	Mississippi 	33.38	-88.46	340	2002	2012	Daily	81		5	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database	33.38	-88.46	101.599998474121	5.09999990463257

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0040460212	Automated Weather Data Network	Red Cloud	Guide Rock	Webster	Nebraska	40.08	-98.28	1718	2006	2010	Daily	72		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO. Revised given texture of silt to silt  loam for depths 1, 2, 3. Revised given texture of clay to silt loam for depth 4.	40.08	-98.28	100	10

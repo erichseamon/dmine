@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240410001	AmeriFlux	Great Mountain Forest	Norfolk	Litchfield	Connecticut	41.9667	-73.2333	493	2000	2001	Daily	43		4	All soil metadata is from SSURGO	41.9667	-73.2333	50	10

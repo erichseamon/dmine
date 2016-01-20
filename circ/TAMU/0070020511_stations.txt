@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0070020511	Climate Reference Network	Gadsden 19 N	Gadsden	DeKalb	Alabama	34.2851	-85.9621	1152	2009	2012	Daily	81		5	Saturated Hydraulic Conductivity (SHC) values not listed past 73in; SHC values obtained from SSURGO Database. Bulk density values for depths averaged from three probes at each depth if applicable. 	34.2851	-85.9621	100	5

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0060189711	Atmospheric Radiation Measurement 	El Reno (E19)	El Reno	Canadian	Oklahoma	35.557	-98.017	1381	1997	2011	Daily	81		8	Located near a creek, SHC and MBD obtained from SSURGO; Soil composition obtained from SSURGO and USDA soil taxonomy triangle except 5-35cm from SGP Reference Site	35.557	-98.017	175	5

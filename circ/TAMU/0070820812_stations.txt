@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0070820812	Climate Reference Network	Coos Bay 8 SW	Coos Bay	Coos	Oregon	43.2718	-124.3186	12	2008	2012	Daily	92		6	Saturated Hydraulic Conductivity (SHC) values not listed past 52in; SHC values obtained from SSURGO Database. SSURGO used for depth 125cm.  Bulk density values for depths averaged from three probes at each depth if applicable. 	43.2718	-124.3186	125	5

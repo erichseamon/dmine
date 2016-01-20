@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0010061112	Oklahoma Mesonet	Antlers	Antlers	Pushmataha	Oklahoma	34.25	-95.67	587	2000	2012	Daily	71		4	Saturated Hydraulic Conductivity (SHC) values not listed & Bulk Density Values values not listed past 25cm; SHC values obtained from SSURGO Database. 	34.25	-95.67	75	5

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251459912	SNOTEL	Many Glacier	Browning	Glacier 	Montana	48.8	-113.67	4900	2000	2012	Hourly			3		48.8	-113.67	20.2999992370605	5.09999990463257

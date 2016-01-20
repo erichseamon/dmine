@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240030810	AmeriFlux	Anaktuvuk River Unburned	Anaktuvuk Pass	North Slope	Alaska	68.93	-150.27	600	2008	2010	Daily	51		1	All soil metadata is from SSURGO	68.93	-150.27	1	1

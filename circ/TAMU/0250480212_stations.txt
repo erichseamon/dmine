@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0250480212	SNOTEL	Truckee #2	Truckee	Placer 	California	39.3	-120.18	6509	2002	2012	Hourly	43		3		39.3	-120.18	50.7999992370605	5.09999990463257

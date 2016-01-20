@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0060129612	Atmospheric Radiation Measurement 	Pawhuska (E12)	Pawkuska	Osage	Oklahoma	36.841	-96.427	1086	1996	2011	Daily	81		5	Bulk Dry Density for 5cm from SGP Reference Site; SHC and MBD obtained from SSURGO; Soil composition obtained from SSURGO and USDA soil taxonomy triangle except 5 and 35cm from SGP Reference Site  	36.841	-96.427	60	5

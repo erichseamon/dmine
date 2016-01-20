@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0040429912	Automated Weather Data Network	Concord (NE)	Concord	Dixon	Nebraska	42.38	-96.95	1459	2006	2010	Daily	82		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO. Revised given texture of silt to silty loam for depths 1 and 2. Revised given texture of clay to silty loam for depths 3 and 4.	42.38	-96.95	100	10

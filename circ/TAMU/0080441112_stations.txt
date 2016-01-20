@@ -1,0 +1,3 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080441112	Cosmic Ray Soil Moisture Observing Station	UMBS	Pellston	Emmet	Michigan	45.5598	-84.7138	772	2011	2012	Daily	43		1	deep well drained sands, 2-5 cm organic layer on surface. 
+	45.5598	-84.7138	29.0440006256104	29.0440006256104

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0150110512	Delaware Environmental Observing System	Harbeson	Harbeson 	Sussex	Delaware	38.683333	-75.25	34	2005	2012	Daily	82		1	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. LULC taken from LULC database	38.68333	-75.25	5	5

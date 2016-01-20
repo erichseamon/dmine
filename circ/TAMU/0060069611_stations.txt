@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0060069611	Atmospheric Radiation Measurement 	Towanda (E6)	Towanda	Butler	Kansas	37.842	-97.02	1342	1996	2011	Daily	81		8	Dry Bulk Density for 25cm from SGP Reference Site; SHC and MBD obtained from SSURGO; Soil composition obtained from SSURGO and USDA soil taxonomy triangle except 15 and 35cm from SGP Reference Site 	37.842	-97.02	175	5

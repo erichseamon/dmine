@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0310050413	MAW-Missouri	Green Ridge	Green Ridge	Pettis	Missouri	38.62	-93.42	907	2000	2013	Daily	81		1	2 sensors at 5 cm depth. D1 is under bare ground, D2 is under sod	38.62	-93.42		

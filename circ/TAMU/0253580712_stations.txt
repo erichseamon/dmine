@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0253580712	SNOTEL	Beaver Pass	Rockport	Whatcom 	Washington	48.88	-121.26	3630	2007	2012	Hourly	43		5		48.88	-121.26	101.599998474121	5.09999990463257

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0031411012	Soil Climate Analysis Network	Morris Farms	Hurtsboro	Macon	Alabama	32.25	-85.55	220	2010	2012	Daily	31		5	Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 80in; SHC & Bulk Density values obtained from SSURGO Database	32.25	-85.55	101.599998474121	5.09999990463257

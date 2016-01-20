@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0253600811	SNOTEL	Easy Pass	Rockport	Whatcom 	Washington	48.86	-121.44	5270	2008	2012	Hourly	43		4		48.86	-121.44	50.7999992370605	5.09999990463257

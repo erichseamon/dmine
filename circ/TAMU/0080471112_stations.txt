@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080471112	Cosmic Ray Soil Moisture Observing Station	Coweeta	Nantahala National Forest, Otto	Macon	North Carolina	35.0662	-83.437	2624.671	2011	2012	Daily	41		1	Soils are weathered ultisols with shallow organic layer (5-10cm) and a sandy loam mineral layer (~30 cm) overlying deep saprolite and regolith (6 to 7 meters in some locations)	35.0662	-83.437	15.3780002593994	15.3780002593994

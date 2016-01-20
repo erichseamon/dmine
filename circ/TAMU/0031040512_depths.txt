@@ -1,0 +1,6 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0031040512	5.1				-	42.34-141.14		10101201	1
+0031040512	10.2				very stony medial silty clay loam	42.34-141.14		10102224	2
+0031040512	30.5				very stony medial silty clay loam	42.34-141.14		10103253	3
+0031040512	50.8				extremely stony hydrous silty clay loam	42.34-141.14		10103724	4
+0031040512	68.58				extremely stony hydrous silty clay loam	42.34-141.14		10104297	5

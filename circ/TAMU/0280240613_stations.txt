@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0280240613	MAWN	Emmett	Emmett	St. Clair	Michigan	42.9914	-82.7598	787	2006	2013	Daily	71		2	Soil Metadata came from SSURGO	42.9914	-82.7598	10	4

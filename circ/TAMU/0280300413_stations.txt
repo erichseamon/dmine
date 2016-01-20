@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0280300413	MAWN	Freeland	Freeland	Saginaw 	Michigan	43.5631	-84.0233	597	2004	2013	Daily	71		2	Soil Metadata came from SSURGO	43.5631	-84.0233	10	4

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0031249912	Soil Climate Analysis Network	Vance	Tutwiler	Tallahatchie	Mississippi 	34.04	-90.21	150	1999	2012	Daily	71		5	Cultivated field nearby: Saturated Hydraulic Conductivity (SHC) values not listed past 84in; SHC values obtained from SSURGO Database	34.04	-90.21	101.599998474121	5.09999990463257

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0100148912	Illinois Climate Network	Peoria	Peoria	Peoria	Illinois	40.70875	-89.511388	702	2003	2012	Daily	71		6	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. Elevations taken from Google Earth.	40.70875	-89.51139	150	5

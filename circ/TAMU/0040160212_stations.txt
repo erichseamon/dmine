@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0040160212	Automated Weather Data Network	Curtis (UNSTA)	Curtis	Frontier	Nebraska	40.63	-100.5	2571	2006	2010	Daily	90		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO. Revised given texture of silt to silt loam for depths 1,2, 3,4.	40.63	-100.5	100	10

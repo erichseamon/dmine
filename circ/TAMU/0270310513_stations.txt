@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0270310513	Alberta Agriculture and Rural Development	Champion 	Vulcan	Vulcan	Alberta	50.2819	-113.3503	3301	2005	2013	Daily	71		4	Soil metadata from AARD	50.2819	-113.3503	100	5

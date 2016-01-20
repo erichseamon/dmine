@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0011099412	Oklahoma Mesonet	Shawnee	Shawnee	Pottawatomie	Oklahoma	35.36	-96.95	1076	2000	2012	Daily	81		4	Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 60in; SHC & Bulk Density values obtained from SSURGO Database. Soil Texture not listed past 60cm. Soil Texture obtained from Soil Texture Triangle. Soil Percentages past 60cm  obtained from SSURGO Database	35.36	-96.95	75	5

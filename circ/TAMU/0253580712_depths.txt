@@ -1,0 +1,6 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0253580712	5.1				decomposed plant material	42.34-141.14	0.22	10100832	1
+0253580712	10.2				decomposed plant material	42.34-141.14	0.22	10101978	2
+0253580712	20.3				woody mucky peat	14.11-42.34	.65-1.00	10103015	3
+0253580712	50.8				woody mucky peat	4.23-14.11	.85-1.10	10103684	4
+0253580712	101.6				coarse sand	4.23-14.11	1.53	10104152	5

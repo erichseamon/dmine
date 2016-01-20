@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251480712	SNOTEL	Mount Lockhart	Choteau	Teton 	Montana	47.92	-112.82	6400	2007	2012	Hourly			4		47.92	-112.82	101.599998474121	10.1999998092651

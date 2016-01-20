@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251379712	SNOTEL	Jackson Peak	Lowman	Boise 	Idaho	44.05	-115.44	7070	2006	2012	Hourly	43		4		44.05	-115.44	50.7999992370605	5.09999990463257

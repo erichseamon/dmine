@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0180050713	NOAA HMT	Canada Hill	Emigrant Gap	Placer	CA	39.18	-120.53	2020	2007	2013	Daily	42		2	Soil Metadata came from SSURGO.  LULC is from NLCD.	39.18	-120.53	15	10

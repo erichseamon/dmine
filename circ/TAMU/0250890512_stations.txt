@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0250890512	SNOTEL	Rough and Tumble	Buena Vista	Park 	Colorado	39.03	-106.08	10360	2005	2012	Hourly			5		39.03	-106.08	101.599998474121	5.09999990463257

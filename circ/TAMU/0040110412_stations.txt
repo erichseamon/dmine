@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0040110412	Automated Weather Data Network	Cedar Point	Keystone	Keith	Nebraska	41.2	-101.63	3165	2006	2010	Daily	72		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO. Revised given texture of sand to sandy loam for depths 1,2,3,4.	41.2	-101.63	100	10

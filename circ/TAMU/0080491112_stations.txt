@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080491112	Cosmic Ray Soil Moisture Observing Station	Austin Cary	Gainesville 	Alachua	Florida	29.7381	-82.2188	144.356	2011	2012	Daily	42		1	Site is flat and contains some seasonal wetlands.Soils are poorly drained sands with organic layer 2-5cm 	29.7381	-82.2188	39.6940002441406	39.6940002441406

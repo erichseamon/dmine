@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0020550112	West Texas Mesonet	Knox City	Knox City	Knox	Texas	33.43	-99.85	1470	2001	2010	Daily	52		4	Soil metadata taken from SSURGO. Soil textures taken from USDA soil texture triangle	33.43	-99.85	75	5

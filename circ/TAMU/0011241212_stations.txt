@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0011241212	Oklahoma Mesonet	Walters	Walters	Cotton	Oklahoma	34.37	-98.32	1059	2000	2012	Daily	52		4	(No new Data found on SSURGO) Saturated Hydraulic Conductivity (SHC) & Bulk Density values not listed; SHC & Bulk Density values obtained from SSURGO Database. Soil Textures not listed. Soil Textures obtained from Soil Texture Triangle. Percentages obtained from SSURGO Database.	34.37	-98.32	75	5

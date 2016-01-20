@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240510510	AmeriFlux	Brooks Field Site 10	Johnston	Polk	Iowa	41.6915	-93.6914	275	2005	2011	Daily	82		1	All soil metadata is from SSURGO	41.6915	-93.6914	22	22

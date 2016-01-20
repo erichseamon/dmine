@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0252140312	SNOTEL	Chemult Alternate	Chemult	Klamath 	Oregon	43.23	-121.81	4850	2003	2012	Hourly	43		5		43.23	-121.81	101.599998474121	5.09999990463257

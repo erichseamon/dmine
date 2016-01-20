@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240520511	AmeriFlux	Brooks Field Site 11	Ames	Story	Iowa	41.9756	-93.6925	314	2005	2011	Daily	82		1	All soil metadata is from SSURGO	41.9756	-93.6925	20	20

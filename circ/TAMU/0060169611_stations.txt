@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0060169611	Atmospheric Radiation Measurement 	Vici (E16)	Vici	Dewey	Oklahoma	36.061	-99.134	1975	1996	2011	Daily	82		8	Dry Bulk Density for 25cm from SGP Reference Site; SHC and MBD obtained from SSURGO; No available data for MBD below 125; Soil composition obtained from SSURGO and USDA soil taxonomy triangle 	36.061	-99.134	175	5

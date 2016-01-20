@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0040130212	Automated Weather Data Network	Champion	Champion	Chase	Nebraska	40.4	-101.72	3375	2006	2010	Daily	82		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO. Revised given texture of silt to silt loam for depths 1,2. Depths 3 depth 4 from sand to silt loam	40.4	-101.72	100	10

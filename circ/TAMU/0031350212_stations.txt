@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0031350212	Soil Climate Analysis Network	Wtars	New Hope	Madison	Alabama	34.54	-86.32	625	2002	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 75in; SHC values obtained from SSURGO Database	34.54	-86.32	101.599998474121	5.09999990463257

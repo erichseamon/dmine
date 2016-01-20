@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0030819112	Soil Climate Analysis Network	Fort Assiniboine #1	Chinook	Hill	Montana	48.29	-109.48	2710	1991	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database	48.29	-109.48	101.599998474121	5.09999990463257

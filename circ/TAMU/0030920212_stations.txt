@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0030920212	Soil Climate Analysis Network	Schor Garden	Homer	Kenai Cook Inlet	Alaska	59.41	-151.23	393	2002	2012	Daily	52		10	NO Saturated Hydraulic Conductivity or Bulk Density Data	59.41	-151.23	139.699996948242	25.3999996185303

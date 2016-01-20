@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0100168912	Illinois Climate Network	Springfield	Springfield	Sangamon	Illinois	39.719722	-89.608888	580	2003	2012	Daily	71		6	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. Elevations taken from Google Earth.	39.71972	-89.60889	150	5

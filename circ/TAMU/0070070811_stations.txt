@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0070070811	Climate Reference Network	Williams 35 NNW	Williams	Coconino	Arizona	35.75505	-112.3374	5990	2010	2012	Daily	52		2	Saturated Hydraulic Conductivity (SHC) values not listed past 70in; SHC values obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	35.75505	-112.3374	10	5

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080271112	Cosmic Ray Soil Moisture Observing Station	Daniel Forest	Uinta-Wasatch-Cache National Forest	Rich	Utah	41.865097	-111.50868	8644	2011	2012	Daily	52		1	well drained with coarser texture in the open and conifers sites and more fine in aspen groves.	41.8651	-111.5087	13.6099996566772	13.6099996566772

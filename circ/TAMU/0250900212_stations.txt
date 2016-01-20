@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0250900212	SNOTEL	Whiskey Ck	Weston	Las Animas 	Colorado	37.21	-105.12	10220	2004	2012	Hourly			4		37.21	-105.12	50.7999992370605	5.09999990463257

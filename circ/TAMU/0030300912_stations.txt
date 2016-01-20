@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0030300912	Soil Climate Analysis Network	Porter Canyon	Austin	Lander	Nevada	39.28	-117.37	7198	2009	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 30in & , and Bulk Density values not listed past 24in; SHC & Bulk Density values obtained from SSURGO Database	39.28	-117.37	101.599998474121	5.09999990463257

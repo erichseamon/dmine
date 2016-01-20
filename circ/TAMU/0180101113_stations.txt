@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0180101113	NOAA HMT	Fairbank	Huachuca City	Cochise	AZ	31.72	-110.18	1174	2011	2013	Daily	52		5	Soil Metadata came from SSURGO.  LULC is from NLCD.	31.72	-110.18	50	5

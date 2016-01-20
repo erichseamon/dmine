@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0070900211	Climate Reference Network	McClellanville 7 NE	McClellanville	Charleston	South Carolina	33.1532	-79.3637	9	2009	2012	Daily	31		5	Saturated Hydraulic Conductivity (SHC) values not listed past 26in; SHC values obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	33.1532	-79.3637	100	5

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0080371112	Cosmic Ray Soil Moisture Observing Station	Brookings	Brookings	Brookings	South Dakota	44.3453	-96.8362	1637	2011	2012	Daily	71		1	deep well drained clay loams, black in color	44.3453	-96.8362	23.3610000610352	23.3610000610352

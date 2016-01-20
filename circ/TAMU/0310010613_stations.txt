@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0310010613	MAW-Missouri	Albany	Albany	Gentry	Missouri	40.24	-94.34	862	2000	2013	Daily	82		1		40.24	-94.34		

@@ -1,0 +1,6 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0030980512	5.1	33	67	0	gravelly hydrous loam	-	0.75	10101195	1
+0030980512	10.2	0	0	1.7	hydrous cobbly silty clay loam	-	0.64	10102218	2
+0030980512	30.5	0	0	1.7	hydrous cobbly silty clay loam	-	0.64	10103247	3
+0030980512	50.8	0	0	1.7	hydrous cobbly silty clay loam	-	0.64	10103907	4
+0030980512	101.6	40.7	35.3	0	hydrous cobbly silty clay loam	-	0.85	10104292	5

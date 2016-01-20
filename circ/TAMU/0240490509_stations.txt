@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0240490509	AmeriFlux	Fermi Prairie	Warrenville	DuPage	Illinois	41.8406	-88.241	226	2005	2009	Daily	80		4	All soil metadata is from SSURGO	41.8406	-88.241	50	1

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251460912	SNOTEL	Divide	Lima	Madison 	Montana	44.79	-112.06	7800	2009	2012	Hourly			4		44.79	-112.06	101.599998474121	10.1999998092651

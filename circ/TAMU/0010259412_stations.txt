@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0010259412	Oklahoma Mesonet	Burneyville	Burneyville	Love	Oklahoma	33.89	-97.27	751	2000	2012	Daily	71		4	Saturated Hydraulic Conductivity (SHC) values not listed; SHC values obtained from SSURGO Database. 	33.89	-97.27	75	5

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0070210312	Climate Reference Network	Nunn 7 NNE	Nunn	Weld	Colorado	40.8066	-104.7552	5390	2011	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 96in; SHC values obtained from SSURGO Database; Soil Composition Percentages obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	40.8066	-104.7552	100	5

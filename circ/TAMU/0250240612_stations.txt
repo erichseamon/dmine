@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0250240612	SNOTEL	Susitna Valley High	Willow	Matanuska-susitna 	Alaska	62.13	-150.04	375	2006	2012	Hourly	43		3		62.13	-150.04	50.7999992370605	5.09999990463257

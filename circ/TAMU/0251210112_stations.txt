@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0251210112	SNOTEL	Van Wyke	Ola	Washington 	Idaho	44.38	-116.34	4920	2001	2012	Hourly			3		44.38	-116.34	50.7999992370605	5.09999990463257

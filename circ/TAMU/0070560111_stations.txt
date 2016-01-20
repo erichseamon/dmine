@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0070560111	Climate Reference Network	Wolf Point 34 NE	Wolf Point	Roosevelt	Montana 	48.4887	-105.2096	2643	2010	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	48.4887	-105.2096	100	5

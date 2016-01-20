@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0040050412	Automated Weather Data Network	Arthur	Arthur	Arthur	Nebraska	41.65	-101.52	3598	2006	2010	Daily	72		4	Soil texture, percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO.	41.65	-101.52	100	10

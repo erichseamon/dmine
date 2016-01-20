@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0253861112	SNOTEL	Snake River Station	Moran	Teton 	Wyoming	44.13	-110.67	6920	2011	2012	Hourly	43		3		44.13	-110.67	50.7999992370605	5.09999990463257

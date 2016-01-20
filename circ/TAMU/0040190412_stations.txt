@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0040190412	Automated Weather Data Network	Gordon	Gordon	Sheridan	Nebraska	42.73	-102.17	3637	2006	2010	Daily	72		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO. Revised given texture of sand to sandy loam for depths 1,2, 3,4.	42.73	-102.17	100	10

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0252629912	SNOTEL	Parrish Creek	Morgan	Davis 	Utah	40.93	-111.81	7740	2000	2012	Hourly	43		4		40.93	-111.81	50.7999992370605	5.09999990463257

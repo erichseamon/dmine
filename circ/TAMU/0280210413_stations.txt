@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0280210413	MAWN	Eastport	Eastport	Antrim 	Michigan	45.08	-85.34		2004	2013	Daily	71		2	Soil Info not available.  SSURGO polygon = water; Soil Metadata came from SSURGO	45.08	-85.34	10	4

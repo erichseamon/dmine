@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0270300513	Alberta Agriculture and Rural Development	Schuler 	Schuler	Cypress	Alberta	50.3072	-110.0905	2625	2005	2013	Daily	71		4	Soil metadata from AARD	50.3072	-110.0905	100	5

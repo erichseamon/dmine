@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0300169806	Water and Environmental Research Center	Ivotuk Moss	Umiat	North Slope Borough	Alaska	68.48	-155.75	1869.6	1998	2006	Daily	51			All soil metadata is from SSURGO	68.48	-155.75	40	5

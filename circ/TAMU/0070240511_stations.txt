@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0070240511	Climate Reference Network	Titusville 7 E	Titusville 	Brevard	Florida	28.6159	-80.6929	3	2011	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 80in; SHC values obtained from SSURGO Database; Soil Composition Percentages obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	28.6159	-80.6929	10	5

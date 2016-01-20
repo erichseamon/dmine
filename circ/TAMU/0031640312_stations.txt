@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0031640312	Soil Climate Analysis Network	Eastview Farm	Belvidere	Franklin	Tennessee 	35.08	-86.11	1054	2003	2012	Daily	81		5	Saturated Hydraulic Conductivity (SHC) values not listed past 69in; SHC values obtained from SSURGO Database	35.08	-86.11	101.599998474121	5.09999990463257

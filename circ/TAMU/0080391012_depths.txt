@@ -1,0 +1,2 @@
+StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
+0080391012	16.55	41.6	37.4	21	Sandy Loam	4.23-14.11	1.43	10100255	1

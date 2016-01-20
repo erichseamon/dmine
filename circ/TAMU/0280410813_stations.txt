@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0280410813	MAWN	Kalamazoo	Kalamazoo	Kalamazoo 	Michigan	42.3538	-85.5855	879	2008	2013	Daily	71		2	Soil Metadata came from SSURGO	42.3538	-85.5855	10	4

@@ -1,0 +1,2 @@
+StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
+0280120013	MAWN	Ceresco	Ceresco	Calhoun 	Michigan	42.22	-85.1526	948	2000	2013	Daily	30		2	Soil Metadata came from SSURGO	42.22	-85.1526	10	4
