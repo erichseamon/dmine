@@ -1,0 +1,384 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<LINK id=usdaStyles rel=styleSheet type=text/css href="/includes/rmastyle2CW.css">
+<title>2015 Data Indemnity Maps</title>
+<meta name="description" content="U.S. Department of Agriculture, Risk Management Agency"/>
+<meta name="creator" content="U.S. Department of Agriculture, Risk Management Agency"/>
+<meta name="date created" content="2013-01-05"/>
+<meta name="keywords" content="U.S. Department of Agriculture, Risk Management Agency"/>
+<meta name="language" content="en"/>
+<meta name="agency" content="USDA RMA"/>
+<meta name="format" content="text/html"/>
+
+<!-- START USDA GOOGLE ANALYTICS CODE -->
+<script type="text/javascript">
+ 
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', ' UA-27627304-35']);
+  _gaq.push(['_setDomainName', 'usda.gov']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+ 
+  _gaq.push(['b._setAccount', ' UA-27627304-1']);
+  _gaq.push(['b._setDomainName', 'usda.gov']);
+  _gaq.push(['b._setAllowLinker', true]);
+  _gaq.push(['b._trackPageview']);
+ 
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+ 
+</script>
+<!-- END USDA GOOGLE ANALYTICS CODE -->
+
+<!-- START RMA GOOGLE ANALYTICS CODE -->
+<script>
+ 
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ 
+  ga('create', 'UA-65595308-1', 'auto');
+  ga('require', 'linkid');   //Enable enhanced link attribution
+  ga('send', 'pageview');
+ 
+</script>
+<!-- END RMA GOOGLE ANALYTICS CODE -->
+ 
+
+ 
+<!-- START DAP (Federal Digital Analytics Program) GOOGLE ANALYTICS CODE -->
+<script language="javascript" id="_fed_an_ua_tag" src="/scripts/federated-analytics/Universal-Federated-Analytics-Min.js?agency=USDA&Subagency=RMA&dclink=true&Enhlink=true"></script>
+<!-- END DAP GOOGLE ANALYTICS CODE -->
+
+
+
+<script type="text/javascript" src="/scripts/federated-analytics/analytics.js"></script>
+</head>
+
+<body>
+<TABLE align=center border=0 cellSpacing=0 cellPadding=0 width="996" bgColor=#ffffff>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width="100%" >
+      <DIV>
+      <META name=description content="Risk Management Agency Home Page">
+      <META name=creator content="Risk Management Agency">
+      <META name="date created" content=2012-01-20>
+      <META name=keywords content="USDA Risk Management Agency">
+      <META name=language content=en>
+      <META name=agency content=RMA>
+      <META name=coveragedate content="Fri Jan 20 10:47:51 CST 2012">
+      <META name=format content=text/html>
+      <TABLE cellSpacing=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD style="WIDTH: 996" vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top align=left>
+                  
+                  
+                 <img name="header" src="/images/migration/header5.jpg" width="560" height="111" border="0" id="header" align="left" usemap="#m_header"><map name="m_header" id="m_header">
+<area shape="rect" coords="211,75,301,111" href="/data/cropprograms.html" title="Programs" alt="Programs" />
+<area shape="rect" coords="307,75,360,111" href="http://blogs.usda.gov/" title="Blog" alt="Blog" />
+<area shape="rect" coords="106,75,211,111" href="/news/" title="News" alt="News" />
+<area shape="rect" coords="6,75,106,111" href="/news/whatsnew/" title="What's New" alt="What's New" />
+<area shape="rect" coords="82,21,295,46" href="/" title="RMA" alt="RMA" />
+<area shape="rect" coords="8,56,281,75" href="http://www.usda.gov" title="USDA" alt="USDA" />
+<area shape="rect" coords="0,0,76,56" href="http://www.usda.gov" title="USDA" alt="USDA" />
+</map></DIV><TD vAlign=top align=right>
+                   <!-This is the top right nav bar--><img name="limenavbar" src="/images/migration/limenavbar5.jpg" width="353" height="27" id="limenavbar" usemap="#m_limenavbar" alt="" border="0" /><map name="m_limenavbar" id="m_limenavbar">
+<area shape="rect" coords="259,0,348,27" href="/espanol/" title="en español" alt="En Español" />
+<area shape="rect" coords="174,0,255,27" href="/aboutrma/contact.html" title="Contact Us" alt="Contact Us" />
+<area shape="rect" coords="88,0,171,27" href="/aboutrma/fields/" title="Field Offices" alt="Field Offices" />
+<area shape="rect" coords="0,0,85,27" href="/aboutrma/" title="About RMA" alt="About RMA" />
+</map><DIV id=USDATopHelp align="right">
+				
+                  <DIV id=USDASearchHeader>
+				  <form action="http://search.usda.gov/search" name="SearchForm" id="SearchForm" class="searchform" style="align-right
+	MARGIN-TOP: 0em; MARGIN-BOTTOM: 0em;">
+                  <label for="Terms1"><input type="text" name="q" id="Terms1" value="" size="15" maxlength="255" onFocus="clearDefault(this)"></label><input type="hidden" name="site" value="RMA_MAIN" ID="Hidden1"><input type="hidden" name="client" value="usda" ID="Hidden2"><input type="hidden" name="proxystylesheet" value="RMA"><input type="hidden" name="output" value="xml_no_dtd" ID="Hidden4"><input type="hidden" name="access" value="p" ID="Hidden5"><input type="hidden" name="mode" value="advanced" ID="Hidden6"><input type="hidden" name="as_occt" value="any" ID="Hidden7"><input type="hidden" name="num" value="15" ID="Hidden8">&nbsp;&nbsp;<input type="image" name="btnG" id="Submit1" src="/images/migration/Search_Button.gif" alt="Go" border="0" title="Go"></DIV>
+                  <br><br><br>
+                  <DIV id=USDATopHelp>
+                  <UL>
+                    <LI><A title="Site Map" 
+                    href="/help/sitemap.html">Site 
+                    Map</A> |</LI>
+                    <LI><A title="A-Z Index" 
+                    href="/help/a-z.html">A-Z Index</A> |</LI>
+                    <LI><A title="Advanced Search" href="http://search.usda.gov/search?q=Enter+search+text&site=RMA_MAIN&client=usda&proxystylesheet=RMA&output=xml_no_dtd&access=p&mode=advanced&as_occt=any&num=15&sort=date:D:S:d1&btnG.x=15&btnG.y=8&ie=UTF-8&ip=165.221.79.234&entqr=3&entqrm=0&oe=UTF-8&ud=1&proxycustom=<ADVANCED/>">Advanced 
+                    Search</A> |</LI>
+                    <LI><A title=Help href="/help/">Help</A> |</LI>
+                    <LI><A title="Search Tips" href="http://search.usda.gov/user_help.html">Search 
+                    Tips</A> 
+                  </LI></UL></DIV></DIV><!-- header30_right end --></DIV><!-- wraper  --></SPAN></DIV></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD style="WIDTH: 996" vAlign=top><hr>
+            <TABLE class=layoutRow cellSpacing=0 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top width=575>
+ 
+<!--breadcrumb--><img src="/images/migration/spacer.gif" width="30" height="1" alt="" />You are: <a href="/">Home</a> / <a href="/tools/">Information Browser</a> / <a href="/data/indemnity/">Data Indemnity Maps</a> 
+<TABLE class=layoutColumn cellSpacing=0 cellPadding=0>
+                    <TBODY>
+                    <TR>
+                      <TD style="WIDTH: 996" vAlign=top>
+                        
+                        <A name=7_P8MVVLT318PM80IUGT389F10C2></A>
+                        <DIV align=left>
+                        <DIV id=clearSpaces></DIV></DIV></TD></TR></TBODY></TABLE></TD>
+                <TD vAlign=top width=421>
+                  <TABLE class=layoutColumn cellSpacing=0 cellPadding=0>
+                    <TBODY>
+                    <TR>
+                      <TD style="WIDTH: 996" vAlign=top>
+                        
+                        <A name=7_P8MVVLT318PM80IUGT389F1042></A>
+                        <DIV align=left>
+                        <DIV 
+              id=clearSpaces></DIV></DIV></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD style="WIDTH: 996" vAlign=top>
+            <TABLE class=layoutRow cellSpacing=0 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top>
+                  
+                  <A name=7_P8MVVLT318PM80IUGT389F1043></A>
+                  <DIV align=left>
+                  <DIV id=clear></DIV></DIV></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD style="WIDTH: 996" vAlign=top>
+            <TABLE class=layoutRow cellSpacing=0 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top width=270>
+                  <TABLE class=layoutColumn cellSpacing=0 cellPadding=0>
+                    <TBODY>
+                    <TR>
+                      <TD style="WIDTH: 996" vAlign=top>
+                        
+                        <A name=7_P8MVVLT318PM80IUGT389F1040></A>
+                        <DIV align=left>
+                        <DIV id=clear></DIV></DIV></TD></TR></TBODY></TABLE></TD>
+                <TD vAlign=top width=726>
+                  <TABLE class=layoutColumn cellSpacing=0 cellPadding=0>
+                    <TBODY>
+                    <TR>
+                      <TD style="WIDTH: 996" vAlign=top>
+                        
+                        <A name=7_P8MVVLT318PM80IUGT389F10O3></A>
+                        <DIV align=left>
+                        <DIV 
+              id=clear></DIV></DIV></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD style="WIDTH: 996" vAlign=top>
+            <TABLE class=layoutRow cellSpacing=0 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD vAlign=top width=28>
+                  <TABLE class=layoutColumn cellSpacing=0 cellPadding=0>
+                    <TBODY></TBODY></TABLE></TD>
+                <TD vAlign=top width=940>
+                  <TABLE class=layoutColumn cellSpacing=0 cellPadding=0>
+                    <TBODY>
+                    <TR>
+                      <TD style="WIDTH: 996" vAlign=top>
+                        <TABLE class=layoutRow cellSpacing=0 cellPadding=0>
+                          <TBODY>
+                          <TR>
+                            <TD vAlign=top width=270>
+                              <TABLE class=layoutColumn cellSpacing=0 
+                              cellPadding=0>
+                                <TBODY>
+                                <TR>
+                                <TD style="WIDTH: 996" vAlign=top>
+                                
+                                
+                              
+                                <DIV align=left>
+                                <DIV id=popular_topic>
+                                <DIV id=popular_topic_text>
+                                <H3>Popular Topics</H3>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/data/m13/" 
+                                target=_top>Appendix III/M-13</A></P>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/handbooks/" 
+                                target=_top>Bulletins and Handbooks</A></P>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/policies/2016policy.html" 
+                                target=_top>Crop Policies and Pilots</A></P>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/fcic/" 
+                                target=_top>Federal Crop Insurance Corp</A></P>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/aboutrma/fields/" 
+                                target=_top>Field Offices</A>: <a href="/aboutrma/fields/rsos.html">ROs</a> | <a href="/aboutrma/fields/cfos.html">COs</a></P>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/help/faq/index.html" 
+                                target=_top>Frequently Asked Questions</A></P>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/tools/" 
+                                target=_top>Information Browser</A></P>
+								<P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/regs/lawsregsindex.html" 
+                                target=_top>Laws and Regulations</A></P>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/livestock/" 
+                                target=_top>Livestock Policies</A></P>
+                                <P><img src="/images/migration/arrow-green-triangle.gif" width="8" height="10"><A 
+                                href="/pubs/ra/" 
+                                target=_top>Reinsurance Agreements</A><br><br><br>
+                                  <br>
+                                								
+                                </DIV>
+                                
+                                </DIV></TD></TR></TBODY></TABLE></TD>
+                                
+                                
+                                <td width="10" height="425" bgcolor="#FFFFFF" valign="top">&nbsp;</td><td width="800" height="425" bgcolor="#FFFFFF" valign="top"> 
+<!--Enter all content below-->
+<h1>Data Indemnity Maps</h1>
+<p>
+<div align="center">Crop years:  <a href="/data/indemnity/">2015</a> | <a href="/data/indemnity/2014/">2014</a> | <a href="/data/indemnity/2013/">2013</a> | <a href="/data/indemnity/2012/">2012</a> | <a href="/data/indemnity/2011/">2011</a> | <a href="/data/indemnity/2010/">2010</a> | <a href="/data/indemnity/2009/">2009</a> | <a href="/data/indemnity/2008/">2008</a> | <a href="/data/indemnity/2007/">2007</a> | <a href="/data/indemnity/2006/">2006</a> | <a href="/data/indemnity/archive.html">Archive</a></div>
+</p>
+<h2>2015 Crop Year</h2>
+<table width="40%" border="1" cellpadding="5">
+
+<tr>
+    <td>Feb 16, 2016</td>
+    <td><a href="/data/indemnity/2016/021616map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2016/021616table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Feb 1, 2016</td>
+    <td><a href="/data/indemnity/2016/020116map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2016/020116table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Jan 19, 2016</td>
+    <td><a href="/data/indemnity/2016/011916map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2016/011916table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Jan 4, 2016</td>
+    <td><a href="/data/indemnity/2016/010416map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2016/010416table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Dec 14, 2015</td>
+    <td><a href="/data/indemnity/2015/121415map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/121415table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Nov 30, 2015</td>
+    <td><a href="/data/indemnity/2015/113015map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/113015table.pdf" target="_new">Table</a></td>
+</tr>
+
+
+<tr>
+    <td>Nov 16, 2015</td>
+    <td><a href="/data/indemnity/2015/111615map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/111615table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Nov 2, 2015</td>
+    <td><a href="/data/indemnity/2015/110215map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/110215table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Oct 19, 2015</td>
+    <td><a href="/data/indemnity/2015/101915map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/101915table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Oct 5, 2015</td>
+    <td><a href="/data/indemnity/2015/100515map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/100515table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Sep 21, 2015</td>
+    <td><a href="/data/indemnity/2015/092115map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/092115table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Sep 8, 2015</td>
+    <td><a href="/data/indemnity/2015/090815map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/090815table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Aug 24, 2015</td>
+    <td><a href="/data/indemnity/2015/082415map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/082415table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Aug 10, 2015</td>
+    <td><a href="/data/indemnity/2015/081015map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/081015table.pdf" target="_new">Table</a></td>
+</tr>
+
+<tr>
+    <td>Jul 27, 2015</td>
+    <td><a href="/data/indemnity/2015/072715map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/072715table.pdf" target="_new">Table</a></td>
+</tr>
+<tr>
+    <td>Jul 13, 2015</td>
+    <td><a href="/data/indemnity/2015/071315map.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/071315table.pdf" target="_new">Table</a></td>
+</tr>
+<tr>
+    <td>Jun 29, 2015</td>
+    <td><a href="/data/indemnity/2015/062915-bmap.pdf" target="_new">Map</a></td>
+    <td><a href="/data/indemnity/2015/062915-btable.pdf" target="_new">Table</a></td>
+</tr>
+</table>
+<h3>Contact Information</h3>
+For more information, contact <a href="mailto:RMSD@rma.usda.gov">Risk Management Services Division</a>.
+<br />
+<br />
+
+<!--Enter all page content above this point--> 
+
+<tr>
+  <td bgcolor="#ffffff" colspan="3" align="left"><table class="layoutRow" cellspacing="0" cellpadding="0" width="100%">
+      <tbody>
+        <tr>
+          <td valign="top" background="/images/migration/footer.png"><div id="footertable">
+            <div id="footertext">
+            <br />
+            <p align="center" font="font" color="white"><a href="/">RMA Home</a> | <a href="/help/sitemap.html">Site Map</a> | <a href="/web/credits.html">Copyright</a> | <a href="http://www.usda.gov/oig/hotline.htm">Reporting Fraud</a> | <a href="/aboutrma/opportunities/jobs.html">Careers</a> | <a href="/web/">Policies and Links</a> | <a href="http://www.usda.gov/oig/accessibilitystatement.htm">Accessibility Statement</a><br /><a href="/web/privacy.html">Privacy Policy</a> | <a href="/web/nondiscrim.html">Non-Discrimination Statement</a> | <a href="/aboutrma/qoi/">Information Quality</a> | <a href="/aboutrma/foia/foia.html">FOIA</a> | <a href="http://www.usa.gov/">USA.gov</a> | <a href="http://www.whitehouse.gov/">Whitehouse.gov</a></p>
+            <br /></td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+    </tbody>
+  </table>
+</td>
+</tr>
+</BODY>
+</HTML>
