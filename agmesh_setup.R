@@ -84,8 +84,8 @@ print("Generating raster arrays for analysis...")
 
 yearspan <- c(N1:N2)
 #yearspan <- c(2007,2008,2009,2010,2011)
-variablespan <- c("pdur", "vs", "srad", 
-                  "rmin", "rmax", "tmmx", "tmmn")
+variablespan <- c("pr", "vs", "srad", 
+                  "rmin", "rmax", "tmmx", "tmmn", "bi", "erc", "fm1000", "fm1", "fm100", "th", "pet")
 rasterspan <- c("raster", "matrix", "raster_transposed", 
                 "matrix_mean", "matrix_median", "matrix_sd", 
                 "matrix_min", "matrix_max")
@@ -203,3 +203,4 @@ for (i in yearspan) {
   assign(paste("tmmx", i, "brickmean", sep=""), tmmxbrick_mean)
   
 }
+
