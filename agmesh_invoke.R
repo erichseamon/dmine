@@ -32,8 +32,8 @@ cat("\14")      # Clear command prompt
 #----------funs cross correlations function for a dataset----------#
 #-------------- Set script location -------------------#
 options(warn=-1)
-source ("/svn/REACCH/trunk/reacch-r-development/r-scripts/et-palouse/agmesh_subsetaggregate.R")
-source ("/svn/REACCH/trunk/reacch-r-development/r-scripts/et-palouse/agmesh_setup.R")
-#source ("/svn/REACCH/trunk/reacch-r-development/r-scripts/et-palouse/agmesh_analysis_ET.R")
-#source ("/svn/REACCH/trunk/reacch-r-development/r-scripts/et-palouse/agmesh_calculation_ET.R")
-#source ("/svn/REACCH/trunk/reacch-r-development/r-scripts/et-palouse/agmesh_plotting_ET.R")
+source ("/home/git/dmine/agmesh_subsetaggregate.R")
+source ("/home/git/dmine/agmesh_setup.R")
+source ("/home/git/dmine/agmesh_analysis_ET.R")
+source ("/home/git/dmine/agmesh_calculation_ET.R")
+source ("/home/git/dmine/agmesh_plotting_ET.R")
