@@ -62,48 +62,53 @@ library("png")
 
 #memory.size(10000)
 
-RSCENARIO <- sample(50000:100000, 1, replace=F)
+users <- read.csv("/agmesh-scenarios/dmine-users.csv")
+friendsfile <- read.csv("/agmesh-scenarios/dmine-wppl-friends.csv", header=FALSE)
 
+friendsfile2 <- friendsfile[-1,1:3]
+#colnames(friendsfile2) <- c("ID", "lat", "long")
 
-#myurl <- "http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi?variable=GRACE:GRACEDADM_CLSM025NA_7D.1:gws_inst&startDate=2016-04-15T00&endDate=2014-04-25T00&location=GEOM:POINT(-106.625, 35.875)&type=plot&keep=1"
-#z <- paste("/agmesh-scenarios/", scen, sep="")
-#zz <- tempfile(pattern = "GRACEDADM_CLSM025NA_7D1", tmpdir = z, fileext = ".png")
-#download.file(myurl,zz,mode="wb")
+frow <- nrow(friendsfile2)
 
-#----Setting vectors for loops for years, variables, day, and rasters---#
-#----associated with input datasets 2007-2011------#
-
-#----input ranges of years to examine----------#
-
-#rm(list = ls()) #--clears all lists------#
-readline("This is the DMINE NetCDF Data Extraction Tool")
-N1 <- readline("enter first year of data range: ")
-N2 <- readline("enter last year of data range: ")
-LAT1 <- readline("enter Lat min: ")
-LAT2 <- readline("enter Lat max: ")
-LON1 <- readline("enter Lon min: ")
-LON2 <- readline("enter Lon max: ")
-
-assign("N1", N1, envir = .GlobalEnv)
-assign("N2", N2, envir = .GlobalEnv)
+RSCENARIO <- sample(200000:300000, 1, replace=F)
 
 #----writes subset variables to file for shell script operations--#
 
-print(paste("Creating DMINE Data Extraction Scenario ", RSCENARIO, sep=""))
+print(paste("Creating R Scenario ", RSCENARIO, sep=""))
 
+#--create folders for each user from DMINE.  These folders will hold resultant information, including images of probability
 
-fileConn<-file("/tmp/agmesh-subset-R-scenario.txt", "w")
-writeLines(c(paste('yearstart=', N1, sep='')), fileConn)
-writeLines(c(paste('yearend=', N2, sep='')), fileConn)
-writeLines(c(paste('lat1=', LAT1, sep='')), fileConn)
-writeLines(c(paste('lat2=', LAT2, sep='')), fileConn)
-writeLines(c(paste('lon1=', LON1, sep='')), fileConn)
-writeLines(c(paste('lon2=', LON2, sep='')), fileConn)
-writeLines(c(paste('scenario=', "scenario_", RSCENARIO, sep='')), fileConn)
-close(fileConn)
+for (i in 1:frow) {
+  userid <- friendsfile2[i,1]
+  scen <- paste("scenario_", RSCENARIO, "_", userid, sep="")
+  dir.create(paste("/agmesh-scenarios/", scen, sep=""))
+}
+
+#--extraction for GRACE nasa data
 
 #system("/agmesh-code/agmesh-dircreate.sh")
 
+for (i in 1:frow) {
+  lat <- friendsfile2[i,2]
+  long <- friendsfile2[i,3]
+  userid <- friendsfile2[i,1]
+  scen <- paste("scenario_", RSCENARIO, "_", userid, sep="")
+  fileConn<-file(paste("/tmp/agmesh-subset-R-scenario", "_userid_", userid, ".txt", "w"))
+  z <- paste("/agmesh-scenarios/", scen, sep="")
+  myurl <- paste("http://hydro1.sci.gsfc.nasa.gov/daac-bin/access/timeseries.cgi?variable=GRACE:GRACEDADM_CLSM025NA_7D.1:gws_inst&startDate=2010-05-15T00&endDate=2015-05-20T00&location=GEOM:POINT(", long, ", ", lat, ")&type=plot&keep=1", sep="")
+  daymet <- paste("https://daymet.ornl.gov/data/send/saveData?lat=", lat, "&lon=", long, "&year=2012,2013", sep="")
+  #daymet <- system(paste("wget 'https://daymet.ornl.gov/data/send/saveData?lat=", lat, "&lon=", long, "&year=2012,2013' " , z, scen, sep=""))
+  zz <- tempfile(pattern = "GRACEDADM_CLSM025NA_7D1", tmpdir = z, fileext = ".png")
+  zzdaymet <- tempfile(pattern = "scenario_", tmpdir = z, fileext = ".csv")
+  download.file(myurl,zz,mode="wb")
+  download.file(daymet,zzdaymet,mode="wb")
+}
+
+
+
+#--call script to subset the appropriate locational data for all the user location in the users file
+#--and place in each respective user folder, created above.  Each folder is re-created when the scripts are run.
+
 #write.table(data.frame(ID,N1,N2,LAT1,LAT2,LON1,LON2), "/tmp/agmesh-subset-vartmp.txt", sep="\t")
-system("/agmesh-code/agmesh-subset.sh")
+system("/home/git/nco/ncra-subset.sh")
 #system("rm /tmp/agmesh-subset-vartmp.txt")
