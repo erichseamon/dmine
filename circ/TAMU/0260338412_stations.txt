@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260338412	ECONET	WHIT	Whiteville	Columbus	North Carolina	34.41347	-78.7923	89	2000	2012	Hourly	31		1		34.41347	-78.7923	20	20

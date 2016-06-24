@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070060212	Climate Reference Network	Tucson 11 W	Tuscon	Pima	Arizona	32.2395	-111.1696	2733	2010	2012	Daily	31		2	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database; Soil Composition Percentages obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	32.2395	-111.1696	10	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0252250312	SNOTEL	Mt. Howard	Joseph	Wallowa 	Oregon	45.27	-117.17	7910	2003	2012	Hourly	43		5		45.27	-117.17	101.599998474121	5.09999990463257

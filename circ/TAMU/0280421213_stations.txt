@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0280421213	MAWN	Kalkaska	Kalkaska	Kalkaska	Michigan	44.6555	-85.0743	1152	2012	2013	Daily	71		2	Soil Metadata came from SSURGO	44.6555	-85.0743	10	4

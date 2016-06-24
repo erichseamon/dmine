@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0020370112	West Texas Mesonet	Roaring Springs	Roaring Springs	Motley	Texas	33.93635	-100.84538	2615	2005	2010	Daily	71		4	Soil metadata taken from SSURGO. Soil textures taken from USDA soil texture triangle	33.93635	-100.8454	75	5

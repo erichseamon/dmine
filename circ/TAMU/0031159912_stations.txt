@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0031159912	Soil Climate Analysis Network	Uapb -lonoke Farm	Stuttgart	Lonoke	Arkansas	34.51	-91.53	250	1999	2012	Daily	21		5	Cultivated field nearby; Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database	34.51	-91.53	101.599998474121	5.09999990463257

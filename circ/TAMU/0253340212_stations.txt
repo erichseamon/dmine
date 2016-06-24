@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0253340212	SNOTEL	Midway Valley	Dixie National Forest	Iron 	Utah	37.57	-112.84	9800	2002	2012	Hourly	43		3		37.57	-112.84	50.7999992370605	5.09999990463257

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070950412	Climate Reference Network	Crossville 7 NW	Crossville	Cumberland	Tennessee 	36.0138	-85.1345	1913	2009	2012	Daily	81		6	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database. SSURGO used for depth 82cm.  Bulk density values for depths averaged from three probes at each depth if applicable. 	36.0138	-85.1345	100	5

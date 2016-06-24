@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0030750512	Soil Climate Analysis Network	Johnson  Farm	Ough	Chase	Nebraska	40.22	-101.43	3341	2005	2012	Daily	82		6	Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 60in; SHC & Bulk Density values obtained from SSURGO Database	40.22	-101.43	101.599998474121	5.09999990463257

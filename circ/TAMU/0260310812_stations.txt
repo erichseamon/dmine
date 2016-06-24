@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260310812	ECONET	TAYL	Taylorsville	Alexander	North Carolina	35.9139	-81.19087	1167	2008	2012	Hourly	81		1	Site picture not given; 	35.9139	-81.19087	20	20

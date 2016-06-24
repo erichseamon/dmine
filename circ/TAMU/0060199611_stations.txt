@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0060199611	Atmospheric Radiation Measurement 	Meeker (E20)	Meeker	Lincoln	Oklahoma	35.564	-96.988	1014	1996	1999	Daily	81		7	Located on a knoll; Dry Bulk Density for 15 and 35cm from SGP Reference Site; SHC and MBD obtained from SSURGO; Soil composition obtained from SSURGO and USDA soil taxonomy triangle except 5-25cm from SGP Reference Site	35.564	-96.988	125	5

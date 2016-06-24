@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0251681112	SNOTEL	Bird Creek	Ely	White Pine 	Nevada	39.46	-114.65	7900	2011	2012	Hourly			3		39.46	-114.65	50.7999992370605	5.09999990463257

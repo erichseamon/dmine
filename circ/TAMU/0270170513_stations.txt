@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0270170513	Alberta Agriculture and Rural Development	Two Hills 	Musidora	Two Hills	Alberta	53.6252	-111.6781	2224	2005	2013	Daily	71		4	Soil metadata from AARD	53.6252	-111.6781	100	5

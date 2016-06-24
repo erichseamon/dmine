@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0330011113	CHILI	Agricola	Lucedale	George	MS	30.817	-88.5205	225	2011	2013	Daily	82		1	All soil metadata is from SSURGO	30.817	-88.5205	100	100

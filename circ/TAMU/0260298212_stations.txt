@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260298212	ECONET	SALI	Salisbury	Rowan	North Carolina	35.69744	-80.62186	703	1999	2012	Hourly	71		1		35.69744	-80.62186	20	20

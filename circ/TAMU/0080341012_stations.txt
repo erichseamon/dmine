@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0080341012	Cosmic Ray Soil Moisture Observing Station	SMAP-OK	Stillwater	Payne	Oklahoma	36.0635	-97.217	1077	2011	2012	Daily	71		1		36.0635	-97.217	16.5690002441406	16.5690002441406

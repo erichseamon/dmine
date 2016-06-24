@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070500811	Climate Reference Network	Holly Springs 4 N	Holly Springs	Marshall	Mississippi	34.8223	-89.4348	484	2009	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 62in; SHC values obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	34.8223	-89.4348	100	5

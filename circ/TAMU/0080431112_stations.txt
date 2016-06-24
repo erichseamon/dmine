@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0080431112	Cosmic Ray Soil Moisture Observing Station	Bondville	Tolono	Champaign	Illinois	40.0062	-88.2904	718.503	2011	2012	Daily	82		1	Site is know to have standing water at times as it was documented that the water table is very shallow around 4 m. Soils are a silty sand with some clays, clay layer is thought to be located af ew meters in the soil	40.0062	-88.2904	10.0790004730225	10.0790004730225

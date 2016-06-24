@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070600811	Climate Reference Network	Jamestown 38 WSW	Jamestown	Kidder	North Dakota	46.7702	-99.4778	1920	2010	2012	Daily	71		2	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	46.7702	-99.4778	10	5

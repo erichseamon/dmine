@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0080281112	Cosmic Ray Soil Moisture Observing Station	Tenderfoot Creek	Lewis & Clark National Forest, Neihart	Cascade	Montana	46.9514	-110.8871	7375	2011	2012	Daily	42		1	silty with many large cobbles.	46.9514	-110.8871	16.9869995117188	16.9869995117188

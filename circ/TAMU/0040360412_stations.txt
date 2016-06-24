@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0040360412	Automated Weather Data Network	Minden	Minden	Kearney	Nebraska	40.52	-99.05	2158	2006	2010	Daily	82		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO. Revised given texture of silt to silt loam for depths 1,2, 3. Depth 4 given texture revised from clay to silt loam	40.52	-99.05	100	10

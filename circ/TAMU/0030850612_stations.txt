@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0030850612	Soil Climate Analysis Network	Lindsay	Glendive	Dawson	Montana	47.13	-105.11	2871	2006	2012	Daily	81		5	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database	47.13	-105.11	101.599998474121	5.09999990463257

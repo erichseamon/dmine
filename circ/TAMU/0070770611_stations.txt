@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070770611	Climate Reference Network	Coshocton 8 NNE	Coshocton	Coshocton	Ohio	40.3667	-81.7829	1120	2009	2012	Daily	81		7	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database. Soil information for 82cm, 86cm, and 90cm obtained from SSURGO.  Bulk density values for depths averaged from three probes at each depth if applicable. 	40.3667	-81.7829	90	5

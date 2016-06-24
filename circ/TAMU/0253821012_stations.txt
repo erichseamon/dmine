@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0253821012	SNOTEL	Townsend Creek	Lander	Fremont 	Wyoming	42.7	-108.9	8700	2010	2012	Hourly			4		42.7	-108.9	101.599998474121	10.1999998092651

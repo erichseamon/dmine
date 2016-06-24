@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0280079913	MAWN	Benton Harbor (SWMREC)	Benton Harbor	Berrien 	Michigan	42.0841	-86.357	722	1999	2013	Daily	71		2	Soil Metadata came from SSURGO	42.0841	-86.357	10	4

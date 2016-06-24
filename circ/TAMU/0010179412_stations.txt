@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0010179412	Oklahoma Mesonet	Blackwell	Blackwell	Kay	Oklahoma	36.75	-97.25	5550	2000	2012	Daily	71		4	Saturated Hydraulic Conductivity (SHC) values not listed; SHC values obtained from SSURGO Database.	36.75	-97.25	75	5

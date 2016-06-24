@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0030470712	Soil Climate Analysis Network	Nephi	Ephraim	Juab	Utah	39.39	-111.52	5255	2007	2012	Daily	71		5	cultivated field nearby; Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 30in; SHC & Bulk Density values obtained from SSURGO Database	39.39	-111.52	101.599998474121	5.09999990463257

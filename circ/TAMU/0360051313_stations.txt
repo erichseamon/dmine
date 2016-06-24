@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0360051313	ISGMN	Wabash Moraine	Huntertown	Allen	Indiana	41.247682	-85.118256	875	2013	2013	Hourly	71		6		41.24768	-85.11826	183	30.5

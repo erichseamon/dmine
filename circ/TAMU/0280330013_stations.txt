@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0280330013	MAWN	Grand Junction	Grand Junction	Van Buren	Michigan	42.402	-86.0731		2000	2013	Daily	52		2	Soil Metadata came from SSURGO	42.402	-86.0731	10	4

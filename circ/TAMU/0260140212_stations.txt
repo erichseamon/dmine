@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260140212	ECONET	HIGH	High Point	Guilford	North Carolina	35.99	-79.97	910	2002	2012	Hourly	81		1		35.99	-79.97	20	20

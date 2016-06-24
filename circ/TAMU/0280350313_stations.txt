@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0280350313	MAWN	Hartford	Hartford	Van Buren	Michigan	42.2298	-86.1559	663	2003	2013	Daily	82		2	Soil Metadata came from SSURGO	42.2298	-86.1559	10	4

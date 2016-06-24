@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0180040413	NOAA HMT	Blue Canyon	Nevada City	Nevada	CA	39.28	-120.71	1610	2004	2013	Daily	42		2	Soil Metadata came from SSURGO.  LULC is from NLCD.	39.28	-120.71	15	10

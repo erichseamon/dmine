@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0290110913	South Dakota Automated Weather Network	White Lake	White Lake	Aurora	South Dakota	43.73	-98.69	500	2009	2013	Daily	82		5		43.73	-98.69	100	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0020259912	West Texas Mesonet	Lubbock (Texas Tech University)	Lubbock	Lubbock	Texas	33.60408	-101.89919	3232	2002	2010	Daily	71		4	Soil metadata taken from SSURGO. Soil textures taken from USDA soil texture triangle	33.60408	-101.8992	75	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0010729412	Oklahoma Mesonet	Lane	Lane	Atoka	Oklahoma	34.31	-96	593	2000	2012	Daily	71		4	Saturated Hydraulic Conductivity (SHC) not listed; SHC values obtained from SSURGO Database. 	34.31	-96	75	5

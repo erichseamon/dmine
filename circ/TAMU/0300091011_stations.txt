@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0300091011	Water and Environmental Research Center	Encampment Creek Met Station (DUM5)	Anaktuvuk Pass	North Slope Borough	Alaska	68.2865	-152.13	4014.72	2010	2011	Daily	31			Texture and SHC are from SSURGO	68.2865	-152.13	40	10

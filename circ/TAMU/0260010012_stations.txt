@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260010012	ECONET	AURO	Aurora 	Beaufort	North Carolina	35.36232	-76.7163	4	2000	2012	Hourly	81		1		35.36232	-76.7163	20	20

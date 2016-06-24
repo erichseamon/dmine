@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0251750512	SNOTEL	Pole Creek R.S.	Humboldt-Toiyabe National Forest	Elko 	Nevada	41.87	-115.25	8330	2005	2012	Hourly	43		3		41.87	-115.25	50.7999992370605	5.09999990463257

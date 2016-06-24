@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0330211113	CHILI	Mobile (USA Campus West)	Mobile	Mobile	AL	30.6944	-88.1944	170.01	2011	2013	Daily	21		1	All soil metadata is from SSURGO	30.6944	-88.1944	100	100

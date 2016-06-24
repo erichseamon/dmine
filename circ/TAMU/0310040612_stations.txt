@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0310040612	MAW-Missouri	Delta	Delta	Cape Girardeau	Missouri	37.31	-89.52		2000	2013	Daily			1	2 sensors at 5 cm depth. D1 is under bare ground, D2 is under sod	37.31	-89.52		

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260288712	ECONET	ROCK	Rocky Mount	Edgecombe	North Carolina	35.89295	-77.67996	88	1999	2012	Hourly	71		1		35.89295	-77.67996	20	20

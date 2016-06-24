@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0250530212	SNOTEL	Fallen Leaf	South Lake Tahoe	El Dorado 	California	38.93	-120.05	6236	2002	2012	Hourly	71		3		38.93	-120.05	50.7999992370605	5.09999990463257

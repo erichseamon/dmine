@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0240840910	AmeriFlux	Woodward Switchgrass 2	Fort Supply	Woodward	Oklahoma	36.6358	-99.5975	646	2009	2010	Daily	71		2	All soil metadata is from SSURGO	36.6358	-99.5975	30	29

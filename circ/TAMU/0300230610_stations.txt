@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0300230610	Water and Environmental Research Center	Ribdon	Deadhorse	North Slope Borough	Alaska	68.64	-147.35	4113.12	2006	2008	Daily	51			All soil metadata is from SSURGO	68.64	-147.35	40	10

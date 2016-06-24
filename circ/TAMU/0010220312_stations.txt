@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0010220312	Oklahoma Mesonet	Broken Bow	Broken Bow	McCurtain	Oklahoma	34.014	-94.62	370	2000	2012	Daily	71		4	Saturated Hydraulic Conductivity (SHC) values & Bulk Density values not listed; SHC & Bulk Density values obtained from SSURGO Database. Soil Texture not listed. Obtained from Soil Texture Triangle. Soil Percentages obtained from SSURGO Database.	34.014	-94.62	75	5

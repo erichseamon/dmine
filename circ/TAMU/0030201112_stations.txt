@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0030201112	Soil Climate Analysis Network	Shadow Mtns	Joshua	San Bernardino	California	35.28	-115.43	3643	2011	2012	Daily	31		5	Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 70in; SHC & Bulk Density values obtained from SSURGO Database	35.28	-115.43	101.599998474121	5.09999990463257

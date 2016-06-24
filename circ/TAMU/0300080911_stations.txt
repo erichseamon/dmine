@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0300080911	Water and Environmental Research Center	Tuluga Met Station (DUM4)	Anaktuvuk Pass	North Slope Borough	Alaska	68.8041	-151.55	1630.16	2009	2011	Daily	74			Located near a river	68.8041	-151.55	40	10

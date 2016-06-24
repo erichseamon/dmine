@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0040200212	Automated Weather Data Network	Gothenburg	Gothenburg	Dawson	Nebraska	40.95	-100.18	2650	2006	2010	Daily	82		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO.	40.95	-100.18	100	10

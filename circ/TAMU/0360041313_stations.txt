@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0360041313	ISGMN	Eel River Valley	Huntertown	Allen	Indiana	41.258959	-85.125174	846	2013	2013	Hourly	71		6		41.25896	-85.12518	183	30.5

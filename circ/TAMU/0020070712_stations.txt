@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0020070712	West Texas Mesonet	Childress	Childress	Childress	Texas	34.4565	-100.19892	1943	2001	2010	Daily	71		4	Soil metadata taken from SSURGO. Soil textures taken from USDA soil texture triangle	34.4565	-100.1989	75	5

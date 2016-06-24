@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070580012	Climate Reference Network	Asheville 8 SSW	Asheville	Buncombe	North Carolina	35.4945	-82.6142	2151	2010	2012	Daily	21		5	Saturated Hydraulic Conductivity (SHC) values not listed past 72in; SHC values obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	35.4945	-82.6142	100	5

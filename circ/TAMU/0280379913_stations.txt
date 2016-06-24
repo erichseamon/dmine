@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0280379913	MAWN	Hawks	Hawks	Presque Isle	Michigan	45.2994	-83.8528	827	1999	2013	Daily	71		2	Soil Metadata came from SSURGO	45.2994	-83.8528	10	4

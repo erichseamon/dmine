@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0031030512	Soil Climate Analysis Network	Island Dairy	Hilo	Hawaii	HI	19.6	-155.17	1160	2005	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 14in; SHC values obtained from SSURGO Database	19.6	-155.17	101.599998474121	5.09999990463257

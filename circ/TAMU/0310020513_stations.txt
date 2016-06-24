@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0310020513	MAW-Missouri	Brunswick	Brunswick	Carroll	Missouri	39.41	-93.21	645	2000	2013	Daily	71		1	2 sensors at 5 cm depth. D1 is under bare ground, D2 is under sod	39.41	-93.21		

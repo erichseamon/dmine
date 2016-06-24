@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0270160513	Alberta Agriculture and Rural Development	Mundare 	Mundare	Lamont	Alberta	53.5606	-112.2961	2264	2005	2013	Daily	71		4	Soil metadata from AARD	53.5606	-112.2961	100	5

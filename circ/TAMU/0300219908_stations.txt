@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0300219908	Water and Environmental Research Center	Kougarok 3 - Mauze	Council	Nome	Alaska	65.45	-164.63	852.8	1999	2008	Daily	51			All soil metadata is from SSURGO	65.45	-164.63	35	5

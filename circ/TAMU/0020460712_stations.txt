@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0020460712	West Texas Mesonet	Tatum	Tatum	Lea	New Mexico	33.23878	-103.35211	4018	2010	2010	Daily	71		4	Soil metadata taken from SSURGO. Soil textures taken from USDA soil texture triangle	33.23878	-103.3521	75	5

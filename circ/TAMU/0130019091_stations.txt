@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0130019091	Central Plains Experimental Range	CPER	Nunn	Weld	Colorado	40.826791	-104.72398	5330	2004	2011	Daily	71		4		40.82679	-104.724	50	5

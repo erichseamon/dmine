@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0011089412	Oklahoma Mesonet	Seiling	Seiling	Woodward	Oklahoma	36.19	-99.04	1788	2000	2012	Daily	71		4	Saturated Hydraulic Conductivity (SHC) not listed; SHC values obtained from SSURGO Database.	36.19	-99.04	75	5

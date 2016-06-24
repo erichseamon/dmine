@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070200412	Climate Reference Network	Montrose 11 ENE	Montrose	Montrose	Colorado	38.544	-107.6928	8402	2010	2012	Daily	52		6	Saturated Hydraulic Conductivity (SHC) values not listed past 80in; SHC values obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	38.544	-107.6928	100	5

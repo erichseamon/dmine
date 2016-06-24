@@ -1,5 +1,0 @@
-StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
-0252160112	5.1	53.6	35.9	10.5	ashy loam	14.11-42.34	.90-1.00	10100704	1
-0252160112	10.2	47.4	32.4	20.2	ashy loam	14.11-42.34	.90-1.00	10101891	2
-0252160112	20.3	48	30.6	21.4	cobbly ashy loam	14.11-42.34	.9-1.00	10102929	3
-0252160112	27.9	66.9	23.1	10	cobbly ashy loam	14.11-42.34	.90-1.00	10103659	4

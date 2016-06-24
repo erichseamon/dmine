@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0251400612	SNOTEL	Table Mountain	Three Forks	Gallatin 	Montana	45.8	-111.59	4474	2006	2012	Hourly	71		5		45.8	-111.59	101.599998474121	5.09999990463257

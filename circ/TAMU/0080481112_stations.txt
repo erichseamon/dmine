@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0080481112	Cosmic Ray Soil Moisture Observing Station	JERC	Newton	Baker	Georgia	31.2364	-84.4617	129	2011	2012	Daily	52		1	Soils are very well drained deep sands	31.2364	-84.4617	36.173999786377	36.173999786377

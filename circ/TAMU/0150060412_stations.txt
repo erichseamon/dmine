@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0150060412	Delaware Environmental Observing System	Fair Hill	Fair Hill 	Cecil	Maryland	39.716666	-75.833333	150	2004	2012	Daily	41		1	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. LULC taken from LULC database	39.71667	-75.83334	5	5

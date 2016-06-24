@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0252990512	SNOTEL	Hickerson Park	Ashley National Forest	Daggett 	Utah	40.91	-109.96	9145	2005	2012	Hourly	50		3		40.91	-109.96	50.7999992370605	5.09999990463257

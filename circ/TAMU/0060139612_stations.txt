@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0060139612	Atmospheric Radiation Measurement 	Lamont (E13)	Lamont	Grant	Oklahoma	36.605	-97.485	1043	1996	2011	Daily	81		6	By a valley; Dry Bulk Density for 5-15cm from Reference Site; SHC and MBD obtained from SSURGO; Soil composition obtained from SSURGO and USDA soil taxonomy triangle except 5-25cm from SGP Reference Site	36.605	-97.485	85	5

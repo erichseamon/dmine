@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0080111212	Cosmic Ray Soil Moisture Observing Station	Lucky Hills	Tombstone	Cochise	Arizona	31.74418	-110.05183	4498	2012	2012	Daily	52		1		31.74418	-110.0518	28.6240005493164	28.6240005493164

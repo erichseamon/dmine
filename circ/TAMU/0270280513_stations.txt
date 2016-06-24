@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0270280513	Alberta Agriculture and Rural Development	Hussar 	Dorothy	Special Area 2	Alberta	51.1911	-112.5016	3186	2005	2013	Daily	71		4	Soil metadata from AARD	51.1911	-112.5016	100	5

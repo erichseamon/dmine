@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0240110708	AmeriFlux	Imnavait Creek Watershed Wet Sedge Tundra	Anaktuvuk Pass	North Slope	Alaska	68.606	-149.311	920	2007	2008	Daily	95		1	All soil metadata is from SSURGO	68.606	-149.311	17	17

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0150240512	Delaware Environmental Observing System	Townsend	Townsend 	New Castle 	Delaware	39.383333	-75.75	69	2005	2012	Daily	41		1	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. LULC taken from LULC database	39.38333	-75.75	5	5

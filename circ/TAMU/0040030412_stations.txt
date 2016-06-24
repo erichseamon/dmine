@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0040030412	Automated Weather Data Network	Alliance North	Alliance	Box Butte	Nebraska	42.18	-102.92	3978	2006	2010	Daily	81		4	Soil texture,percentages, saturated hydraulic conductivity, and bulk density taken from SSURGO. Revised given texture of Silt to loam for depths 1,2,3. Revised  depth 4, given texture of clay to loam	42.18	-102.92	100	10

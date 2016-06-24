@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0031180412	Soil Climate Analysis Network	Uapb Dewitt	Point Deluce	Arkansas	Arkansas	34.17	-91.21	197	2004	2012	Daily	21		5	Saturated Hydraulic Conductivity (SHC) values not listed past 80in; SHC values obtained from SSURGO Database	34.17	-91.21	101.599998474121	5.09999990463257

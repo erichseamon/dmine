@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260279912	ECONET	REID	Reidsville	Rockingham	North Carolina	36.38152	-79.69982	858	1999	2012	Hourly	71		1		36.38152	-79.69982	20	20

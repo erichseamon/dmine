@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0031549412	Soil Climate Analysis Network	Wakulla #1	Crawfordville	Leon	Florida	30.18	-84.25	150	1994	2012	Daily	21		5	Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 80in; SHC & Bulk Density values obtained from SSURGO Database	30.18	-84.25	101.599998474121	5.09999990463257

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0060059609	Atmospheric Radiation Measurement 	Halstead (E5)	Halstead	Harvey	Kansas	38.114	-97.513	1444	1996	2009	Daily	81		8	Dry Bulk Density for 5 and 35cm from SGP Reference Site; SHC and MBD obtained from SSURGO; No available data below 125cm for SHC and MBD; Soil composition obtained from SSURGO and USDA soil taxonomy triangle except 5 and 35cm from SGP Reference Site 	38.114	-97.513	175	5

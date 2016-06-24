@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0280490613	MAWN	Lawton	Lawton	Van Buren	Michigan	42.1606	-85.8321	823	2006	2013	Daily	71		2	Soil Metadata came from SSURGO	42.1606	-85.8321	10	4

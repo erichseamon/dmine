@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0100078912	Illinois Climate Network	DeKalb	DeKalb	DeKalb	Illinois	41.841388	-88.851111	870	2003	2013	Daily	71		6	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. Elevations taken from Google Earth.	41.84139	-88.85111	150	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0020210312	West Texas Mesonet	Jayton	Jayton	Kent	Texas	33.23241	-100.56777	2010	2001	2010	Daily	71		4	Soil metadata taken from SSURGO. Soil textures taken from USDA soil texture triangle	33.23241	-100.5678	75	5

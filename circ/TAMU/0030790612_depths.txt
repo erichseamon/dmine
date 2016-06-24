@@ -1,6 +1,0 @@
-StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
-0030790612	5.1	5.3	44.7	50	silty clay	0.42-1.41	1.51	10101176	1
-0030790612	10.2	5.3	44.7	50	silty clay	0.42-1.41	1.51	10102199	2
-0030790612	20.3	5.3	44.7	50	silty clay	0.07-0.42	1.51	10103229	3
-0030790612	50.8	5.3	44.7	50	silty clay	0.07-0.42	1.59	10103890	4
-0030790612	100	5.3	44.7	50	silty clay	0.07-0.42	1.66	10104252	5

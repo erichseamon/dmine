@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070410211	Climate Reference Network	Limestone 4 NNW	Limestone	Aroostook	Maine	46.9601	-67.8833	737	2010	2012	Daily	71		6	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database. Soil information for 55cm and 65cm taken from SSURGO.  Bulk density values for depths averaged from three probes at each depth if applicable. 	46.9601	-67.8833	65	5

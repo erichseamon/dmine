@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070380311	Climate Reference Network	Versailles	Versailles	Woodford	Kentucky	38.0945	-84.7465	891	2009	2012	Daily	81		7	Saturated Hydraulic Conductivity (SHC) values not listed past 80in; SHC values obtained from SSURGO Database. SSURGO used for depths 89cm, 91cm 98cm.  Bulk density values for depths averaged from three probes at each depth if applicable. 	38.0945	-84.7465	98	5

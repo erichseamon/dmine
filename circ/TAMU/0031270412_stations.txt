@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0031270412	Soil Climate Analysis Network	Silver City	Tchula	Humphreys	Mississippi 	33.05	-90.31	115	2004	2012	Daily	82		5	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database	33.05	-90.31	101.599998474121	5.09999990463257

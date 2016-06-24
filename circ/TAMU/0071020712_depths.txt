@@ -1,3 +1,0 @@
-StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
-0071020712	5	7	62	31	Silty Clay Loam	4.23-14.11	1.05	10100498	1
-0071020712	10	7	69.5	23.5	Silt Loam	4.23-14.11	1.11	10101588	2

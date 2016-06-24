@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0011019602	Oklahoma Mesonet	Preston	Preston	Okmulgee	Oklahoma	35.72	-95.99	984	1996	2002	Daily	52		4	Saturated Hydraulic Conductivity (SHC)  values not listed; SHC values obtained from SSURGO Database. 	35.72	-95.99	75	5

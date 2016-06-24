@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0030790612	Soil Climate Analysis Network	Conrad Ag Rc	Conrad	Pondera	Montana	48.18	-111.55	3706	2006	2012	Daily	82		5	Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 74in; SHC & Bulk Density values obtained from SSURGO Database	48.18	-111.55	101.599998474121	5.09999990463257

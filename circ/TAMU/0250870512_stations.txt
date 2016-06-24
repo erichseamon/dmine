@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0250870512	SNOTEL	Michigan Creek	Breckenridge	Park 	Colorado	39.44	-105.91	10600	2005	2012	Hourly	43		5		39.44	-105.91	101.599998474121	5.09999990463257

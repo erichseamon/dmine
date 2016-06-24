@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0253670712	SNOTEL	Park Creek Ridge	North Cascades National Parl	Chelan 	Washington	48.44	-120.92	4600	2009	2012	Hourly	43		4		48.44	-120.92	50.7999992370605	5.09999990463257

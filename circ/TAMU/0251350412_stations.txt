@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0251350412	SNOTEL	Giveout	Montpelier	Bear Lake 	Idaho	42.41	-111.17	6930	2004	2012	Hourly	52		3		42.41	-111.17	50.7999992370605	5.09999990463257

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0031330412	Soil Climate Analysis Network	Tnc Fort Bayou	Moss Point	Jackson	Mississippi 	30.28	-88.44	43	2004	2012	Daily	71		5		30.28	-88.44	101.599998474121	5.09999990463257

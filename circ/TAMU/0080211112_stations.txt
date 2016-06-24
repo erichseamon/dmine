@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0080211112	Cosmic Ray Soil Moisture Observing Station	Soaproot	Sierra National Forest, Shaver Lake	Fresno	California	37.031	-119.2564	3182	2011	2012	Daily	42		1	Snow cover during parts of the year	37.031	-119.2564	18.8880004882813	18.8880004882813

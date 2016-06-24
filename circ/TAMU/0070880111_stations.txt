@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070880111	Climate Reference Network	Kingston 1 W	Kingston	Washington	Rhode Island	41.4782	-71.5417	106	2010	2012	Daily	71		5	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	41.4782	-71.5417	100	5

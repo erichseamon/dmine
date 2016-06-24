@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0100188812	Illinois Climate Network	St. Charles	St. Charles	DuPage and Kane	Illinois	41.904444	-88.360833	741	2003	2012	Daily	71		6	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. Elevations taken from Google Earth.	41.90445	-88.36083	150	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0270070513	Alberta Agriculture and Rural Development	Atmore 	Grassland	Athabasca	Alberta	54.7802	-112.8248	1913	2005	2013	Daily	71		4	Soil metadata from AARD	54.7802	-112.8248	100	5

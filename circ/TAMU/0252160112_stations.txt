@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0252160112	SNOTEL	Silver Creek	Fremont National Forest	Lake 	Oregon	42.96	-121.18	5740	2002	2012	Hourly	43		4		42.96	-121.18	27.8999996185303	5.09999990463257

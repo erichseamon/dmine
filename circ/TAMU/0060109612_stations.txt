@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0060109612	Atmospheric Radiation Measurement 	Tyro (E10)	Tyro	Montgomery	Kansas	37.068	-95.788	814	1996	2000	Daily	82		5	Located beside a drainage ditch; SHC and MBD obtained from SSURGO; Soil composition obtained from SSURGO and USDA soil taxonomy triangle except 5 and 35cm from SGP Reference Site  	37.068	-95.788	60	5

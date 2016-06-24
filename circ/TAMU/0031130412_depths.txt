@@ -1,6 +1,0 @@
-StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
-0031130412	5.1	34.8	61.1	4.1	broken face very fine sandy loam	0.00-0.42	1.44	10101210	1
-0031130412	10.2	34.8	61.1	4.1	broken face very fine sandy loam	0.00-0.42	1.44	10102233	2
-0031130412	20.3	34.9	60.9	4.2	broken face very fine sandy loam	0.00-0.42	1.46	10103126	3
-0031130412	50.8	24.6	71.3	4.1	broken face very fine sandy loam	0.00-0.42	1.45	10103733	4
-0031130412	101.6	29.1	59.4	11.5	broken face loam	0.00-0.42	1.42	10104306	5

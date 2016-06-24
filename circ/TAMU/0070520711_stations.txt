@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070520711	Climate Reference Network	Dillon 18 WSW	Dillon	Beaverhead	Montana 	45.158	-113.0057	5971	2011	2012	Daily	71		2	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database; Soil Composition Percentages obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	45.158	-113.0057	10	5

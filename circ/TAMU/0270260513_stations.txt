@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0270260513	Alberta Agriculture and Rural Development	Morrin 	Morrin	Starland	Alberta	51.66	-112.6746	2743	2005	2013	Daily	71		4	Soil metadata from AARD	51.66	-112.6746	100	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070670111	Climate Reference Network	Durham 2 N	Durham	Strafford	New Hampshire	43.1716	-70.9277	119	2010	2012	Daily	81		2	Saturated Hydraulic Conductivity (SHC) values not listed past 69in; SHC values obtained from SSURGO Database; Soil Composition Percentages obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	43.1716	-70.9277	10	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0330201112	CHILI	Mobile (Dog River)	Mobile	Mobile	AL	30.5609	-88.0993	9.74	2011	2012	Daily	22		1	All soil metadata is from SSURGO	30.5609	-88.0993	100	100

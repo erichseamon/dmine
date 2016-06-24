@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0031450612	Soil Climate Analysis Network	Livingston-uwa	York	Sumter	Alabama	32.36	-88.12	144	2006	2012	Daily	81		5	Saturated Hydraulic Conductivity (SHC) values not listed past 80in; SHC values obtained from SSURGO Database	32.36	-88.12	101.599998474121	5.09999990463257

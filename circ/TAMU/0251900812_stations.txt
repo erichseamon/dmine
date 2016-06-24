@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0251900812	SNOTEL	Rainbow Canyon	Mt Charleston	Clark 	Nevada	36.25	-115.63	7975	2008	2012	Hourly	43		5		36.25	-115.63	101.599998474121	5.09999990463257

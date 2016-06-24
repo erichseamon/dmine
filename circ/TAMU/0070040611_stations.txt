@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070040611	Climate Reference Network	Batesville 8 WNW	Batesville	Independence	Arkansas	35.8201	-91.7812	455	2009	2012	Daily	71		6	Saturated Hydraulic Conductivity (SHC) values not listed past 55in; SHC values obtained from SSURGO Database. SSURGO used for 65cm depth. Bulk density values for depths averaged from three probes at each depth if applicable.  	35.8201	-91.7812	100	5

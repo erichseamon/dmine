@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0011139412	Oklahoma Mesonet	Stigler	Stigler	Haskell	Oklahoma	35.27	-95.18	567	2000	2012	Daily	81		4	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database. Soil Texture not listed past 60cm. Soil Texture obtained from Soil Texture Triangle. Soil Percentages past 60cm obtained from SSURGO Database.	35.27	-95.18	75	5

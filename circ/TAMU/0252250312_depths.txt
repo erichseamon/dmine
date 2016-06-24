@@ -1,6 +1,0 @@
-StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
-0252250312	5.1	46.6	45.6	7.8	fine sandy loam	4.00-14.00	0.76	10100713	1
-0252250312	10.2	46.6	45.6	7.8	fine sandy loam	4.00-14.00	0.76	10101900	2
-0252250312	20.3	46.4	46.6	7.2	fine sandy loam	4.00-14.00	0.95	10102938	3
-0252250312	50.8	46.1	50.2	3.7	gravelly fine sandy loam	14.00-42.00	0.94	10103668	4
-0252250312	101.6	59.7	32.3	8	very cobble fine sandy loam	14.00-42.00	1.40-1.60	10104147	5

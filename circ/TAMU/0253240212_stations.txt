@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0253240212	SNOTEL	Big Flat	Fishlake National Forest	Piute 	Utah	38.3	-112.36	10349	2002	2012	Hourly	12		3		38.3	-112.36	50.7999992370605	5.09999990463257

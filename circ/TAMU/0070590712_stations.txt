@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070590712	Climate Reference Network	Durham 11 W	Durham	Orange	North Carolina	35.9705	-79.0931	562	2010	2012	Daily	71		5	SSURGO report empty.  Bulk density values for depths averaged from three probes at each depth if applicable. 	35.9705	-79.0931	100	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070730711	Climate Reference Network	Denio 52 WSW	Denio	Washoe	Nevada	41.8484	-119.6357	6500	2011	2012	Daily	52		2	Saturated Hydraulic Conductivity (SHC) values not listed past 85in; SHC values obtained from SSURGO Database; Soil Composition Percentages obtained from SSURGO Database.  Bulk density values for depths averaged from three probes at each depth if applicable. 	41.8484	-119.6357	10	5

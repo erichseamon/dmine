@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260168712	ECONET	KINS	Kinston	Lenoir	North Carolina	35.30288	-77.57306	95	1999	2012	Hourly	31		1		35.30288	-77.57306	20	20

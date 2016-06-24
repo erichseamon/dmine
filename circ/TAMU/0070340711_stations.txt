@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0070340711	Climate Reference Network	Bedford 5 WNW	Bedford	Lawrence	Indiana	38.8818	-86.5707	760	2009	2012	Daily	71		7	Saturated Hydraulic Conductivity (SHC) values not listed past 60in; SHC values obtained from SSURGO Database. Soil information for 92cm, 94cm, and 96cm taken from SSURGO.  Bulk density values for depths averaged from three probes at each depth if applicable. 	38.8818	-86.5707	96	5

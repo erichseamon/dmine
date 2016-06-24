@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0150120512	Delaware Environmental Observing System	Raceway 	Harrington 	Kent	Delaware	38.916666	-75.583333	55	2005	2012	Daily	82		1	Soil information taken from SSURGO. USDA Soil texture triangle used for soil texture with SSURGO percents. LULC taken from LULC database	38.91666	-75.58334	5	5

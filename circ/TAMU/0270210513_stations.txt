@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0270210513	Alberta Agriculture and Rural Development	Killam 	Killam	Flagstaff	Alberta	52.8475	-111.8723	2254	2005	2013	Daily	71		4	Soil metadata from AARD	52.8475	-111.8723	100	5

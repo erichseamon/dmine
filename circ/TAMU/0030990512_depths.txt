@@ -1,6 +1,0 @@
-StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
-0030990512	5.1	43.1	40.8	13.7	medial silt loam	42.34-141.14		10101196	1
-0030990512	10.2	43.1	40.8	13.7	medial silt loam	42.34-141.14		10102219	2
-0030990512	30.5	54.5	41.6	0.7	medial very fine sandy loam	42.34-141.14		10103248	3
-0030990512	50.8	67	0	0.5	medial silt loam	42.34-141.14		10103908	4
-0030990512	100	86.3	0	0	medial silty clay loam	42.34-141.14		10104293	5

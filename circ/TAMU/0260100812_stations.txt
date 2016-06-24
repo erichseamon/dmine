@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0260100812	ECONET	DURH	Durham	Durham	North Carolina	36.02896	-78.85851	332	2008	2012	Hourly	22		1	Site picture not given; 	36.02896	-78.85851	20	20

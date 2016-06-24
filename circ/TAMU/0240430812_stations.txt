@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0240430812	AmeriFlux	Florida Everglades Taylor Slough Short Hydroperiod Marsh	Homestead	Miami-Dade	Florida	25.4379	-80.5946	1	2008	2012	Daily	92		1	All soil metadata is from SSURGO	25.4379	-80.5946	1	1

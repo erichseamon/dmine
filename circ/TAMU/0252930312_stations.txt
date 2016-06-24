@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0252930312	SNOTEL	Brown Duck	Ashley National Forest	Duchesne 	Utah	40.58	-110.59	10600	2003	2012	Hourly	43		3		40.58	-110.59	50.7999992370605	5.09999990463257

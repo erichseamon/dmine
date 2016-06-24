@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0280581213	MAWN	Mecosta	Mecosta	Mecosta	Michigan	43.5653	-85.2449	1001	2012	2013	Daily	71		2	Soil Metadata came from SSURGO	43.5653	-85.2449	10	4

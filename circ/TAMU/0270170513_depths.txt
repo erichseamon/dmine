@@ -1,5 +1,0 @@
-StationID	Depth_probe	PercentSand	PercentSilt	PercentClay	SoilType	SHC	BulkDensity	DepthId	Level
-0270170513	5	50	20	30	Sandy Clay Loam		1.35-1.50	10104653	1
-0270170513	20	50	20	30	Sandy Clay Loam		1.35-1.50	10104691	2
-0270170513	50	50	20	30	Sandy Clay Loam		1.35-1.50	10104729	3
-0270170513	100	50	20	30	Sandy Clay Loam		1.35-1.50	10104767	4

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0253660112	SNOTEL	Sasse Ridge	Cle Elum	Kittitas 	Washington	47.38	-121.06	4340	2003	2012	Hourly	43		7		47.38	-121.06	101.599998474121	0

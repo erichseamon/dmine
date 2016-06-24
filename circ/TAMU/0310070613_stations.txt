@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0310070613	MAW-Missouri	Portageville	Portageville	Pemiscot	Missouri	36.41	-89.69	272	2000	2013	Daily	82		1	2 sensors at 5 cm depth. D1 is under bare ground, D2 is under sod	36.41	-89.69		

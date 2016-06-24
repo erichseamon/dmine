@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0300220610	Water and Environmental Research Center	Lower Kad	Prudhoe Bay	North Slope Borough	Alaska	70.067	-147.65	78.72	2000	2010	Daily	32			All soil metadata is from SSURGO	70.067	-147.65	40	10

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0270080513	Alberta Agriculture and Rural Development	Rich Lake 	McRae	St. Paul	Alberta	54.5012	-111.6914	2021	2005	2013	Daily	71		4	Soil metadata from AARD	54.5012	-111.6914	100	5

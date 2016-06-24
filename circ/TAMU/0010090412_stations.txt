@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0010090412	Oklahoma Mesonet	Ardmore	Ardmore	Carter	Oklahoma	34.19	-97.09	872	2000	2012	Daily	71		4	Saturated Hydraulic Conductivity (SHC) values not listed & Bulk Density values not listed past 25cm; SHC & Bulk Density values obtained from SSURGO Database. Soil Texture obtained by Soil Texture Triangle.  Soil Percentages past 60cm obtained from SSURGO Database.	34.19	-97.09	75	5

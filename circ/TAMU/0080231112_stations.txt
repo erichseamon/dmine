@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0080231112	Cosmic Ray Soil Moisture Observing Station	Tonzi Ranch	Ione	Amador	California	38.4316	-120.9659	561	2011	2012	Daily	71		1	red sandy clay loam. clay hardpan located around 30-40 cm. Bedrock at 1 m. Minimum organic material. Some rocky outcrop	38.4316	-120.9659	16.8810005187988	16.8810005187988

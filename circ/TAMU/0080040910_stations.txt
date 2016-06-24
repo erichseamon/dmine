@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0080040910	Cosmic Ray Soil Moisture Observing Station	Santa Fe Watershed- SF1	Sante Fe	Santa Fe 	New Mexico	35.6792	-105.8269	8192	2011	2012	Daily	42		1	Winter snow cover, mountainous terrain. 	35.6792	-105.8269	25.6569995880127	25.6569995880127

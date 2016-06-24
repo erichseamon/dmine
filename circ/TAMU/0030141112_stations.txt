@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0030141112	Soil Climate Analysis Network	Pueblo Pintado Wx	Crownpoint	McKinley	New Mexico	35.58	-107.38	6576	2011	2012	Daily	31		5	Saturated Hydraulic Conductivity (SHC), and Bulk Density values not listed past 60in; SHC & Bulk Density values obtained from SSURGO Database	35.58	-107.38	101.599998474121	5.09999990463257

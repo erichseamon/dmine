@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0300111011	Water and Environmental Research Center	Hatbox Mesa Met Station (DUM7)	Anaktuvuk Pass	North Slope Borough	Alaska	68.7543	-152.57	2046.72	2010	2011	Daily	51			All soil metadata is from SSURGO	68.7543	-152.57	40	10

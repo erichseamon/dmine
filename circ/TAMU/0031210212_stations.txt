@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0031210212	Soil Climate Analysis Network	Scott	Greenville	Bolivar	Mississippi 	33.37	-91.06	165	2002	2012	Daily	31		5	Cultivated field nearby; Saturated Hydraulic Conductivity (SHC) values not listed past 80in; SHC values obtained from SSURGO Database	33.37	-91.06	101.599998474121	5.09999990463257

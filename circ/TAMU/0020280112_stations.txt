@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0020280112	West Texas Mesonet	Muleshoe	Muleshoe	Bailey	Texas	34.20635	-102.7424	3806	2002	2010	Daily	31		4	Soil metadata taken from SSURGO. Soil textures taken from USDA soil texture triangle	34.20635	-102.7424	75	5

@@ -1,2 +1,0 @@
-StationID	Network	StationName	City	County	State	Latitude	Longitude	Elevation	StartYear	EndYear	Frequency	LULC (Site)	LULC(surround)	Levels	Notes	Lat	Long	DepthMax	DepthMin
-0280800113	MAWN	West Olive	West Olive	Clinton 	Michigan	42.9715	-86.0765	636	2001	2013	Daily	71		2	Soil Metadata came from SSURGO	42.9715	-86.0765	10	4
