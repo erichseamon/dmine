@@ -1,0 +1,31 @@
+digraph Tree {
+0 [label="fm100 <= -0.4401\nmse = 186603158160.0\nsamples = 14322", shape="box"] ;
+1 [label="th <= 0.1737\nmse = 411442476110.0\nsamples = 5585", shape="box"] ;
+0 -> 1 ;
+2 [label="th <= 0.1727\nmse = 739180254470.0\nsamples = 1739", shape="box"] ;
+1 -> 2 ;
+3 [label="mse = 395485056021.4380\nsamples = 1670\nvalue = [ 160895.31319162]", shape="box"] ;
+2 -> 3 ;
+4 [label="mse = 8894238446454.5547\nsamples = 69\nvalue = [ 573341.07782609]", shape="box"] ;
+2 -> 4 ;
+5 [label="vs <= -1.1181\nmse = 261590777544.0\nsamples = 3846", shape="box"] ;
+1 -> 5 ;
+6 [label="mse = 886402620894.1356\nsamples = 259\nvalue = [ 225574.56656371]", shape="box"] ;
+5 -> 6 ;
+7 [label="mse = 215335449255.0757\nsamples = 3587\nvalue = [ 95427.19641204]", shape="box"] ;
+5 -> 7 ;
+8 [label="vs <= 0.5435\nmse = 41132465921.2\nsamples = 8737", shape="box"] ;
+0 -> 8 ;
+9 [label="srad <= 1.1446\nmse = 21715592190.4\nsamples = 5354", shape="box"] ;
+8 -> 9 ;
+10 [label="mse = 21149211040.9886\nsamples = 5346\nvalue = [ 51688.1516517]", shape="box"] ;
+9 -> 10 ;
+11 [label="mse = 331872232631.7303\nsamples = 8\nvalue = [ 313279.075]", shape="box"] ;
+9 -> 11 ;
+12 [label="sph <= -1.4073\nmse = 71602896926.7\nsamples = 3383", shape="box"] ;
+8 -> 12 ;
+13 [label="mse = 339900154401.8480\nsamples = 370\nvalue = [ 130854.46224324]", shape="box"] ;
+12 -> 13 ;
+14 [label="mse = 38188416568.4939\nsamples = 3013\nvalue = [ 65492.08391304]", shape="box"] ;
+12 -> 14 ;
+}
