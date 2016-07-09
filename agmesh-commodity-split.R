@@ -18,6 +18,46 @@ combined.df <- combined.df[with(combined.df, order(commoditycode,year,monthcode,
 
 combined.df <- combined.df[, lapply(.SD, sum), by=list(year,county,commoditycode,monthcode)]
 
+combined.yearmonth <- split(combined.df,list(combined.df$year,combined.df$monthcode, combined.df$commoditycode))
+setwd("/agmesh-scenarios/scenario_52177/yearmonth/")
+lapply(names(combined.yearmonth), function(funct){write.csv(combined.yearmonth[[funct]], file = paste(funct, ".csv", sep = ""))})
+
+#--bringing in county shapefile
+setwd("/nethome/erichs/counties/")
+
+counties <- readShapePoly('UScounties.shp', 
+                          proj4string=CRS
+                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+
+#counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+counties <- counties[grep("Washington", counties@data$STATE_NAME),]
+
+unique <- names(combined.yearmonth)
+setwd("/agmesh-scenarios/scenario_52177/yearmonth/")
+maskraster <- raster("/agmesh-scenarios/scenario_52177/pdsi_apr_1996.nc")
+
+for (i in unique) {
+x <- as.data.frame(read.csv(i, strip.white = TRUE))
+u <- data.frame(trimws(x$county, "r"))
+colnames(u) <- c("NAME")
+colnames(x) <- c("UNIQUEID", "YEAR", "COUNTY", "COMMODITYCODE", "MONTHCODE", "ACRES", "LOSS")
+z <- cbind(x,u)
+m <- merge(counties, z, by='NAME')
+shapefile(m)
+extent(maskraster) <- extent(m)
+r <- rasterize(m, maskraster)
+}
+
+
+unique <- names(combined.yearmonth)
+
+for (i in unique) {
+    assign(paste(i, ".csv", sep=""), combined.yearmonth$`i`)
+}
+
+
+
 
 combined.split <- split(combined.df, combined.df$commodity)
 setwd("/home/git/data/USDA/commodity/")
