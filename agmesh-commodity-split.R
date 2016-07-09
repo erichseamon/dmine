@@ -1,3 +1,6 @@
+library(rasterVis)
+
+
 setwd("/agmesh-scenarios/scenario_52177")
 combined.df <- data.frame(read.csv("2001_2015_usda_gridmet_WA"))
 
@@ -33,7 +36,7 @@ projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
 counties <- counties[grep("Washington", counties@data$STATE_NAME),]
 
-unique <- names(combined.yearmonth)
+unique <- list.files("/agmesh-scenarios/scenario_52177/yearmonth/")
 setwd("/agmesh-scenarios/scenario_52177/yearmonth/")
 maskraster <- raster("/agmesh-scenarios/scenario_52177/pdsi_apr_1996.nc")
 
@@ -44,10 +47,14 @@ colnames(u) <- c("NAME")
 colnames(x) <- c("UNIQUEID", "YEAR", "COUNTY", "COMMODITYCODE", "MONTHCODE", "ACRES", "LOSS")
 z <- cbind(x,u)
 m <- merge(counties, z, by='NAME')
-shapefile(m)
+#shapefile(m)
 extent(maskraster) <- extent(m)
 r <- rasterize(m, maskraster)
 }
+
+
+levelplot(r, att='LOSS', col.regions=brewer.pal(8, 'Set2')) + 
+  layer(sp.polygons(m, lwd=0.5))
 
 
 unique <- names(combined.yearmonth)
