@@ -1,12 +1,12 @@
 library(rasterVis)
-
+library(data.table)
 
 setwd("/agmesh-scenarios/scenario_52177")
 combined.df <- data.frame(read.csv("2001_2015_usda_gridmet_WA"))
 
 #-remove all other variables to allow for datasets based on year, month, county, and commodity - loss and acres
 
-combined.df <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,damagecause,month,statecode,commodity,state,countyfips,countycode,bi,pr,th,pdsi,pet,erc,rmin,rmax,tmmn,tmmx,srad,sph,vs,fm1000,fm100) )
+combined.df <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,damagecause,month,statecode,state,countyfips,countycode,bi,pr,th,pdsi,pet,erc,rmin,rmax,tmmn,tmmx,srad,sph,vs,fm1000,fm100) )
 
 #-convert to a data table
 
@@ -22,7 +22,7 @@ combined.df <- combined.df[with(combined.df, order(commoditycode,year,monthcode,
 combined.df <- combined.df[, lapply(.SD, sum), by=list(year,county,commoditycode,monthcode)]
 
 combined.yearmonth <- split(combined.df,list(combined.df$year,combined.df$monthcode, combined.df$commoditycode))
-setwd("/agmesh-scenarios/scenario_52177/yearmonth/")
+setwd("/agmesh-scenarios/scenario_52177/month/")
 lapply(names(combined.yearmonth), function(funct){write.csv(combined.yearmonth[[funct]], file = paste(funct, ".csv", sep = ""))})
 
 #--bringing in county shapefile
@@ -37,10 +37,10 @@ projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 counties <- counties[grep("Washington", counties@data$STATE_NAME),]
 
 unique <- list.files("/agmesh-scenarios/scenario_52177/yearmonth/")
-setwd("/agmesh-scenarios/scenario_52177/yearmonth/")
 maskraster <- raster("/agmesh-scenarios/scenario_52177/pdsi_apr_1996.nc")
 
 for (i in unique) {
+setwd("/agmesh-scenarios/scenario_52177/yearmonth/")
 x <- as.data.frame(read.csv(i, strip.white = TRUE))
 u <- data.frame(trimws(x$county, "r"))
 colnames(u) <- c("NAME")
@@ -50,6 +50,13 @@ m <- merge(counties, z, by='NAME')
 #shapefile(m)
 extent(maskraster) <- extent(m)
 r <- rasterize(m, maskraster)
+i = substr(i,1,nchar(i)-4)
+setwd("/agmesh-scenarios/scenario_52177/raster_commodity_plots/")
+#writeRaster(r, filename=paste(i, "_raster", sep=""))
+jpeg(paste(i, "_plot", sep=""))
+print(levelplot(r, att='LOSS', col.regions=brewer.pal(8, 'Set2')) + 
+  layer(sp.polygons(m, lwd=0.5)))
+dev.off()
 }
 
 

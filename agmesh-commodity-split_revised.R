@@ -3,7 +3,7 @@ library(data.table)
 library(rgdal)
 library(maptools)
 
-setwd("/agmesh-scenarios/scenario_52177")
+setwd("/agmesh-scenarios/scenario_52177/summaries")
 combined.df <- data.frame(read.csv("2001_2015_usda_gridmet_WA"))
 
 #-remove all other variables to allow for datasets based on year, month, county, and commodity - loss and acres
@@ -55,7 +55,7 @@ projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 counties <- counties[grep("Washington", counties@data$STATE_NAME),]
 
 unique <- list.files("/agmesh-scenarios/scenario_52177/month/")
-maskraster <- raster("/agmesh-scenarios/scenario_52177/pdsi_apr_1996.nc")
+maskraster <- raster("/agmesh-scenarios/scenario_52177/netcdf/pdsi_apr_1997.nc")
 
 for (i in unique) {
   setwd("/agmesh-scenarios/scenario_52177/month/")
@@ -69,30 +69,12 @@ for (i in unique) {
   extent(maskraster) <- extent(m)
   r <- rasterize(m, maskraster)
   i = substr(i,1,nchar(i)-4)
+  setwd("/agmesh-scenarios/scenario_52177/raster_commodity/")
+  writeRaster(r, filename=paste(i, "_raster", sep=""))
   setwd("/agmesh-scenarios/scenario_52177/raster_commodity_plots/")
-  #writeRaster(r, filename=paste(i, "_raster", sep=""))
   jpeg(paste(i, "_plot", sep=""))
-  print(levelplot(r, att='LOSS', col.regions=brewer.pal(8, 'Set2')) + 
-          layer(sp.polygons(m, lwd=0.5)))
+  ramp <- colorRamp(c("blue", "red"))
+  print(levelplot(r, att='LOSS', main=i, col.regions=rgb(ramp(seq(0, 1, length = 1000)), max = 255)) + layer(sp.polygons(m, lwd=0.5)))
   dev.off()
 }
 
-
-levelplot(r, att='LOSS', col.regions=brewer.pal(8, 'Set2')) + 
-  layer(sp.polygons(m, lwd=0.5))
-
-
-unique <- names(combined.yearmonth)
-
-for (i in unique) {
-  assign(paste(i, ".csv", sep=""), combined.yearmonth$`i`)
-}
-
-
-
-
-combined.split <- split(combined.df, combined.df$commodity)
-setwd("/home/git/data/USDA/commodity/")
-commodityspan = unique(combined.df$commodity)
-
-lapply(names(combined.split), function(funct){write.csv(combined.split[[funct]], file = paste(funct, ".csv", sep = ""))})
