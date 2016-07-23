@@ -1,5 +1,6 @@
 library(rasterVis)
 library(data.table)
+library(stringr)
 
 setwd("/agmesh-scenarios/scenario_52177/summaries/")
 combined.df <- data.frame(read.csv("2001_2015_usda_gridmet_WA"))
@@ -17,15 +18,20 @@ combined.df <- data.table(combined.df)
 
 combined.df <- combined.df[with(combined.df, order(commoditycode,year,monthcode,county)), ]
 setwd("/agmesh-scenarios/scenario_52177/commodity_csv/")
-commoditynames <- c(unique(combined.df$commodity))
+#function(commoditynames) sub("\\s+$", "", commoditynames)
+#--strip white space off so file names are right
+#lapply(combined.df$commodity, function(funct){sub("\\s+$", "", combined.df$commodity[[funct]])})
+#commoditynames <- unique(combined.df$commodity)
+
 
 for (i in commoditynames) {
  x <- subset(combined.df, commodity == i)
- assign(x, paste(i, ".csv", sep=""))
+ write.csv(x, file=paste(i, ".csv", sep=""))
 }
+
   
   #lapply(commoditynames, function(funct){write.csv(combined.df$commodity[[funct]], file = paste(funct, ".csv", sep = ""))})
-}
+
 #----
 
 #-sum the acres and loss columns for all common rows  This merges all rows that have the same values exept for acres and loss.  We sum those to create a geographic
