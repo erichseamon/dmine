@@ -243,6 +243,15 @@ write.matrix(combined.df, file=name2, sep=",")
 
 #--third phase - load newly created file and perform EDA
 
+#--box plot by commodity--
+
+setwd("/reacchspace/dmine/agmesh-scenarios/scenario_52177/commodity_csv/")
+commodity <- read.csv("wheat.csv")
+library(lattice)
+bwplot(damagecause ~ log(loss), data=commodity, groups=year, scales=list(x=list(rot=90)))
+
+#--
+
 setwd("/agmesh-scenarios/scenario_52177")
 combined.df <- read.csv("2001_2015_usda_gridmet_WA")
 combined.df <- data.frame(combined.df)
