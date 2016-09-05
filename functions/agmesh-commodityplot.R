@@ -33,6 +33,12 @@ commodity_plot <- function(commodity_var,year_var,month_var) {
   projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
   WA <- counties[grep("Washington", counties@data$STATE_NAME),]
   rgb.palette <- colorRampPalette(c("blue", "green"))
-  levelplot(r, att='ACRES', col.regions=rgb.palette(120)) + layer(sp.polygons(WA))
-}
+  p <- levelplot(r, att = 'LOSS', col.regions=rgb.palette(120), scales = list(draw = FALSE), main = paste(month_var, " ", year_var, sep=""), xlab="", ylab="") + layer(sp.polygons(WA, alpha=0.2), data=list(WA=WA))
+  pdf("name.pdf")
+  png(paste("/dmine/data/width=500, height=700) 
+  p ## your plot command here
+  dev.off()
+  }
+
+
 
