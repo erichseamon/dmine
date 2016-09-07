@@ -24,7 +24,7 @@ library(jpeg)
 library(ncdf)
 
 commodity_plot <- function(commodity_var,year_var,month_var) {
-  rpre <- paste("/waf/USDA/crop_indemnity_raster_commodity/", year_var, ".", month_var, ".", commodity_var, "_raster.grd", sep="")  
+  rpre <- paste("/dmine/data/USDA/crop_indemnity_raster_commodity/", year_var, ".", month_var, ".", commodity_var, "_raster.grd", sep="")  
   r <- raster(rpre)
   setwd("/nethome/erichs/counties/")
   counties <- readShapePoly('UScounties.shp', 
@@ -35,7 +35,7 @@ commodity_plot <- function(commodity_var,year_var,month_var) {
   rgb.palette <- colorRampPalette(c("blue", "green"))
   p <- levelplot(r, att = 'LOSS', col.regions=rgb.palette(120), scales = list(draw = FALSE), main = paste(month_var, " ", year_var, sep=""), xlab="", ylab="") + layer(sp.polygons(WA, alpha=0.2), data=list(WA=WA))
   pdf("name.pdf")
-  png(paste("/dmine/data/width=500, height=700) 
+  # png(paste("/dmine/data/USDA/crop_indemnity_jpgs/width=500, height=700) 
   p ## your plot command here
   dev.off()
   }
