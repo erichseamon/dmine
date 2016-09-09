@@ -326,11 +326,33 @@ combined.df <- data.frame(read.csv(paste(N1, "_", N2, "_", "usda_gridmet_", scen
 #-remove all other variables to allow for datasets based on year, month, county, and commodity - loss and acres
 combined.df2 <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,damagecause,month,statecode,state,countyfips,countycode,bi,pr,th,pdsi,pet,erc,rmin,rmax,tmmn,tmmx,srad,sph,vs,fm1000,fm100) )
 
-combined.df <- subset(combined.df, select = -c(commodity,insuranceplancode,insurancename,stagecode,damagecausecode,damagecause,month,statecode,state,countyfips,countycode,bi,pr,th,pdsi,pet,erc,rmin,rmax,tmmn,tmmx,srad,sph,vs,fm1000,fm100) )
+combined.df <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,damagecause,month,statecode,state,countyfips,countycode,bi,pr,th,pdsi,pet,erc,rmin,rmax,tmmn,tmmx,srad,sph,vs,fm1000,fm100) )
 
 #-convert to a data table
 
 combined.df <- data.table(combined.df)
+
+ttt <- function (x) sub("\\s+$", "", x)
+
+combined.df <- combined.df[with(combined.df, order(commoditycode,year,monthcode,county)), ]
+setwd(paste("/dmine/data/USDA/agmesh-scenarios/", "Idaho", "/commodity_csv/", sep=""))
+#function(commoditynames) sub("\\s+$", "", commoditynames)
+#--strip white space off so file names are right
+#lapply(combined.df$commodity, function(funct){sub("\\s+$", "", combined.df$commodity[[funct]])})
+commoditynames <- unique(combined.df$commodity)
+ttt <- function (x) sub("\\s+$", "", x)
+commoditytrim <- unique(ttt(combined.df$commodity))
+
+for (i in commoditytrim) {
+  x <- subset(combined.df, combined.df$commodity == i)
+  write.csv(x, file=paste(i, ".csv", sep=""))
+}
+
+
+
+
+
+
 
 #-order the columns by commodity, then year, month, and county
 
@@ -371,13 +393,15 @@ projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
 #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
 counties <- subset(counties, STATE_NAME %in% scen_state)
+monthdir <- paste("/dmine/data/USDA/agmesh-scenarios/", scen, sep="")
 unique <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month", sep=""))
 maskraster <- raster(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/netcdf/pdsi_apr_", N2, ".nc", sep=""))
-
-#--create a list of commodity files that actually have data.  
+setwd(monthdir)
+system("find month -type f -size +75c -exec cp -nv {} month_positive/ \\;")
+unique <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_positive", sep=""))
 
  
-for (i in unique2) {
+for (i in unique) {
   setwd("/dmine/data/counties/")
   counties <- readShapePoly('UScounties.shp', 
                             proj4string=CRS
@@ -438,7 +462,7 @@ for (i in unique2) {
   #orderedcolors2 <- colorRampPalette(c(44))
   #m <- cbind(m$LOSS, newmatrix)
 
-  png(paste(x$YEAR[1], ".", x$MONTHCODE[1], ".", x$COMMODITY[1],  "_plot", sep=""))
+  png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/", "/month_png/", x$YEAR[1], ".", x$MONTHCODE[1], ".", x$COMMODITY[1],  "_plot", sep=""))
   layout(matrix(c(1,2),1, 2, byrow=TRUE))
   #--turn image horizontal
   
@@ -448,21 +472,6 @@ for (i in unique2) {
   plot(m, col = newmatrix, main = paste(scen_state, " crop loss \n", plotmonth, " ", plotyear, sep=""))
   barplot(mz$LOSS, names.arg = mz$NAME, las=2, col = newmatrix2)
   
-  
-  
-  #--raster work
-  #extent(maskraster) <- extent(counties)
-  #r <- rasterize(m, maskraster)
-  #ii = substr(i,1,nchar(i)-4)
-  #setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/raster_commodity", sep=""))
-  #writeRaster(r, filename=paste(ii, "_raster", sep=""))
-  #setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/raster_commodity_plots", sep=""))
-  #jpeg(paste(ii, "_plot", sep=""))
-  #rgb.palette <- colorRampPalette(c("blue", "green"))
-  #r[is.na(r)] <- 0
-  #setwd("/dmine/data/counties/")
-  #print(levelplot(r, att='LOSS') + layer(sp.polygons(counties, alpha = 0.2), data=list(counties=counties)))
-  dev.off()
   dev.off()
 }  
 
