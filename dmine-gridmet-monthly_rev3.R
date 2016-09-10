@@ -200,7 +200,7 @@ for (i in yearspan) {
   #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
   write.matrix(newmatrix, file=name, sep=",")
 }
-
+ 
 #--test from here on
 
 #--alter yearspan below to minimize the number of years processed for merging.
@@ -209,83 +209,83 @@ for (i in yearspan) {
 #--to factor in that alternative structure (so gridmet can merge correctly)
 
 if (N1 > '2000') {
-
-yearspan <- c(N1:N2)
-#--merge usda data with gridmet data
-
-for (i in yearspan) {
-  gridmetmonthly <- paste(dirname, "/", i, "_summary", sep="")
-  usda <- paste("/dmine/data/USDA/crop_indemnity_txt/", i, ".txt", sep="")
-  usda <- read.csv(usda, sep="|")
-  usda <- data.frame(usda)
-  gridmetmonthly <- read.csv(gridmetmonthly, strip.white=TRUE)
-  gridmetmonthly <- data.frame(gridmetmonthly)
-  #usda <- as.matrix(usda)
-  #gridmetmonthly <- as.matrix(gridmetmonthly)
-  colnames(usda) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
-  usda$statecode <- str_pad(usda$statecode, 2, pad = "0") #--pad state with zeros in front so we can combine into one nationwide fips number
-  usda$countycode <- str_pad(usda$countycode, 3, pad = "0") #--pad county with zeros in front so we can combine into one nationwide fips number
-  usda["countyfips"] <- NA  #--creates a new countyfips column to hold the merged columns
-  usda$countyfips <- paste(usda$statecode, usda$countycode, sep="") #--merges the two columns in to one
-  gridmetmonthly$month <- sapply(gridmetmonthly$month, toupper)
   
-  df3 = merge(gridmetmonthly, usda, by.x=c("year", "month", "countyfips"), by.y=c("year", "month", "countyfips"))
-  name = paste(i, "_monthly_usda_gridmet_post2001_", scen_state, sep="")
-  write.matrix(df3, file=name, sep=",")
+  yearspan <- c(N1:N2)
+  #--merge usda data with gridmet data
   
-  #--merge county shapefile with USDA data for mapping purposes
-  #m <- merge(counties, usda, by.x="FIPS", by.y="countyfips")
-  #mergename = paste(dirname, "annual_usda_croploss_geofile_WA", sep="")
-  #shapefile(m, paste(dirname, "annual_usda_croploss_geofile_WA", sep=""))
-  #write.matrix(m, file=mergename, sep=",")
-}
- 
-setwd(dirname)
-files <- list.files(dirname, pattern = 'monthly_usda_gridmet_post2001')
-tables <- lapply(files, read.csv, header=TRUE)
-combined.df <- do.call(rbind, tables)
-name2 = paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep="")
-write.matrix(combined.df, file=name2, sep=",")
-
+  for (i in yearspan) {
+    gridmetmonthly <- paste(dirname, "/", i, "_summary", sep="")
+    usda <- paste("/dmine/data/USDA/crop_indemnity_txt/", i, ".txt", sep="")
+    usda <- read.csv(usda, sep="|")
+    usda <- data.frame(usda)
+    gridmetmonthly <- read.csv(gridmetmonthly, strip.white=TRUE)
+    gridmetmonthly <- data.frame(gridmetmonthly)
+    #usda <- as.matrix(usda)
+    #gridmetmonthly <- as.matrix(gridmetmonthly)
+    colnames(usda) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
+    usda$statecode <- str_pad(usda$statecode, 2, pad = "0") #--pad state with zeros in front so we can combine into one nationwide fips number
+    usda$countycode <- str_pad(usda$countycode, 3, pad = "0") #--pad county with zeros in front so we can combine into one nationwide fips number
+    usda["countyfips"] <- NA  #--creates a new countyfips column to hold the merged columns
+    usda$countyfips <- paste(usda$statecode, usda$countycode, sep="") #--merges the two columns in to one
+    gridmetmonthly$month <- sapply(gridmetmonthly$month, toupper)
+    
+    df3 = merge(gridmetmonthly, usda, by.x=c("year", "month", "countyfips"), by.y=c("year", "month", "countyfips"))
+    name = paste(i, "_monthly_usda_gridmet_post2001_", scen_state, sep="")
+    write.matrix(df3, file=name, sep=",")
+    
+    #--merge county shapefile with USDA data for mapping purposes
+    #m <- merge(counties, usda, by.x="FIPS", by.y="countyfips")
+    #mergename = paste(dirname, "annual_usda_croploss_geofile_WA", sep="")
+    #shapefile(m, paste(dirname, "annual_usda_croploss_geofile_WA", sep=""))
+    #write.matrix(m, file=mergename, sep=",")
+  }
+  
+  setwd(dirname)
+  files <- list.files(dirname, pattern = 'monthly_usda_gridmet_post2001')
+  tables <- lapply(files, read.csv, header=TRUE)
+  combined.df <- do.call(rbind, tables)
+  name2 = paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep="")
+  write.matrix(combined.df, file=name2, sep=",")
+  
 } else {
   
-yearspan <- c(N1:N2)
-#--merge usda data with gridmet data
-
-for (i in yearspan) {
-  gridmetmonthly <- paste(dirname, "/", i, "_summary", sep="")
-  usda <- paste("/dmine/data/USDA/crop_indemnity_txt/", i, ".txt", sep="")
-  usda <- read.csv(usda, sep="|")
-  usda <- data.frame(usda)
-  gridmetmonthly <- read.csv(gridmetmonthly, strip.white=TRUE)
-  gridmetmonthly <- data.frame(gridmetmonthly)
-  #usda <- as.matrix(usda)
-  #gridmetmonthly <- as.matrix(gridmetmonthly)
-  colnames(usda) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "loss")
-  usda$statecode <- str_pad(usda$statecode, 2, pad = "0") #--pad state with zeros in front so we can combine into one nationwide fips number
-  usda$countycode <- str_pad(usda$countycode, 3, pad = "0") #--pad county with zeros in front so we can combine into one nationwide fips number
-  usda["countyfips"] <- NA  #--creates a new countyfips column to hold the merged columns
-  usda$countyfips <- paste(usda$statecode, usda$countycode, sep="") #--merges the two columns in to one
-  gridmetmonthly$month <- sapply(gridmetmonthly$month, toupper)
+  yearspan <- c(N1:N2)
+  #--merge usda data with gridmet data
   
-  df3 = merge(gridmetmonthly, usda, by.x=c("year", "month", "countyfips"), by.y=c("year", "month", "countyfips"))
-  name = paste(i, "_monthly_usda_gridmet_pre2001_", scen_state, sep="")
-  write.matrix(df3, file=name, sep=",")
-
-  #--merge county shapefile with USDA data for mapping purposes
-  #m <- merge(counties, usda, by.x="FIPS", by.y="countyfips")
-  #mergename = paste(dirname, "annual_usda_croploss_geofile_WA", sep="")
-  #shapefile(m, paste(dirname, "annual_usda_croploss_geofile_WA", sep=""))
-  #write.matrix(m, file=mergename, sep=",")
-}
-
-setwd(dirname)
-files <- list.files(dirname, pattern = 'monthly_usda_gridmet_pre2001')
-tables <- lapply(files, read.csv, header=TRUE)
-combined.df <- do.call(rbind, tables)
-name2 = paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep="")
-write.matrix(combined.df, file=name2, sep=",")
-
+  for (i in yearspan) {
+    gridmetmonthly <- paste(dirname, "/", i, "_summary", sep="")
+    usda <- paste("/dmine/data/USDA/crop_indemnity_txt/", i, ".txt", sep="")
+    usda <- read.csv(usda, sep="|")
+    usda <- data.frame(usda)
+    gridmetmonthly <- read.csv(gridmetmonthly, strip.white=TRUE)
+    gridmetmonthly <- data.frame(gridmetmonthly)
+    #usda <- as.matrix(usda)
+    #gridmetmonthly <- as.matrix(gridmetmonthly)
+    colnames(usda) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "loss")
+    usda$statecode <- str_pad(usda$statecode, 2, pad = "0") #--pad state with zeros in front so we can combine into one nationwide fips number
+    usda$countycode <- str_pad(usda$countycode, 3, pad = "0") #--pad county with zeros in front so we can combine into one nationwide fips number
+    usda["countyfips"] <- NA  #--creates a new countyfips column to hold the merged columns
+    usda$countyfips <- paste(usda$statecode, usda$countycode, sep="") #--merges the two columns in to one
+    gridmetmonthly$month <- sapply(gridmetmonthly$month, toupper)
+    
+    df3 = merge(gridmetmonthly, usda, by.x=c("year", "month", "countyfips"), by.y=c("year", "month", "countyfips"))
+    name = paste(i, "_monthly_usda_gridmet_pre2001_", scen_state, sep="")
+    write.matrix(df3, file=name, sep=",")
+    
+    #--merge county shapefile with USDA data for mapping purposes
+    #m <- merge(counties, usda, by.x="FIPS", by.y="countyfips")
+    #mergename = paste(dirname, "annual_usda_croploss_geofile_WA", sep="")
+    #shapefile(m, paste(dirname, "annual_usda_croploss_geofile_WA", sep=""))
+    #write.matrix(m, file=mergename, sep=",")
+  }
+  
+  setwd(dirname)
+  files <- list.files(dirname, pattern = 'monthly_usda_gridmet_pre2001')
+  tables <- lapply(files, read.csv, header=TRUE)
+  combined.df <- do.call(rbind, tables)
+  name2 = paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep="")
+  write.matrix(combined.df, file=name2, sep=",")
+  
 }
 
 ##-move files to appropriate locations
@@ -299,10 +299,12 @@ system("mkdir month")
 system("mkdir raster_commodity")
 system("mkdir raster_commodity_plots")
 system("mkdir gridmet_monthly_plots")
+system("mkdir month_png")
 system("mv *summary ./summaries")
 system("mv *_monthly* ./summaries")
 system("mv *_gridmet* ./summaries")
 system("mv *.png ./gridmet_monthly_plots")
+
 
 
 
@@ -393,13 +395,18 @@ projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
 counties <- subset(counties, STATE_NAME %in% scen_state)
 monthdir <- paste("/dmine/data/USDA/agmesh-scenarios/", scen, sep="")
-unique <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month", sep=""))
+#unique <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month", sep=""))
 maskraster <- raster(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/netcdf/pdsi_apr_", N2, ".nc", sep=""))
 setwd(monthdir)
 system("find month -type f -size +75c -exec cp -nv {} month_positive/ \\;")
+
+setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_positive/", sep=""))
+system("mv *AdjustedGrossRevenue.csv ../commodity_csv_agr_month/")
 unique <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_positive", sep=""))
 
- 
+setwd(monthdir)
+
+
 for (i in unique) {
   setwd("/dmine/data/counties/")
   counties <- readShapePoly('UScounties.shp', 
@@ -410,68 +417,68 @@ for (i in unique) {
   #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
   setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month", sep=""))
   x <- as.data.frame(read.csv(i, strip.white = TRUE))
-  u <- data.frame(trimws(x$county))
-
-    colnames(u) <- c("NAME")
-    colnames(x) <- c("UNIQUEID", "YEAR", "COUNTY", "COMMODITYCODE", "MONTHCODE", "ACRES", "LOSS", "COMMODITY")
-    z <- cbind(x,u)
-    m <- merge(counties, z, by='NAME')
-    m$LOSS[is.na(m$LOSS)] <- 0
-    m$COMMODITYCODE[is.na(m$COMMODITYCODE)] <- 0
-    m$ACRES[is.na(m$ACRES)] <- 0
-
-    #shapefile(m)
-    #--begin polygon work
-    #length(na.omit(m$LOSS))
-    #tt <- colorRampPalette(brewer.pal(11, "Spectral")
-    tt <- colorRampPalette(c("blue", "orange", "red"), space = "Lab")
-    mz <- subset(m, LOSS != 0)
-    mzacres <- subset(m, ACRES > 0)
-    lengacres <- length(m$ACRES)
-    leng <- length(m$LOSS)
-    len2 <- tt(len <- length(mz$LOSS))
-    len2acres <- tt(len <- length(mzacres$ACRES))
-    len2a <- length(mz$LOSS)
-    len2a <- length(mzacres$ACRES)
-    len3 <- tt(len <- length(m$LOSS))
   
-    orderedcolors2 <- tt(length(mz$LOSS))[order(order(mz$LOSS))]
-    orderedcolors3 <- tt(length(mzacres$ACRES))[order(order(mzacres$ACRES))]
-    newframe <- data.frame(m$LOSS)
+  colnames(x) <- c("UNIQUEID", "YEAR", "COUNTY", "COMMODITYCODE", "MONTHCODE", "ACRES", "LOSS", "COMMODITY")
+  u <- data.frame(trimws(x$COUNTY))
+  colnames(u) <- c("NAME")
+  z <- cbind(x,u)
+  m <- merge(counties, z, by='NAME')
+  m$LOSS[is.na(m$LOSS)] <- 0
+  m$COMMODITYCODE[is.na(m$COMMODITYCODE)] <- 0
+  m$ACRES[is.na(m$ACRES)] <- 0
   
-    xx <- 1
-    newmatrix <- matrix(data = NA, nrow = leng, ncol = 1)
+  #shapefile(m)
+  #--begin polygon work
+  #length(na.omit(m$LOSS))
+  #tt <- colorRampPalette(brewer.pal(11, "Spectral")
+  tt <- colorRampPalette(c("blue", "orange", "red"), space = "Lab")
+  mz <- subset(m, LOSS != 0)
+  mzacres <- subset(m, ACRES > 0)
+  lengacres <- length(m$ACRES)
+  leng <- length(m$LOSS)
+  len2 <- tt(len <- length(mz$LOSS))
+  len2acres <- tt(len <- length(mzacres$ACRES))
+  len2a <- length(mz$LOSS)
+  len2a <- length(mzacres$ACRES)
+  len3 <- tt(len <- length(m$LOSS))
+  
+  orderedcolors2 <- tt(length(mz$LOSS))[order(order(mz$LOSS))]
+  orderedcolors3 <- tt(length(mzacres$ACRES))[order(order(mzacres$ACRES))]
+  newframe <- data.frame(m$LOSS)
+  
+  xx <- 1
+  newmatrix <- matrix(data = NA, nrow = leng, ncol = 1)
   
   for (jj in 1:leng){
     
-   if (m$LOSS[jj] == 0) {
-     #print("yes this worked, added 0")
-     newmatrix[jj,] <- 0
-   } else {
-     #print("yes, this worked, added color")
-     #newmatrix[jj,] <- len3[jj] 
-     newmatrix[jj,] <- orderedcolors2[xx]
+    if (m$LOSS[jj] == 0) {
+      #print("yes this worked, added 0")
+      newmatrix[jj,] <- 0
+    } else {
+      #print("yes, this worked, added color")
+      #newmatrix[jj,] <- len3[jj] 
+      newmatrix[jj,] <- orderedcolors2[xx]
       xx <- xx + 1
-   }
+    }
     
   }
+  
+  xx <- 1
+  newmatrix_acres <- matrix(data = NA, nrow = leng, ncol = 1)
+  
+  for (jj in 1:leng){
     
-    xx <- 1
-    newmatrix_acres <- matrix(data = NA, nrow = leng, ncol = 1)
-    
-    for (jj in 1:leng){
-      
-      if (m$ACRES[jj] == 0) {
-        #print("yes this worked, added 0")
-        newmatrix_acres[jj,] <- 0
-      } else {
-        #print("yes, this worked, added color")
-        #newmatrix[jj,] <- len3[jj] 
-        newmatrix_acres[jj,] <- orderedcolors3[xx]
-        xx <- xx + 1
-      }
-      
+    if (m$ACRES[jj] == 0) {
+      #print("yes this worked, added 0")
+      newmatrix_acres[jj,] <- 0
+    } else {
+      #print("yes, this worked, added color")
+      #newmatrix[jj,] <- len3[jj] 
+      newmatrix_acres[jj,] <- orderedcolors3[xx]
+      xx <- xx + 1
     }
+    
+  }
   
   newmatrix[newmatrix==0] <- NA
   newmatrix2 <- newmatrix[complete.cases(newmatrix[,1])]
@@ -510,8 +517,6 @@ for (i in unique) {
   #text(b, midpoint_acres, labels=mzacres$ACRES, xpd=NA, col = "White")
   plot(m, col = newmatrix_acres, main = paste(scen_state, " crop loss acres \n", plotmonth, " ", plotyear, "\n", plotcommodity, sep=""))
   
-    
+  
   dev.off()
 }  
-
-  
