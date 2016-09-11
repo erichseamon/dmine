@@ -319,6 +319,8 @@ library(rasterVis)
 library(maptools)
 library(SDMTools)
 library(fields)
+library(dplyr)
+library(tidyr)
 
 setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/summaries", sep=""))
 combined.df <- data.frame(read.csv(paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep="")))
@@ -399,6 +401,11 @@ setwd(monthdir)
 system("find month -type f -size +75c -exec cp -nv {} month_positive/ \\;")
 unique <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_positive", sep=""))
 
+elems <- unlist( strsplit( unique, "\\." ) )
+uf <- matrix( elems , ncol = 4 , byrow = TRUE )
+as.data.frame( uf ) 
+
+uf2 <- as.data.frame(uniqueframe) %>% separate(uniqueframe, into = paste("V", 1:4, sep = "."))
  
 for (i in unique) {
   setwd("/dmine/data/counties/")

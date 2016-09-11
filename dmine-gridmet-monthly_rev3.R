@@ -321,6 +321,8 @@ library(rasterVis)
 library(maptools)
 library(SDMTools)
 library(fields)
+library(dplyr)
+library(tidyr)
 
 setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/summaries", sep=""))
 combined.df <- data.frame(read.csv(paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep="")))
@@ -403,6 +405,9 @@ system("find month -type f -size +75c -exec cp -nv {} month_positive/ \\;")
 setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_positive/", sep=""))
 system("mv *AdjustedGrossRevenue.csv ../commodity_csv_agr_month/")
 unique <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_positive", sep=""))
+
+
+as.data.frame(text) %>% separate(text, into = paste("V", 1:4, sep = "_"))
 
 setwd(monthdir)
 
