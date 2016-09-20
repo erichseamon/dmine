@@ -38,13 +38,22 @@ subset_stations_data <- cbind(subset_stations_data, df)
 
 subsetstations_month <- subset(subset_stations_data, month == 1)
 
+
 library(doBy)
-out <- summaryBy(prcp ~ year, data = subsetstations_month, 
+tmax <- summaryBy(tmax ~ year, data = subsetstations_month, 
+                 FUN = list(mean, max, min, median, sd))
+
+library(doBy)
+prcp <- summaryBy(prcp ~ year, data = subsetstations_month, 
           FUN = list(mean, max, min, median, sd))
 
-plot(out$year, out$prcp.mean)
+plot(prcp$year, prcp$prcp.mean)
 
-lines(stats::lowess(out), col = "red")
+lines(stats::lowess(prcp), col = "red")
+
+plot(tmax$year, tmax$tmax.mean)
+
+lines(stats::lowess(tmax), col = "red")
 
 
 
