@@ -197,7 +197,7 @@ for (i in yearspan) {
     } 
   }
   setwd(dirname)
-  name <- paste(i, "_summary", sep="")
+  name <- paste(input$state, "_", i, "_summary", sep="")
   #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
   write.matrix(newmatrix, file=name, sep=",")
 }
@@ -231,7 +231,7 @@ if (N1 > '2000') {
     gridmetmonthly$month <- sapply(gridmetmonthly$month, toupper)
     
     df3 = merge(gridmetmonthly, usda, by.x=c("year", "month", "countyfips"), by.y=c("year", "month", "countyfips"))
-    name = paste(i, "_monthly_usda_gridmet_post2001_", scen_state, sep="")
+    name = paste(i, "_monthly_usda_gridmet_post2001_", input$state, sep="")
     write.matrix(df3, file=name, sep=",")
     
     #--merge county shapefile with USDA data for mapping purposes
@@ -245,7 +245,7 @@ if (N1 > '2000') {
   files <- list.files(dirname, pattern = 'monthly_usda_gridmet_post2001')
   tables <- lapply(files, read.csv, header=TRUE)
   combined.df <- do.call(rbind, tables)
-  name2 = paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep="")
+  name2 = paste(input$firstyear, "_", input$lastyear, "_", "usda_gridmet_", input$state, sep="")
   write.matrix(combined.df, file=name2, sep=",")
   
 } else {
@@ -270,7 +270,7 @@ if (N1 > '2000') {
     gridmetmonthly$month <- sapply(gridmetmonthly$month, toupper)
     
     df3 = merge(gridmetmonthly, usda, by.x=c("year", "month", "countyfips"), by.y=c("year", "month", "countyfips"))
-    name = paste(i, "_monthly_usda_gridmet_pre2001_", scen_state, sep="")
+    name = paste(i, "_monthly_usda_gridmet_pre2001_", input$state, sep="")
     write.matrix(df3, file=name, sep=",")
     
     #--merge county shapefile with USDA data for mapping purposes
@@ -284,7 +284,7 @@ if (N1 > '2000') {
   files <- list.files(dirname, pattern = 'monthly_usda_gridmet_pre2001')
   tables <- lapply(files, read.csv, header=TRUE)
   combined.df <- do.call(rbind, tables)
-  name2 = paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep="")
+  name2 = paste(input$firstyear, "_", input$lastyear, "_", "usda_gridmet_", input$state, sep="")
   write.matrix(combined.df, file=name2, sep=",")
   
 }
@@ -330,7 +330,7 @@ library(dplyr)
 library(tidyr)
 
 setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/summaries", sep=""))
-combined.df <- data.frame(read.csv(paste(N1, "_", N2, "_", "usda_gridmet_", scen_state, sep=""), strip.white = TRUE))
+combined.df <- data.frame(read.csv(paste(input$firstyear, "_", input$lastyear, "_", "usda_gridmet_", input$state, sep=""), strip.white = TRUE))
 
 #-remove all other variables to allow for datasets based on year, month, county, and commodity - loss and acres
 combined.df2 <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,damagecause,month,statecode,state,countyfips,countycode,bi,pr,th,pdsi,pet,erc,rmin,rmax,tmmn,tmmx,srad,sph,vs,fm1000,fm100) )
@@ -355,7 +355,7 @@ commoditytrim <- unique(combined.df$commodity)
 
 for (i in commoditytrim) {
   x <- subset(combined.df, combined.df$commodity == i)
-  write.csv(x, file=paste(i, ".csv", sep=""))
+  write.csv(x, file=paste(input$firstyear, "_", input$lastyear, "_", input$state, i, ".csv", sep=""))
 }
 
 
