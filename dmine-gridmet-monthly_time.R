@@ -63,6 +63,7 @@ library("sp")
   scen_state = "Idaho"
   N1 = "2001"
   N2 = "2002"
+  startyear = "2001"
   
   
   
@@ -95,8 +96,9 @@ unique <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/m
 
 setwd(monthdir)
 
+i <- paste(startyear, "_monthly_usda_gridmet_post2001_", scen_state, sep="")
 
-for (i in unique) {
+#for (i in unique) {
   setwd("/dmine/data/counties/")
   counties <- readShapePoly('UScounties.shp', 
                             proj4string=CRS
@@ -104,10 +106,15 @@ for (i in unique) {
   projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
   counties <- subset(counties, STATE_NAME %in% scen_state)
   #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
-  setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_positive", sep=""))
+  setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/summaries", sep=""))
   x <- as.data.frame(read.csv(i, strip.white = TRUE))
+  x <- subset(x, damagecause == "Drought")
+  #colnames(x) <- c("UNIQUEID", "YEAR", "COUNTY", "COMMODITYCODE", "MONTHCODE", "COMMODITY", "DAMAGECAUSE", "ACRES", "LOSS")
   
-  colnames(x) <- c("UNIQUEID", "YEAR", "COUNTY", "COMMODITYCODE", "MONTHCODE", "COMMODITY", "DAMAGECAUSE", "ACRES", "LOSS")
+  
+  
+  
+  
   u <- data.frame(trimws(x$COUNTY))
   colnames(u) <- c("NAME")
   z <- cbind(x,u)

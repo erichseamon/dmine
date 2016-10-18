@@ -192,7 +192,7 @@ m$loss[is.na(m$loss)] <- 0
 #--begin polygon work
 #length(na.omit(m$LOSS))
 tt_county <- colorRampPalette(c("white", "blue", "red"))( 44) 
-tt <- colorRampPalette(c("light blue", "blue", "red"))
+tt <- colorRampPalette(c("white", "blue", "red"))
 #mz <- subset(m, LOSS != 0)
 #mzacres <- subset(m, acres > 0)
 #lengacres <- length(m$acres)
@@ -206,7 +206,6 @@ len3 <- tt(len <- length(m$loss))
 
 
 
-
 #len4 <- tt(nrow(as.data.frame(subset(m, loss > 0))))
 #--create a color vector for ALL commodity drought values for all years.  used for the gradient legend and coloring
 za <- as.data.frame(read.csv(i, strip.white = TRUE))
@@ -216,7 +215,7 @@ DTz <- subset(DTz, commodity == kkk)
 
 DTzsum <- as.data.frame(aggregate(DTz$loss~DTz$month+DTz$year+DTz$county, DTz, sum))
 colnames(DTzsum) <- c("month", "year", "county", "loss")
-DTzsum_max <<- max(DTzsum$loss)
+DTzsum_max <-max(DTzsum$loss)
 
 
 DTza <- as.data.frame(subset(DTz, loss > 0))
@@ -229,12 +228,9 @@ DTza_sorted <- sort(DTza$loss)
 DTza_len <- length(DTza_sorted)
 
 len4a <- tt((DTzmax - DTzmin))
-len44a <- tt(DTzsum_max)
-
-#len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
 
 #----------
-tt_DTza <- colorRampPalette(c("light blue", "blue", "red"))( DTza_len) 
+tt_DTza <- colorRampPalette(c("white", "blue", "red"))( DTza_len) 
 DTza_s1 <- cbind (tt_DTza, DTza_sorted)
 
 len4ab <- tt(DTzlen_county)
@@ -262,9 +258,7 @@ for (ll in vect) {
     verm <- subset(DTzsum, county == kk)
     DT2zsum_loss <- sum(verm$loss)
     which(DT2loss ==DT2zsum_loss)
-    tutu <- DT2loss$county == kk
-    tutu2 <- DT2loss[tutu]
-    newmatrix[rownumber,] <- len44a[tutu2$loss]
+    newmatrix[rownumber,] <- DT2zsum_loss
     #newmatrix[yy,] <- orderedcolors2[yy]
     }}}
 
@@ -408,10 +402,6 @@ yearmonth2 <- paste(j, ".", str_pad(n, 2, pad = "0"), sep="")
 
 thenum <- which(nxx ==yearmonth2, arr.ind=TRUE)
 
-par(mar=c(3,3,3,2)+1)
-layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
-       widths=c(2,1), heights=c(2,1))
-
 
 #-------end data construction for bar plot for animation
 
@@ -421,15 +411,14 @@ midpoint_loss <- (max(m$loss) + min(m$loss)/2)
 #b <- barplot(DT7$LOSS, names.arg = DT7$DAMAGECAUSE, las=2, col = newmatrix)
 #text(bb, midpoint_loss, labels=mz$loss, srt=90)
 #plot(m, col = newmatrix, main = paste(scen_state, " crop loss $ \n", " ", plotyear, "\n", plotcommodity, sep=""))
-
 plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk,  "\n", "monthly total loss: $", DT7$LOSS, "\n", " monthly drought claims:", nrow(x), sep=""))
 
 
-legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
-plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range: 2001-2015')
+legend_image <- as.raster(matrix(rev(len4a), ncol=1))
+plot(c(0,2),c(0,DTzmax),type = 'n', axes = F,xlab = '', ylab = '', main = 'legend title')
 #text(x=1.5, y = c(0,5), labels = c(0,5))
-text(x=1.5, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5))
-rasterImage(legend_image, 0, 0, .5, DTzsum_max)
+text(x=1.5, y = seq(0,DTzmax,l=5), labels = seq(0,DTzmax,l=5))
+rasterImage(legend_image, 0, 0, 1, DTzmax)
 
 
 #legend.col(col = len4a, lev = m$loss)
@@ -476,18 +465,10 @@ dev.off()
                      DTzmin <- min(0)
                      DTzlen <- (nrow(DTza)/5)
                      
-                     #len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
-                     
-                     #if (is.data.frame(DTz) && nrow(DTz)==0) {
-                      # DTzsum_max <<- 0
-                     #} else {
-
-                     #DTzsum <- as.data.frame(aggregate(DTz$loss~DTz$month+DTz$year+DTz$county, DTz, sum))
-                     #colnames(DTzsum) <- c("month", "year", "county", "loss")
-                     #DTzsum_max <<- max(DTzsum$loss)
-                     #}
+                     #len4a <- tt((DTzmax - DTzmin)/DTzlen)
                      
                      
+            
                      orderedcolors2 <- tt(length(m$loss))[order(order(m$loss))]
                      #orderedcolors3 <- tt(length(m$acres))[order(order(m$acres))]
                      #newframe <- data.frame(m$LOSS)
@@ -535,7 +516,7 @@ dev.off()
                      #newmatrix_acres[newmatrix_acres == NA] <- 0
                      #newmatrix_acres <- c(newmatrix_acres)
         
-                    
+                     
                      
                      
                      #------------------------begin barplot for animation
@@ -620,14 +601,7 @@ dev.off()
                      
                      #-------end data construction for bar plot for animation
                      
-                     
-                     
-                     
-                  
-                     
-                     
-                     
-                     
+                   
                                   
                      plotmonth <- month.abb[jj]
                      plotyear <- j
@@ -672,30 +646,12 @@ dev.off()
                      #text(bb, midpoint_loss, labels=mz$loss, srt=90)
                      plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk, "\n", "monthly total loss: $", "0", "\n", " monthly drought claims:", "0", sep=""))
                      
-                     #legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
-                     #plot(c(0,2),c(0,DTzmax),type = 'n', axes = F,xlab = '', ylab = '', main = 'legend title')
-                     ##text(x=1.5, y = c(0,5), labels = c(0,5))
-                     #text(x=1.5, y = seq(0,DTzmax,l=5), labels = seq(0,DTzmax,l=5))
-                     #rasterImage(legend_image, 0, 0, 1, 1 )
+                     legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
+                     plot(c(0,2),c(0,DTzmax),type = 'n', axes = F,xlab = '', ylab = '', main = 'legend title')
+                     #text(x=1.5, y = c(0,5), labels = c(0,5))
+                     text(x=1.5, y = seq(0,DTzmax,l=5), labels = seq(0,DTzmax,l=5))
+                     rasterImage(legend_image, 0, 0, 1, 1 )
                      
-                     #if (DTzsum_max == 0) {
-                       
-                       legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
-                       plot(c(0,3),c(0,DTzmax),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range: 2001-2015')
-                       #text(x=1.5, y = c(0,5), labels = c(0,5))
-                       text(x=1.5, y = seq(0,DTzmax,l=5), labels = seq(0,DTzmax,l=5))
-                       rasterImage(legend_image, 0, 0, .5, DTzmax)
-                    
-                     #} else {
-                       
-                       #legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
-                       #plot(c(0,2),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Commodity Loss $ Range: 2001-2015')
-                       #text(x=1.5, y = c(0,5), labels = c(0,5))
-                       #text(x=1.5, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5))
-                       #rasterImage(legend_image, 0, 0, 1, DTzsum_max)
-                       
-                     #}
-                    
                      #plot(m, col = newmatrix, main = paste(scen_state, " crop loss $ \n", " ", jj, " ", j, "\n", kkk, sep=""))
                      #legend.col(col = orderedcolors2a, lev = m$loss)
                      bar <- barplot(nxx$loss) #-plot the bar plot for the animation beside the map
