@@ -130,36 +130,6 @@ months <- unique(x$month)
 #-------------
  
 for (kkk in uniquecomm) {
-  
-  
-  tt1 <- colorRampPalette(c("white", "blue", "red"))
-  setwd(yeardir)
-  it <- paste("2001_2015_usda_gridmet_", scen_state, sep="")
-  zaa <- as.data.frame(read.csv(it, strip.white = TRUE))
-  DTz1 <- data.table(zaa)
-  DTz1 <- subset(DTz1, damagecause == dcause) 
-  DTz1 <- subset(DTz1, commodity == kkk)
-  
-  if (nrow(DTz1) == 0) {
-    DTzmax1 <<- 1
-    DTzmin1 <<- 0
-  } else {
-  DTza1 <- as.data.frame(subset(DTz1, loss > 0))
-  DTzmax1 <<- max(DTza1$loss)
-  DTzmin1 <<- min(DTza1$loss)
-  DTzlen1 <<- (nrow(DTza1)/10)
-  
-  len4a_out1 <<- tt1((DTzmax1 - DTzmin1)/DTzlen1)
-  
-}
-  
-  
-  
-  
-  
-  
-  
-  
   for (jj in months) {
 
 DT <- data.table(x)
@@ -444,7 +414,7 @@ yearmonth2 <- paste(j, ".", str_pad(n, 2, pad = "0"), sep="")
 thenum <- which(nxx ==yearmonth2, arr.ind=TRUE)
 
 par(mar=c(3,3,3,2)+1)
-layout(matrix(c(1,2,3,3,3,3), 3, 2, byrow = TRUE),
+layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
        widths=c(2,1), heights=c(2,1))
 
 
@@ -466,43 +436,9 @@ plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'L
 text(x=1.5, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5))
 rasterImage(legend_image, 0, 0, .35, DTzsum_max)
 
-par(mar=c(6,8,5,5))
-par(lty = 1) 
 
-#--fix barplot xaxis names
-baryears <- c("2001", "", "", "", "", "", "", "", "", "", "", "", 
-              "2002", "", "", "", "", "", "", "", "", "", "", "", 
-              "2003", "", "", "", "", "", "", "", "", "", "", "", 
-              "2004", "", "", "", "", "", "", "", "", "", "", "", 
-              "2005", "", "", "", "", "", "", "", "", "", "", "", 
-              "2006", "", "", "", "", "", "", "", "", "", "", "", 
-              "2007", "", "", "", "", "", "", "", "", "", "", "", 
-              "2008", "", "", "", "", "", "", "", "", "", "", "", 
-              "2009", "", "", "", "", "", "", "", "", "", "", "", 
-              "2010", "", "", "", "", "", "", "", "", "", "", "", 
-              "2011", "", "", "", "", "", "", "", "", "", "", "", 
-              "2012", "", "", "", "", "", "", "", "", "", "", "", 
-              "2013", "", "", "", "", "", "", "", "", "", "", "", 
-              "2014", "", "", "", "", "", "", "", "", "", "", "", 
-              "2015", "", "", "", "", "", "", "", "", "", "", "")
-
-nxxsd <- sd(nxx$loss)
-cols <- ifelse(nxx$loss > nxxsd, "red","blue")
 #legend.col(col = len4a, lev = m$loss)
-bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(scen_state,  " ", kkk,  "\n", "Total loss by month, 2001 - 2015", sep="")
-               , names.arg = baryears, las = 2)
-
-title(ylab="Commodity loss in dollars ($)", line=6, cex.lab=1.2)
-title(xlab="Commodity loss totals ($) 2001- 2015", line=4, cex.lab=1.2)
-
-
-
-
-
-
-#axis(1, xaxp=c(1, 15, 19), las=2)
-      
- #-plot the bar plot for the animation beside the map
+bar <- barplot(nxx$loss) #-plot the bar plot for the animation beside the map
 abline(v=(bar[thenum[1]]), col="red", lty=2)
 dev.off()
 #bb <- barplot(DT7$ACRES, names.arg = DT7$DAMAGECAUSE, las=2, col = newmatrix_acres)
@@ -716,18 +652,15 @@ dev.off()
                      #par(mfrow=c(1,1))
                      #layout(matrix(c(1,2,3,4),2, 2, byrow=TRUE)) #--changes from 1, 2, to 2, 1 for additional plot
                      
-                     
+                     par(mar=c(3,3,3,2)+1)
                      #par(mfrow=c(1,1))
                      #layout(matrix(c(1,2,3,3),2, 2, byrow=TRUE))
                      
-                     #par(mar=c(3,3,3,2)+1)
-                     #layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
-                     #      widths=c(2,1), heights=c(2,1))
                      
-                     
-                     par(mar=c(3,3,3,2)+1)
-                     layout(matrix(c(1,2,3,3,3,3), 3, 2, byrow = TRUE),
+                     layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
                             widths=c(2,1), heights=c(2,1))
+                     
+                     
                      
                      
                      #layout(matrix(c(1,2,3,4),2, 2, byrow=TRUE))
@@ -753,10 +686,10 @@ dev.off()
                      #if (DTzsum_max == 0) {
                        
                        legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
-                       plot(c(0,3),c(0,DTzmax1),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range: 2001-2015')
+                       plot(c(0,3),c(0,DTzmax),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range: 2001-2015')
                        #text(x=1.5, y = c(0,5), labels = c(0,5))
-                       text(x=1.5, y = seq(0,DTzmax1,l=5), labels = seq(0,DTzmax1,l=5))
-                       rasterImage(legend_image, 0, 0, .35, DTzmax1)
+                       text(x=1.5, y = seq(0,DTzmax,l=5), labels = seq(0,DTzmax,l=5))
+                       rasterImage(legend_image, 0, 0, .35, DTzmax)
                     
                      #} else {
                        
@@ -770,49 +703,7 @@ dev.off()
                     
                      #plot(m, col = newmatrix, main = paste(scen_state, " crop loss $ \n", " ", jj, " ", j, "\n", kkk, sep=""))
                      #legend.col(col = orderedcolors2a, lev = m$loss)
-                       
-                       
-                       par(mar=c(6,8,5,5))
-                       par(lty = 1) 
-                       
-                       #--fix barplot xaxis names
-                       baryears <- c("2001", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2002", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2003", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2004", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2005", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2006", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2007", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2008", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2009", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2010", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2011", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2012", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2013", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2014", "", "", "", "", "", "", "", "", "", "", "", 
-                                     "2015", "", "", "", "", "", "", "", "", "", "", "")
-                       
-                       nxxsd <- sd(nxx$loss)
-                       cols <- ifelse(nxx$loss > nxxsd, "red","blue")
-                       #legend.col(col = len4a, lev = m$loss)
-                       bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(scen_state,  " ", kkk,  "\n", "Total loss by month, 2001 - 2015", sep="")
-                                      , names.arg = baryears, las = 2)
-                        
-                       title(ylab="Commodity loss in dollars ($)", line=6, cex.lab=1.2)
-                       title(xlab="Commodity loss totals ($) 2001- 2015", line=4, cex.lab=1.2)
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                     #bar <- barplot(nxx$loss) #-plot the bar plot for the animation beside the map
+                     bar <- barplot(nxx$loss) #-plot the bar plot for the animation beside the map
                      abline(v=(bar[thenum[1]]), col="red", lty=2)
                      dev.off()
                      #bb <- barplot(DT7$ACRES, names.arg = DT7$DAMAGECAUSE, las=2, col = newmatrix_acres)
