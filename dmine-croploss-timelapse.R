@@ -144,16 +144,22 @@ for (kkk in uniquecomm) {
     DTzmax1 <<- 1
     DTzmin1 <<- 0
   } else {
-  DTza1 <- as.data.frame(subset(DTz1, loss > 0))
-  DTzmax1 <<- max(DTza1$loss)
-  DTzmin1 <<- min(DTza1$loss)
-  DTzlen1 <<- (nrow(DTza1)/10)
+    
+    DTzsumz <- as.data.frame(aggregate(DTz1$loss~DTz1$month+DTz1$year+DTz1$county, DTz1, sum))
+    colnames(DTzsumz) <- c("month", "year", "county", "loss")
+    DTzsum_maxz <<- max(DTzsumz$loss)
+    
+    
+  #DTza1 <- as.data.frame(subset(DTz1, loss > 0))
+  #DTzmax1 <<- max(DTza1$loss)
+  #DTzmin1 <<- min(DTza1$loss)
+  #DTzlen1 <<- (nrow(DTza1)/10)
   
-  len4a_out1 <<- tt1((DTzmax1 - DTzmin1)/DTzlen1)
+  #len4a_out1 <<- tt1((DTzmax1 - DTzmin1)/DTzlen1)
   
 }
   
-  
+ 
   
   
   
@@ -342,12 +348,13 @@ monthlist <- c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "O
 #monthlist2 <-match(monthlist,month.abb)
 
 n <- match(jj, monthlist)
+nn <- str_pad(n, 2, pad = "0")
 
 #orderedcolors2 <- colorRampPalette(c(44))
 #m <- cbind(m$LOSS, newmatrix)
 #midpoints <- barplot(mz$LOSS)
 kkk <- gsub("\\s+","\\",kkk)
-png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png/drought/", j, "_", n, "_", kkk,  "_plot.png", sep=""))
+png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png/drought/", j, "_", nn, "_", kkk,  "_plot.png", sep=""))
 
 
 par(mar=c(3,3,3,2)+1)
@@ -705,12 +712,13 @@ dev.off()
                      monthlist <- c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
                      #monthlist2 <-match(monthlist,month.abb)
                      n <- match(jj, monthlist)
+                     nn <- str_pad(n, 2, pad = "0")
                      
                      #orderedcolors2 <- colorRampPalette(c(44))
                      #m <- cbind(m$LOSS, newmatrix)
                      #midpoints <- barplot(mz$LOSS)
                      kkk <- gsub("\\s+","\\",kkk)
-                     png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png/drought/", j, "_", n, "_", kkk,  "_plot.png", sep=""))
+                     png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png/drought/", j, "_", nn, "_", kkk,  "_plot.png", sep=""))
                      #par(mar=c(1,1,1,1))
                      #par(mar=c(3,3,3,2)+1)
                      #par(mfrow=c(1,1))
@@ -750,7 +758,7 @@ dev.off()
                      #text(x=1.5, y = seq(0,DTzmax,l=5), labels = seq(0,DTzmax,l=5))
                      #rasterImage(legend_image, 0, 0, 1, 1 )
                      
-                     #if (DTzsum_max == 0) {
+                     if (DTzsum_maxz == 0) {
                        
                        legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
                        plot(c(0,3),c(0,DTzmax1),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range: 2001-2015')
@@ -758,15 +766,15 @@ dev.off()
                        text(x=1.5, y = seq(0,DTzmax1,l=5), labels = seq(0,DTzmax1,l=5))
                        rasterImage(legend_image, 0, 0, .35, DTzmax1)
                     
-                     #} else {
+                     } else {
                        
-                       #legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
-                       #plot(c(0,2),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Commodity Loss $ Range: 2001-2015')
-                       #text(x=1.5, y = c(0,5), labels = c(0,5))
-                       #text(x=1.5, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5))
-                       #rasterImage(legend_image, 0, 0, 1, DTzsum_max)
+                       legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
+                       plot(c(0,3),c(0,DTzsum_maxz),type = 'n', axes = F,xlab = '', ylab = '', main = 'Commodity Loss $ Range: 2001-2015')
+                       text(x=1.5, y = c(0,5), labels = c(0,5))
+                       text(x=1.5, y = seq(0,DTzsum_maxz,l=5), labels = seq(0,DTzsum_maxz,l=5))
+                       rasterImage(legend_image, 0, 0, .35, DTzsum_maxz)
                        
-                     #}
+                     }
                     
                      #plot(m, col = newmatrix, main = paste(scen_state, " crop loss $ \n", " ", jj, " ", j, "\n", kkk, sep=""))
                      #legend.col(col = orderedcolors2a, lev = m$loss)
