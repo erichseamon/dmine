@@ -15,7 +15,7 @@ myfiles <- list.files(path = dest, pattern = "pdf",  full.names = TRUE)
 
 
 
-x <- data.frame(read.table("82911table.txt"))
+x <- data.frame(read.table("<your table name>"))
 x <- data.frame(x[-grep("\\Page",x$V1),])
 x <- data.frame(x[-grep("\\(As",x$V1),])
 

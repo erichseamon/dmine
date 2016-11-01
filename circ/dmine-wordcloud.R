@@ -34,7 +34,7 @@ access_token_secret <- "bjy8lXYh5yroi7QzTkSw1in9k70ANTueRiLNUkZrvnz5Q"
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
 
 #-uses the twitter api and twitteR to search the last n number of tweets
-mach_tweets = searchTwitter("machine learning", n=500, lang="en")
+mach_tweets = searchTwitter("Trump racist", n=500, lang="en")
 
 #--create a matrix using apply of the tweet texts
 mach_text = sapply(mach_tweets, function(x) x$getText())
@@ -45,7 +45,7 @@ mach_corpus = Corpus(VectorSource(mach_text))
 # create document term matrix applying some transformations
 control <- list(
       removePunctuation = TRUE,
-      stopwords = c("machine", "learning",stopwords("english")),
+      stopwords = c("Trump", "racist", stopwords("english")),
       removeNumbers = TRUE,
       tolower = TRUE)
 

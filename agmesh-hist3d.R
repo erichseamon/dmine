@@ -23,5 +23,5 @@ library(latticeExtra)
 
 height <- rbeta(2000, 2, 5)
 weight <- rgamma(2000, 10)
-my_hist3d(height, weight, nclass=10)
+my_hist3d(height, weight, nclass=5)
 
