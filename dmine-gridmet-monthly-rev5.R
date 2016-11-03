@@ -432,9 +432,9 @@ print("Finished createing Ag data - Moving to final phase - visualization")
 
 library(compare)
 library(tidyr)
-detach(package:sirad)
-detach(package:rasterVis)
-detach(package:raster)
+#detach(package:sirad)
+#detach(package:rasterVis)
+#detach(package:raster)
 library(graphics)
 
 
@@ -523,18 +523,18 @@ maskraster <- raster(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/netcdf/
 
 #--set tt outside of loop below
 tt1 <- colorRampPalette(c("white", "blue", "red"))
-setwd(yeardir)
-it <- paste(N1, "_", N2, "_usda_gridmet_", scen_state, sep="")
-zaa <- as.data.frame(read.csv(it, strip.white = TRUE))
-DTz1 <- data.table(zaa)
-DTz1 <- subset(DTz1, damagecause == dcause) 
+#setwd(yeardir)
+#it <- paste(N1, "_", N2, "_usda_gridmet_", scen_state, sep="")
+#zaa <- as.data.frame(read.csv(it, strip.white = TRUE))
+#DTz1 <- data.table(zaa)
+#DTz1 <- subset(DTz1, damagecause == dcause) 
 #DTz <- subset(DTz, commodity == kkk)
-DTza1 <- as.data.frame(subset(DTz1, loss > 0))
-DTzmax1 <- max(DTza1$loss)
-DTzmin1 <- min(DTza1$loss)
-DTzlen1 <- (nrow(DTza1)/10)
+#DTza1 <- as.data.frame(subset(DTz1, loss > 0))
+#DTzmax1 <- max(DTza1$loss)
+#DTzmin1 <- min(DTza1$loss)
+#DTzlen1 <- (nrow(DTza1)/10)
 
-len4a_out <- tt1((DTzmax1 - DTzmin1)/DTzlen1)
+#len4a_out <- tt1((DTzmax1 - DTzmin1)/DTzlen1)
 
 #---------------
 
@@ -565,15 +565,21 @@ for (j in years) {
   uniquecomm <- unique(x$commodity)
   months <- unique(x$month)
   #-------------
-  
+  #uniquecomm <- "All Other Crops"
   for (kkk in uniquecomm) {
     
     
     tt1 <- colorRampPalette(c("white", "blue", "red"))
     setwd(yeardir)
     it <- paste(N1, "_", N2, "_usda_gridmet_", scen_state, sep="")
-    zaa <- as.data.frame(read.csv(it, strip.white = TRUE))
-    DTz1 <- data.table(zaa)
+    #zaa <- as.data.frame(read.csv(it, strip.white = TRUE)) #commented out testing
+    #DTz1 <- data.table(zaa) #commented out to test issues with kkk barley only working
+    
+    xgee <- as.data.frame(read.csv(it, strip.white = TRUE))
+    xgee <- subset(xgee, monthcode != "NA")
+    xgee <- subset(xgee, commoditycode != 88)
+    DTz1 <- data.table(xgee) #added to confirm consistency with below code that uses x
+    
     DTz1 <- subset(DTz1, damagecause == dcause) 
     DTz1 <- subset(DTz1, commodity == kkk)
     
@@ -605,7 +611,7 @@ for (j in years) {
     
     for (jj in months) {
       
-      DT <- data.table(x)
+      #DT <- data.table(x) #added DTz1 to be consistent with above?
       
       #DTnew <- tolower(DT$commodity)
       
@@ -624,10 +630,12 @@ for (j in years) {
       
       #--change to lowercase DT2!!
       #DT2 <- DT
-      DT2 <- subset(DT, damagecause == dcause) #---set for drought!!!
       
-      DT2 <- subset(DT2, month == jj)
-      DT2 <- subset(DT2, commodity == kkk)
+      #DT2 <- subset(DT, damagecause == dcause) #---set for drought!!!
+      DT2 <- DTz1
+      DT2 <<- subset(DT2, month == jj)
+      #DT2 <- subset(DT2, commodity == kkk)
+     
       if (nrow(DT2) != 0 ) {
         
         #DT2 <- subset(DTnew3, commodity == input$commodity)
@@ -682,36 +690,57 @@ for (j in years) {
         
         #len4 <- tt(nrow(as.data.frame(subset(m, loss > 0))))
         #--create a color vector for ALL commodity drought values for all years.  used for the gradient legend and coloring
-        za <- as.data.frame(read.csv(i, strip.white = TRUE))
-        DTz <- data.table(za)
+        
+        
+        
+        #DTz <- data.table(za)
+        #DTz <- data.table(x)
+        #DTz <- subset(DTz, damagecause == dcause) 
+        #DTz <- subset(DTz, commodity == kkk)
+        #DTz <<- subset(DTz, month == jj)
+        
+        it <- paste(N1, "_", N2, "_usda_gridmet_", scen_state, sep="")
+        
+        xgee <- as.data.frame(read.csv(it, strip.white = TRUE))
+        xgee <- subset(xgee, monthcode != "NA")
+        xgee <- subset(xgee, commoditycode != 88)
+        DTz <- data.table(xgee) #added to confirm consistency with below code that uses x
+        
         DTz <- subset(DTz, damagecause == dcause) 
         DTz <- subset(DTz, commodity == kkk)
         
+        if (nrow(DTz) == 0) {
+          DTzmax1 <<- 1
+          DTzmin1 <<- 0
+        } else {
+        
+        #changed below to DT2 from DTz on Nov 1, 2016
         DTzsum <- as.data.frame(aggregate(DTz$loss~DTz$month+DTz$year+DTz$county, DTz, sum))
         colnames(DTzsum) <- c("month", "year", "county", "loss")
         DTzsum_max <<- max(DTzsum$loss)
         
+        }
         
-        DTza <- as.data.frame(subset(DTz, loss > 0))
-        DTzmax <- max(DTza$loss)
-        DTzmin <- min(DTza$loss)
-        DTzlen <- (nrow(DTza)/10)
-        DTzlen_county <- length(counties)
+        #DTza <- as.data.frame(subset(DTz, loss > 0))
+        #DTzmax <- max(DTza$loss)
+        #DTzmin <- min(DTza$loss)
+        #DTzlen <- (nrow(DTza)/10)
+        #DTzlen_county <- length(counties)
         
-        DTza_sorted <- sort(DTza$loss)
-        DTza_len <- length(DTza_sorted)
+        #DTza_sorted <- sort(DTza$loss)
+        #DTza_len <- length(DTza_sorted)
         
-        len4a <- tt((DTzmax - DTzmin))
+        #len4a <- tt((DTzmax - DTzmin))
         len44a <- tt(DTzsum_max)
         
-        len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
+        #len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
         
         #----------
-        tt_DTza <- colorRampPalette(c("light blue", "blue", "red"))( DTza_len) 
-        DTza_s1 <- cbind (tt_DTza, DTza_sorted)
+        #tt_DTza <- colorRampPalette(c("light blue", "blue", "red"))( DTza_len) 
+        #DTza_s1 <- cbind (tt_DTza, DTza_sorted)
         
-        len4ab <- tt(DTzlen_county)
-        len4abc <- tt(DTza_sorted)
+        #len4ab <- tt(DTzlen_county)
+        #len4abc <- tt(DTza_sorted)
         #----
         
         orderedcolors2 <- tt(length(m$loss))[order(order(m$loss))]
@@ -901,17 +930,21 @@ for (j in years) {
         #text(bb, midpoint_loss, labels=mz$loss, srt=90)
         #plot(m, col = newmatrix, main = paste(scen_state, " crop loss $ \n", " ", plotyear, "\n", plotcommodity, sep=""))
         
-        plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk,  "\n", "monthly total loss: $", DT7$LOSS, "\n", " monthly drought claims:", nrow(x), sep=""))
+        plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk,  "\n", "monthly total loss: $", DT7$LOSS, "\n", " monthly drought claims:", nrow(DT2), sep=""))
         
-        
-        legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
+        #--changing out len4a_out for new tt
+        len5a_out <- as.raster(tt1(DTzsum_max))
+        #legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
         plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range: 2001-2015')
         #text(x=1.5, y = c(0,5), labels = c(0,5))
         text(x=1.5, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5))
-        rasterImage(legend_image, 0, 0, .35, DTzsum_max)
+        #rasterImage(y, 0, 0, .35, DTzsum_max)
         
-        
-        
+        library(plotrix)
+        my.colors2 = colorRampPalette(c("white", "light blue", "blue", "red"))
+        pnts = cbind(x =c(0,0.35,0.35,0), y =c(DTzsum_max,DTzsum_max,0.8,0.8))
+        legend.gradient(pnts,my.colors2(100), title = "", limits = "")
+
         par(mar=c(6,8,5,5))
         par(lty = 1) 
         
@@ -996,16 +1029,16 @@ for (j in years) {
         #len4 <- tt(len <- length(m$acres))
         orderedcolors2a <- tt(length(m$loss))
         
-        za <- as.data.frame(read.csv(i, strip.white = TRUE))
-        DTz <- data.table(za)
-        DTz <- subset(DTz, damagecause == dcause) 
-        DTz <- subset(DTz, commodity == kkk)
-        DTza <- as.data.frame(subset(DTz, loss > 0))
-        DTzmax <- max(1)
-        DTzmin <- min(0)
-        DTzlen <- (nrow(DTza)/5)
+        #za <- as.data.frame(read.csv(i, strip.white = TRUE))
+        #DTz <- data.table(za)
+        #DTz <- subset(DTz, damagecause == dcause) 
+        #DTz <- subset(DTz, commodity == kkk)
+        #DTza <- as.data.frame(subset(DTz, loss > 0))
+        #DTzmax <- max(1)
+        #DTzmin <- min(0)
+        #DTzlen <- (nrow(DTza)/5)
         
-        len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
+        #len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
         
         #if (is.data.frame(DTz) && nrow(DTz)==0) {
         # DTzsum_max <<- 0
@@ -1212,22 +1245,32 @@ for (j in years) {
         #text(x=1.5, y = seq(0,DTzmax,l=5), labels = seq(0,DTzmax,l=5))
         #rasterImage(legend_image, 0, 0, 1, 1 )
         
-        if (exists('DTzsum_maxz') == TRUE) {
-          
+        #if (exists('DTzsum_maxz') == TRUE) {
+        if (sum(nxx$loss) > 0 ) {
           legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
           plot(c(0,3),c(0,DTzsum_maxz),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range')
-          text(x=1.5, y = c(0,5), labels = c(0,5))
+          #text(x=1.5, y = c(0,5), labels = c(0,5))
           text(x=1.5, y = seq(0,DTzsum_maxz,l=5), labels = seq(0,DTzsum_maxz,l=5))
-          rasterImage(legend_image, 0, 0, .35, DTzsum_maxz)
+          #rasterImage(legend_image, 0, 0, .35, DTzsum_maxz)
+          
+          library(plotrix)
+          my.colors2 = colorRampPalette(c("white", "light blue", "blue", "red"))
+          pnts = cbind(x =c(0,0.35,0.35,0), y =c(DTzsum_maxz,DTzsum_maxz,0.8,0.8))
+          legend.gradient(pnts,my.colors2(100), title = "", limits = "")
           
         } else {
           
-          legend_image <- as.matrix(rev(len4a_out), ncol=1)
+          #legend_image <- as.matrix(rev(len4a_out), ncol=1)
           plot(c(0,3),c(0,DTzmax1),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range')
           #text(x=1.5, y = c(0,5), labels = c(0,5))
           text(x=1.5, y = seq(0,DTzmax1,l=5), labels = seq(0,DTzmax1,l=5))
-          rasterImage(legend_image, 0, 0, .35, DTzmax1)
+          #rasterImage(legend_image, 0, 0, .35, DTzmax1)
           #rasterImage(as.raster(y), 0, 0, .35, DTzmax1)
+          
+          library(plotrix)
+          my.colors2 = colorRampPalette(c("white", "light blue", "blue", "red"))
+          pnts = cbind(x =c(0,0.35,0.35,0), y =c(DTzmax1,DTzmax1,0.8,0.8))
+          legend.gradient(pnts,my.colors2(100), title = "", limits = "")
 
           #par(new=TRUE)
           #legi <- length(legend_image)
@@ -1300,7 +1343,6 @@ for (j in years) {
         #bar <- barplot(nxx$loss) #-plot the bar plot for the animation beside the map
         abline(v=(bar[thenum[1]]), col="red", lty=2)
         dev.off()
-        
         #bb <- barplot(DT7$ACRES, names.arg = DT7$DAMAGECAUSE, las=2, col = newmatrix_acres)
         #text(b, midpoint_acres, labels=mzacres$acres, xpd=NA, col = "White")
         #plot(m, col = newmatrix_acres, main = paste(scen_state, " crop loss acres \n", " ", plotyear, "\n", plotcommodity, sep=""))                     
