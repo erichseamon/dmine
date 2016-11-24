@@ -48,13 +48,15 @@ setwd(paste("/reacchspace/obj1/netcdf/MET/", sep=""))
 
 
 #---- Load data and Derive Variables-------#
-
+j="pdsi"
+i="may"
+k="2006"
 for (i in yearspan) {
   for (j in variablespan) {
     
     #-----loads netcdfs one by one.  Builds the url for a netcdf file - using the variables defined above-------------------#
-    dirname <- paste("/reacchspace/obj1/netcdf/MET/", j, sep = "")
-    agmetfullname <- file.path(dirname, paste(j, "_", i, ".nc", sep = ""))
+    dirname <- paste("/dmine/data/USDA/agmesh-scenarios/Idaho/netcdf/", sep = "")
+    agmetfullname <- file.path(dirname, paste(j, "_", i, "_", k, ".nc", sep = ""))
     aggmetnc <- agmetfullname 
     
     #--creates Raster Bricks for each climate variable, for each year.---#

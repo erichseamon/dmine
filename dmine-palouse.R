@@ -97,6 +97,7 @@ palouse <- rbind(wapalouse, idpalouse, orpalouse)
 palouse2 <- with(palouse, palouse[order(year, monthcode),])
 
 setwd(paste("/dmine/data/USDA/agmesh-scenarios/palouse/summary"))
+palouse2$acres <- as.numeric(palouse2$acres)
 write.csv(palouse2, file = '2001_2015_palouse_summary')
 
 

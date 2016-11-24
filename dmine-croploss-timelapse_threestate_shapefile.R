@@ -52,6 +52,8 @@ legend.col <- function(col, lev){
 
 options(scipen=5)
 
+statelist <- c("Idaho", "Washington", "Oregon")
+
 
 #dmineplots <- function(scen_state, startyear, endyear, dcause, Kommodity) {
 
@@ -69,10 +71,10 @@ counties <- readShapePoly('UScounties.shp',
                           proj4string=CRS
                           ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
-#counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
+counties <- counties[grep(paste(statelist[1], "|", statelist[2], "|", statelist[3], sep=""), counties@data$STATE_NAME),]
+#counties <- counties[grep("Idaho|Washington|Oregon", counties@data$STATE_NAME),]
 #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
-counties <- subset(counties, STATE_NAME %in% scen_state)
+#counties <- subset(counties, STATE_NAME %in% scen_state)
 monthdir <- paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, sep="")
 yeardir <- paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/summaries/", sep="")
 #uniquez <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month", sep=""))
@@ -371,8 +373,8 @@ layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE),
 
 #------------------------begin barplot for animation
 
-yeardir2 <- paste("/dmine/data/USDA/agmesh-scenarios/", "Idaho", "/summaries/", sep="")
-ix <- paste("2001_2015_usda_gridmet_", "Idaho", sep="")
+yeardir2 <- paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/summaries/", sep="")
+ix <- paste("2001_2015_usda_gridmet_", scen_state, sep="")
 setwd(yeardir2)
 DT2x <- as.data.frame(read.csv(ix, strip.white = TRUE))
 
@@ -465,6 +467,9 @@ midpoint_loss <- (max(m$loss) + min(m$loss)/2)
 #plot(m, col = newmatrix, main = paste(scen_state, " crop loss $ \n", " ", plotyear, "\n", plotcommodity, sep=""))
 
 plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk,  "\n", "monthly total loss: $", DT7$LOSS, "\n", " monthly drought claims:", nrow(x), sep=""))
+
+yeardir3 <- paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/shapefiles/", sep="")
+writeSpatialShape(m, paste(scen_state, "_", jj, "_", j, "_", kkk, "_", plotcommodity, "_", dcause, sep="")).
 
 
 legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
@@ -830,7 +835,7 @@ dev.off()
 } }}}
 
 
-listz <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png/", dcause, sep=""))
+listz <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", "Idaho", "/month_png/", "drought", sep=""))
 subset(listz, grepl("*.png",listz))
 liss <- length(listz)
 newframe <- t(data.frame(strsplit(listz, "\\_")[1:liss]))
@@ -841,7 +846,7 @@ uniz <- unique(newframe[,3])
 
 
 for (i in uniz) {
-  setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png/", dcause, sep="")) 
+  setwd(paste("/dmine/data/USDA/agmesh-scenarios/", "Idaho", "/month_png/", "drought", sep="")) 
   system(paste("mkdir ", i, sep=""))
-  system(paste("mv *_", i, "_*", " /dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png/", dcause, "/", i, sep=""))
+  system(paste("mv *_", i, "_*", " /dmine/data/USDA/agmesh-scenarios/Idaho/month_png/drought/", i, sep=""))
 }
