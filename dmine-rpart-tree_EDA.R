@@ -33,27 +33,79 @@ uniquez <<- read.csv(paste("/dmine/data/USDA/agmesh-scenarios/", "palouse", "/su
 uniquez <- data.frame(uniquez)
 
 train <- subset(uniquez, commodity == "WHEAT")
-
+train <- subset(train, damagecause == "Drought")
+cols <- train[]
+data <- cbind(train[3:19], train[32:33])
 #--feature extraction
 
 spring <- c("JAN", "FEB", "MAR", "APR", "MAY", "JUN")
 winter <- c("JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
 
-springdata <- subset(train, month %in% spring)
-winterdata <- subset(train, month %in% winter)
+springdata <- subset(data, month %in% spring)
+winterdata <- subset(data, month %in% winter)
 #data <- subset(data, county %in% "Latah")
 
+data <- data[3:19]
+springdata <- springdata[3:19]
+winterdata <- winterdata[3:19]
 
 
+#---cor panel example 1
 
+panel.cor <- function(x, y, digits=2, prefix="", cex.cor) 
+{
+  usr <- par("usr"); on.exit(par(usr)) 
+  par(usr = c(0, 1, 0, 1)) 
+  r <- abs(cor(x, y)) 
+  txt <- format(c(r, 0.123456789), digits=digits)[1] 
+  txt <- paste(prefix, txt, sep="") 
+  if(missing(cex.cor)) cex <- 0.8/strwidth(txt) 
+  
+  test <- cor.test(x,y) 
+  # borrowed from printCoefmat
+  Signif <- symnum(test$p.value, corr = FALSE, na = FALSE, 
+                   cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1),
+                   symbols = c("***", "**", "*", ".", " ")) 
+  
+  text(0.5, 0.5, txt, cex = cex * r) 
+  text(.8, .8, Signif, cex=cex, col=2) 
+}
 
+p1 <- na.omit(log(data[1:17]))
+p2 <- subset(p1, pr != "-Inf")
 
+cor2 <- cor(p2) 
+pairs(p2, lower.panel=panel.smooth, upper.panel=panel.cor)
 
+#--end
 
+#--aov test
+fit <- aov(loss ~ acres + tmmx + tmmn + srad + sph + vs + fm100 + erc + fm1000 + pdsi + pet + rmin + rmax, data=p2)
+fit_acres <- aov(loss ~ tmmx + tmmn + srad + sph + vs + fm100 + erc + fm1000 + pdsi + pet + rmin + rmax, data=p2)
+
+layout(matrix(c(1,2,3,4),2,2)) # optional layout 
+plot(fit) # diagnostic plots
+
+summary(fit) # display Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and F Tests
+
+summary(fit_acres)
+drop1(fit_acres,~.,test="F") # type III SS and F Tests
+
+#--Two-way Interaction Plot 
+
+attach(mtcars)
+gears <- factor(gears)
+cyl <- factor(cyl)
+interaction.plot(cyl, gear, mpg, type="b", col=c(1:3), 
+                 leg.bty="o", leg.bg="beige", lwd=2, pch=c(18,24,22),	
+                 xlab="Number of Cylinders", 
+                 ylab="Mean Miles Per Gallon", 
+                 main="Interaction Plot")
 
 # Make big tree
 form <- as.formula(loss ~ tmmx + tmmn + srad + sph + vs + fm100)
-tree.1 <- rpart(form,data=data,control=rpart.control(minsplit=20,cp=0))
+tree.1 <- rpart(form,data=springdata,control=rpart.control(minsplit=20,cp=0))
 # 
 plot(tree.1)					# Will make a mess of the plot
 text(tree.1, cex = .5)
@@ -71,9 +123,7 @@ prp(tree.2)                                     # A fast plot
 fancyRpartPlot(tree.1, )	
 rpart.plot(tree.2)
 
-rpart.plot(tree.1, # middle graph
-           extra="auto", box.palette="GnBu",
-           branch.lty=5, shadow.col="gray", nn=TRUE)
+
 
 
 

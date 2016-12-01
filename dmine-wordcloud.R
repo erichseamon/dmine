@@ -50,7 +50,7 @@ setwd("/dmine/data/wordclouds")
 #"%Y-%j-%H%M%S"
 
 string <- format(Sys.time(), format = "%Y-%m-%d_%H:%M:%S")
-cloudname <- "MachineLearningCloud.png"
+cloudname <- "climate.png"
 cloudpng <- png(paste0(string, "_", cloudname), width=12, height=8, units="in", res=300)
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 #--set the wordcloud png name, which will be appended to the time stamp later
