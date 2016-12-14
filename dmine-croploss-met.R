@@ -178,9 +178,9 @@ for (i in yearspan) {
     varspannumber = varspannumber + 1
     jj=0
     for (k in monthspan) {
-      ncfile <- paste(dirname, "/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile)
       rasterout <- mean(rasterout)
+      
       rasterout <- crop(rasterout, counties)
       png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
       plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))

@@ -29,7 +29,35 @@ counties <- subset(counties, STATE_NAME %in% "Idaho")
 
 #setwd(paste("/dmine/data/USDA/agmesh-scenarios/", input$state, "/month_positive/", sep=""))
 #system("mv *AdjustedGrossRevenue.csv ../commodity_csv_agr_month/")
-uniquez <<- read.csv(paste("/dmine/data/USDA/agmesh-scenarios/", "palouse", "/summary/", "2001_2015_palouse_summary", sep=""), strip.white=TRUE)
+
+cols2014 <- c("Crop_Year_Identifier", "State_code", "State_abbrev", "County_code", "County_name", "Crop_code", "Crop_name", "Insurance_plan_code", "Insurance_plan_name_abbrev", "Coverage_category", "Stage_code", "Cause_of_loss_code", "Cause_of_loss_desc", "Month_of_loss", "Month_of_loss_name", "Policy_earning_premium", "Policies_indemnified", "Net_planted_acres", "Liability", "Total premium", "Subsidy", "Determined_acres", "Indemnity_amount", "Loss_ratio")
+cols2010 <- c("Crop_Year_Identifier", "State_code", "State_abbrev", "County_code", "County_name", "Crop_code", "Crop_name", "Insurance_plan_code", "Insurance_plan_name_abbrev", "Coverage_category", "Stage_code", "Cause_of_loss_code", "Cause_of_loss_desc", "Month_of_loss", "Month_of_loss_name", "Policy_earning_premium", "Policies_indemnified", "Net_planted_acres", "Liability", "Total premium", "Subsidy", "Indemnity_amount", "Loss_ratio")
+
+
+
+uniquez1 <<- read.table(paste("/dmine/data/USDA/crop_indemnity_originals/sumbiz_2010.txt", sep=""), sep="|")
+colnames(uniquez1) <- cols2010
+uniquez2 <<- read.table(paste("/dmine/data/USDA/crop_indemnity_originals/sumbiz_2011.txt", sep=""), sep="|")
+uniquez2 <- uniquez2[-22]
+colnames(uniquez2) <- cols2010
+uniquez3 <<- read.csv(paste("/dmine/data/USDA/crop_indemnity_originals/sumbiz_2012_2.csv", sep=""), sep=",")
+uniquez3 <- uniquez3[-22]
+colnames(uniquez3) <- cols2010
+uniquez4 <<- read.table(paste("/dmine/data/USDA/crop_indemnity_originals/sumbiz_2013.txt", sep=""), sep="|")
+uniquez4 <- uniquez4[-22]
+colnames(uniquez4) <- cols2010
+uniquez5 <<- read.table(paste("/dmine/data/USDA/crop_indemnity_originals/sumbiz_2014.txt", sep=""), sep="|")
+uniquez5 <- uniquez5[-22]
+colnames(uniquez5) <- cols2010
+uniquez6 <<- read.table(paste("/dmine/data/USDA/crop_indemnity_originals/sumbiz_2015.txt", sep=""), sep="|")
+uniquez6 <- uniquez6[-19]
+uniquez6 <- uniquez6[-22]
+colnames(uniquez6) <- cols2010
+
+uniquez <- rbind(uniquez1, uniquez2, uniquez3, uniquez4, uniquez5, uniquez6)
+train <- uniquez      
+                    
+
 uniquez <- data.frame(uniquez)
 
 dc <- unique(uniquez$damagecause)
@@ -82,10 +110,11 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor)
   text(.8, .8, Signif, cex=cex, col=2) 
 }
 
-p1 <- na.omit(log(data[1:17]))
+p1 <- na.omit(log(train[1:17]))
 p2 <- subset(p1, pr != "-Inf")
 
 cor2 <- cor(p2) 
+pairs(train)
 pairs(p2, lower.panel=panel.smooth, upper.panel=panel.cor)
 
 #--end

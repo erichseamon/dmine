@@ -20,11 +20,11 @@ library("rgeos")
 library("MASS")
 library("stringr")
 library("car")
-
+library("rpart")
 #--third phase - load newly created file and perform EDA
 
-setwd("/agmesh-scenarios/scenario_52177")
-combined.df <- read.csv("2001_2015_usda_gridmet_WA")
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summary")
+combined.df <- read.csv("2001_2015_palouse_summary")
 
 
 lm(loss ~ pr + th + pdsi + pet + erc + rmin + rmax + tmmn + tmmx + srad + sph + vs + fm1000 + fm100 + bi, data=combined.df)
