@@ -169,6 +169,8 @@ varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmm
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
 yearspan = c(N1:N2)
 
+
+
 for (i in yearspan) { 
   #--new matrix to contain variable, month, year, and county
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
@@ -178,6 +180,7 @@ for (i in yearspan) {
     varspannumber = varspannumber + 1
     jj=0
     for (k in monthspan) {
+      ncfile <- paste(dirname, "/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile)
       rasterout <- mean(rasterout)
       
