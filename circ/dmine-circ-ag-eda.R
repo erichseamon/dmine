@@ -23,6 +23,23 @@ library("car")
 library("rpart")
 #--third phase - load newly created file and perform EDA
 
+yearspanz = c(2007:2015)
+
+
+for (i in yearspanz) {
+  cdl <- paste("/dmine/data/CDL/", "CDL_", i, "_005.tif", sep="")
+  cdl <- raster(cdl)
+  sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+  cdl <- projectRaster(cdl, crs = sr)
+  wintercdl <- cdl == 24 #spring wheat
+  springcdl <- cdl == 23 #spring wheat
+  layout(matrix(c(1,2,3,4),1,2))
+  plot(wintercdl)
+  plot(springcdl)
+}
+
+
+
 setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summary")
 combined.df <- read.csv("2001_2015_palouse_summary")
 

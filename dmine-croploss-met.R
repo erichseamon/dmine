@@ -163,6 +163,9 @@ listcols <- nrow(list)
 
 #--loop to generate raster brick from each nc file, subset by the county, extact the values 
 #--for each variable, for each month and year combo.
+library(raster)
+
+
 
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
@@ -170,8 +173,9 @@ monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oc
 yearspan = c(N1:N2)
 
 
-
 for (i in yearspan) { 
+  cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, "_005.tif", sep=""))
+  wintercdl <- cdl == 24 #spring wheat
   #--new matrix to contain variable, month, year, and county
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
   colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
@@ -183,8 +187,8 @@ for (i in yearspan) {
       ncfile <- paste(dirname, "/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile)
       rasterout <- mean(rasterout)
-      
       rasterout <- crop(rasterout, counties)
+      rasterout <- crop(rasterout, cdl)
       png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
       plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
       plot(counties, add=TRUE)
