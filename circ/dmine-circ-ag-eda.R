@@ -23,21 +23,75 @@ library("car")
 library("rpart")
 #--third phase - load newly created file and perform EDA
 
+setwd("/dmine/data/counties/")
+
+counties <- readShapePoly('UScounties.shp', 
+                          proj4string=CRS
+                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+
+counties <- counties[grep("Idaho", counties@data$STATE_NAME),]
+
 yearspanz = c(2007:2015)
+statez = c("Idaho", "Washington", "Oregon")
+Idaho_list1 <- paste("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
+Washington_list1 <- c("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin")
+Oregon_list1 <- c("Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa")
+
+palouse_id_counties <- counties[grep(Idaho_list1, counties@data$NAME),]
+
+#Idaho Counties
+
+for (i in yearspanz) {
+    for (m in palouse_id_counties) {
+    county_county <- palouse_id_counties[grep("Benewah", palouse_id_counties@data$NAME)]
+    cdl <- paste("/dmine/data/CDL/", "CDL_", i, "_005.tif", sep="")
+    cdl <- raster(cdl)
+    cdl <- crop(cdl, county_county)
+    sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+    cdl <- projectRaster(cdl, crs = sr)
+    wintercdl <- cdl == 24 #winter wheat
+    springcdl <- cdl == 23 #spring wheat
+    layout(matrix(c(1,2,3,4),1,2))
+    plot(wintercdl)
+    plot(springcdl)
+    }
+  }
+}
+
 
 
 for (i in yearspanz) {
+  for (j in fullcounty) {
+    cdl <- paste("/dmine/data/CDL/", "CDL_", i, "_005.tif", sep="")
+    cdl <- raster(cdl)
+    sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+    cdl <- projectRaster(cdl, crs = sr)
+    wintercdl <- cdl == 24 #winter wheat
+    springcdl <- cdl == 23 #spring wheat
+    layout(matrix(c(1,2,3,4),1,2))
+    plot(wintercdl)
+    plot(springcdl)
+    
+  }
+}
+
+
+
+for (i in yearspanz) {
+  for (j in fullcounty) {
   cdl <- paste("/dmine/data/CDL/", "CDL_", i, "_005.tif", sep="")
   cdl <- raster(cdl)
   sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   cdl <- projectRaster(cdl, crs = sr)
-  wintercdl <- cdl == 24 #spring wheat
+  wintercdl <- cdl == 24 #winter wheat
   springcdl <- cdl == 23 #spring wheat
   layout(matrix(c(1,2,3,4),1,2))
   plot(wintercdl)
   plot(springcdl)
-}
 
+  }
+}
 
 
 setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summary")

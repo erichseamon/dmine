@@ -175,6 +175,8 @@ yearspan = c(N1:N2)
 
 for (i in yearspan) { 
   cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, "_005.tif", sep=""))
+  sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+  cdl <- projectRaster(cdl, crs = sr)
   wintercdl <- cdl == 24 #spring wheat
   #--new matrix to contain variable, month, year, and county
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
