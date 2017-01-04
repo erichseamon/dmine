@@ -1,3 +1,5 @@
+#converts a span of cdl years to a raster and crops for a region of counties.
+
 library("ncdf")
 library("raster")
 library("sp")
@@ -24,7 +26,6 @@ library("rpart")
 library("rgdal")
 library("tiff")
 #--third phase - load newly created file and perform EDA
-
 yearspanz = c(2013:2014)
 
 for (i in yearspanz) {

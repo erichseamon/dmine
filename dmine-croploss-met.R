@@ -123,6 +123,46 @@ dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", scen, sep = "")
 
 print("Generating raster arrays for analysis...")
 
+
+setwd("/dmine/data/counties/")
+
+counties <- readShapePoly('UScounties.shp', 
+                          proj4string=CRS
+                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+
+statez = c("Idaho", "Washington", "Oregon")
+Idaho_list1 <- paste("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
+Washington_list1 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", sep="|")
+Oregon_list1 <- paste("Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", sep="|")
+
+
+combinedlist2 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", "Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", "Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
+combinedlist <- c(Idaho_list1, Washington_list1, Oregon_list1)
+
+or_counties <- counties[grep("Oregon", counties@data$STATE_NAME),]
+palouse_Oregon_counties <- or_counties[grep(Oregon_list1, or_counties@data$NAME),]
+
+wa_counties <- counties[grep("Washington", counties@data$STATE_NAME),]
+palouse_Washington_counties <- wa_counties[grep(Washington_list1, wa_counties@data$NAME),]
+
+id_counties <- counties[grep("Idaho", counties@data$STATE_NAME),]
+palouse_Idaho_counties <- id_counties[grep(Idaho_list1, id_counties@data$NAME),]
+
+palouse_counties <- rbind(palouse_Idaho_counties, palouse_Washington_counties, palouse_Oregon_counties)
+
+alllist <- c("Idaho", "Oregon", "Washington")
+#alllist <- c(palouse_Idaho_counties, palouse_Washington_counties, palouse_Oregon_counties)
+
+
+
+for (kk in alllist ) {
+  
+dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries2", sep="")
+
+
+---
+
 setwd("/dmine/data/counties/")
 
 counties <- readShapePoly('UScounties.shp', 
@@ -131,8 +171,8 @@ counties <- readShapePoly('UScounties.shp',
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 #counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
-
-counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
+counties <- paste("palouse_", kk, "_counties", sep="")
+#counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
 
 #--loop list for county by fip
 countyfiploop <- counties@data$FIPS
@@ -174,10 +214,12 @@ yearspan = c(N1:N2)
 
 
 for (i in yearspan) { 
-  cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, "_005.tif", sep=""))
-  sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-  cdl <- projectRaster(cdl, crs = sr)
+  cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
+  #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+  #cdl <- projectRaster(cdl, crs = sr)
   wintercdl <- cdl == 24 #spring wheat
+  wintercdl <- crop(wintercdl, extent(counties))
+  wintercdl[wintercdl==0] <- NA
   #--new matrix to contain variable, month, year, and county
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
   colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
@@ -186,23 +228,28 @@ for (i in yearspan) {
     varspannumber = varspannumber + 1
     jj=0
     for (k in monthspan) {
-      ncfile <- paste(dirname, "/", j, "_", k, "_", i, ".nc", sep="")
-      rasterout <- brick(ncfile)
-      rasterout <- mean(rasterout)
-      rasterout <- crop(rasterout, counties)
-      rasterout <- crop(rasterout, cdl)
-      png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
-      plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
-      plot(counties, add=TRUE)
-      dev.off() 
+      ncfile <- paste(dirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
+      rasterout <- brick(ncfile) #create a brick
+      rasterout <- mean(rasterout) #get the mean of all 30 days for the month
+      rasterout <- mask(rasterout, counties) #- mask just the raster for the state in question
+      rasterout3 <- crop(rasterout, extent(counties)) #now crop it for the state
+      r.new = resample(rasterout3, wintercdl, "bilinear")
+      rasterout4 <- mask(r.new, wintercdl)
+      #png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
+      #plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
+      #plot(counties, add=TRUE)
+      #dev.off() 
       #rasterout <- t(rasterout)
-      proj4string(rasterout) <- projection 
+      #proj4string(rasterout) <- projection 
       for (l in countyfiploop) {
         jj = jj + 1
         subset_county <- counties[counties@data$FIPS == l,]
         name_county <- subset_county$NAME
-        e <- extract(rasterout, subset_county, fun=mean) 
-        newmatrix[jj,varspannumber] <- mean(e)
+        e <- crop(rasterout4, subset_county) 
+        ee <- mask(e, subset_county)
+        sp <- SpatialPoints(ee)
+        eee <- extract(ee, sp, method='bilinear')
+        newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
         newmatrix[jj,16] <- l
         newmatrix[jj,17] <- k #--month
         newmatrix[jj,18] <- i #--yeari
@@ -215,6 +262,10 @@ for (i in yearspan) {
   #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
   write.matrix(newmatrix, file=name, sep=",")
 }
+}
+
+
+
 #--put text notification here
 #--test from here on
 
