@@ -1,3 +1,5 @@
+# - 
+
 library("ncdf")
 library("raster")
 library("sp")
@@ -24,24 +26,6 @@ library("rpart")
 library("rgdal")
 library("tiff")
 #--third phase - load newly created file and perform EDA
-
-yearspanz = c(2013:2014)
-
-for (i in yearspanz) {
-#    cdl <- paste("/dmine/data/CDL/", "CDL_", i, "_005.tif", sep="")
-#    cdl <- raster(cdl)
-#    sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-#    cdl <- projectRaster(cdl, crs = sr, method = "bilinear")
-#    writeRaster(cdl, paste("/dmine/data/CDL/CDL_", i, ".grd", sep=""))
-#}
-
-cdl <- paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep="")
-cdl <- raster(cdl)
-cdl_new <- crop(cdl, extent(palouse_counties))
-cdl_new2 <- mask(cdl_new, palouse_counties)
-writeRaster(cdl_new2, paste("/dmine/data/CDL/CDL_", i, "clipped.grd", sep=""))
-}
-
 
 
 setwd("/dmine/data/counties/")
