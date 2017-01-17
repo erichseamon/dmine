@@ -197,7 +197,7 @@ dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(2011:2015)
+yearspan = c(2010:2010)
 
 
 for (i in yearspan) { 
@@ -485,7 +485,24 @@ palouse_counties <- rbind(palouse_Idaho_counties, palouse_Washington_counties, p
 #alllist <- c(palouse_Idaho_counties, palouse_Washington_counties, palouse_Oregon_counties)
 
 
+#-------finished states, which creates summary files for each year, per state. 
 
+
+#----Now we need to merge the state files into one large matrix, and assign a 
+#-----continuous value column to allow us to sequentially select values across many years
+
+setwd(dirname2)
+files  <- list.files(pattern = '\\_summary')
+tables <- lapply(files, read.csv, header = TRUE)
+combined.df <- do.call(rbind , tables)
+#sums <- read.csv(paste(kk, "_", i, "_palouse_summary", sep=""))
+  
+combined2.df <- subset(combined.df, countyfips == 41065)
+combined3.df <- subset(combined.df, countyfips == 41063)
+points(combined2.df$pdsi, col = "red")
+lines(combined2.df$pdsi, col = "red")
+plot(combined3.df$pdsi, col = "blue")
+lines(combined3.df$pdsi, col = "blue")
 
   
 for (kk in alllist ) {
@@ -591,6 +608,7 @@ for (i in yearspan) {
 }
 }
 
+##-merge climate data into one file
 
 
 #--put text notification here
