@@ -197,7 +197,7 @@ dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(2010:2010)
+yearspan = c(2012:2012)
 
 
 for (i in yearspan) { 
@@ -213,7 +213,7 @@ for (i in yearspan) {
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
   colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
   varspannumber = 0
-  for (j in varspan) { 
+  for (j in varspan2) { 
     varspannumber = varspannumber + 1
     jj=0
     for (k in monthspan) {
@@ -247,21 +247,21 @@ for (i in yearspan) {
         
         
         ee <- mask(e, r.new2)
-        ##sp <- SpatialPoints(ee)
-        ##eee <- extract(ee, sp, method='bilinear')
-        ##newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
-        ##newmatrix[jj,16] <- l
-        ##newmatrix[jj,17] <- k #--month
-        ##newmatrix[jj,18] <- i #--yeari
+        sp <- SpatialPoints(ee)
+        eee <- extract(ee, sp, method='bilinear')
+        newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
+        newmatrix[jj,16] <- l
+        newmatrix[jj,17] <- k #--month
+        newmatrix[jj,18] <- i #--yeari
         writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
         print(paste("writing raster, creating matrix of climate variables for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
       }  
     } 
   }
   setwd(dirname2)
-  #name <- paste(kk, "_", i, "_palouse_summary", sep="") #--used for individual states
+  name <- paste(kk, "_", i, "_palouse_summary", sep="") #--used for individual states
   #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
-  #write.matrix(newmatrix, file=name, sep=",")
+  write.matrix(newmatrix, file=name, sep=",")
 }
 
 
@@ -317,17 +317,24 @@ library(raster)
 
 dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
 dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries2", sep="")
+dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
+dirname4 <- paste("/nethome/erichs/dmine-temp/", kk, "/cdl", sep="")
+dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries2", sep="")
+
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(N1:N2)
+varspan2 = c("vs", "fm1000", "fm100") 
+
+
+yearspan = c(2014:2015)
 
 
 for (i in yearspan) { 
   cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
   #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   #cdl <- projectRaster(cdl, crs = sr)
-  wintercdl <- cdl == 24 #spring wheat
+  wintercdl <- cdl == 24 #winter wheat
   wintercdl <- crop(wintercdl, extent(counties))
   wintercdl[wintercdl==0] <- NA
   #--new matrix to contain variable, month, year, and county
@@ -356,14 +363,27 @@ for (i in yearspan) {
         subset_county <- counties[counties@data$FIPS == l,]
         name_county <- subset_county$NAME
         e <- crop(rasterout4, subset_county) 
-        ee <- mask(e, subset_county)
+        
+        r <- raster(ncol=90, nrow=45)
+        extent(r) <- extent(subset_county)
+        r.polys <- rasterize(subset_county, r, field = subset_county@data[,1], fun = "mean", 
+                             update = TRUE, updateValue = "NA")
+        #plot(r.polys)
+        
+        extent(r.polys) <- extent(subset_county)
+        r.new2 = resample(r.polys, e, "bilinear")
+        
+        
+        ee <- mask(e, r.new2)
         sp <- SpatialPoints(ee)
         eee <- extract(ee, sp, method='bilinear')
         newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
         newmatrix[jj,16] <- l
         newmatrix[jj,17] <- k #--month
         newmatrix[jj,18] <- i #--yeari
-        print(paste("county climate construction for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
+        writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
+        print(paste("writing raster, creating matrix of climate variables for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
+        #print(paste("county climate construction for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
       }  
     } 
   }
@@ -420,19 +440,24 @@ listcols <- nrow(list)
 #--for each variable, for each month and year combo.
 library(raster)
 
+
 dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
 dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries2", sep="")
+dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
+dirname4 <- paste("/nethome/erichs/dmine-temp/", kk, "/cdl", sep="")
+dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries2", sep="")
+
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(N1:N2)
+yearspan = c(2010:2015)
 
 
 for (i in yearspan) { 
   cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
   #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   #cdl <- projectRaster(cdl, crs = sr)
-  wintercdl <- cdl == 24 #spring wheat
+  wintercdl <- cdl == 24 #winter wheat
   wintercdl <- crop(wintercdl, extent(counties))
   wintercdl[wintercdl==0] <- NA
   #--new matrix to contain variable, month, year, and county
@@ -461,14 +486,27 @@ for (i in yearspan) {
         subset_county <- counties[counties@data$FIPS == l,]
         name_county <- subset_county$NAME
         e <- crop(rasterout4, subset_county) 
-        ee <- mask(e, subset_county)
+        
+        r <- raster(ncol=90, nrow=45)
+        extent(r) <- extent(subset_county)
+        r.polys <- rasterize(subset_county, r, field = subset_county@data[,1], fun = "mean", 
+                             update = TRUE, updateValue = "NA")
+        #plot(r.polys)
+        
+        extent(r.polys) <- extent(subset_county)
+        r.new2 = resample(r.polys, e, "bilinear")
+        
+        
+        ee <- mask(e, r.new2)
         sp <- SpatialPoints(ee)
         eee <- extract(ee, sp, method='bilinear')
         newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
         newmatrix[jj,16] <- l
         newmatrix[jj,17] <- k #--month
         newmatrix[jj,18] <- i #--yeari
-        print(paste("county climate construction for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
+        writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
+        print(paste("writing raster, creating matrix of climate variables for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
+        #print(paste("county climate construction for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
       }  
     } 
   }
