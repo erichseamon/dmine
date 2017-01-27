@@ -41,19 +41,21 @@ library("RNetCDF")
 library("ncdf4")
 library("RColorBrewer")
 library("raster")
-library("rasterVis")
+#library("rasterVis")
 library("latticeExtra")
 library("maptools")
 library("parallel")
-library("Evapotranspiration")
+#library("Evapotranspiration")
 #library("plyr")
 library("data.table")
-library("sirad")
+#library("sirad")
 library("rgeos")
 library("MASS")
 library("stringr")
-library("car")
+#library("car")
 library("sp")
+library("doParallel")  #Foreach Parallel Adaptor 
+library("foreach") 
 detach(package:tidyr)
 
 #memory.size(10000)
@@ -450,7 +452,7 @@ dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries2", sep="")
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(2010:2015)
+yearspan = c(2011:2015)
 
 
 for (i in yearspan) { 
@@ -464,6 +466,7 @@ for (i in yearspan) {
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
   colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
   varspannumber = 0
+  print(paste("annual winter cdl for:", kk, "-", i,  sep=""))
   for (j in varspan) { 
     varspannumber = varspannumber + 1
     jj=0
@@ -481,6 +484,7 @@ for (i in yearspan) {
       #dev.off() 
       #rasterout <- t(rasterout)
       #proj4string(rasterout) <- projection 
+      print(paste("monthly raster and mask for:", kk, "-", i, "-", k, "-",  j,  sep=""))
       for (l in countyfiploop) {
         jj = jj + 1
         subset_county <- counties[counties@data$FIPS == l,]
@@ -505,7 +509,7 @@ for (i in yearspan) {
         newmatrix[jj,17] <- k #--month
         newmatrix[jj,18] <- i #--yeari
         writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
-        print(paste("writing raster, creating matrix of climate variables for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
+        print(paste("county loop for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
         #print(paste("county climate construction for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
       }  
     } 

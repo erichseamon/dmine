@@ -7,7 +7,7 @@ state3 <- "Idaho"
 idlist1 <- c("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai")
 walist1 <- c("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin")
 orlist1 <- c("Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa")
-
+statelist <- c("Washington", "Oregon", "Idaho")
 
 
 iddlist <- c("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", "Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", "Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa")
@@ -97,13 +97,17 @@ palouse <- rbind(wapalouse, idpalouse, orpalouse)
 palouse2 <- with(palouse, palouse[order(year, monthcode),])
 
 setwd(paste("/dmine/data/USDA/agmesh-scenarios/palouse/summary"))
-palouse2$acres <- as.numeric(palouse2$acres)
+#palouse2$acres <- as.numeric(palouse2$acres)
 write.csv(palouse2, file = '2001_2015_palouse_summary')
 
 
 
 palouse3 <- data.table(palouse2)
 
+setwd(paste("/dmine/data/USDA/agmesh-scenarios/palouse/summary"))
+palouse3 <- read.csv("2001_2015_palouse_summary")
+palouse3 <- data.table(palouse3)
+palouse3$date <-as.numeric(paste(palouse3$year, ".", palouse3$monthcode, sep=""))
 
 
 #-by year
@@ -112,10 +116,21 @@ barplot(palouse_loss_year$loss)
 
 #-by county
 palouse_loss_county <- palouse3[,list(loss=sum(loss)), by = county]
-tt <- colorRampPalette(c("light blue", "blue", "red"))(nrow(palouse_loss_county))
+library(datasets)
+library(rgdal)
+library(leaflet)
+library(png)
+library(jpeg)
+library(ncdf)  
+library(data.table)
+library(raster)
+library(maptools)
+tt <- colorRampPalette(c("light blue", "blue", "red"))
+orderedcolors2 <- tt(length(palouse_loss_county$loss))[order(palouse_loss_county$loss)]
+
 names(allcounties)[1] <- "county"
 palouse_counties <- merge(allcounties, palouse_loss_county, by = 'county')
-plot(palouse_counties, col = tt)
+plot(palouse_counties, col = orderedcolors2)
 
 
 barplot(palouse2$loss)
