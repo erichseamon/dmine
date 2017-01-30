@@ -58,6 +58,13 @@ library("doParallel")  #Foreach Parallel Adaptor
 library("foreach") 
 detach(package:tidyr)
 
+#Define how many cores you want to use
+UseCores <- detectCores() -7
+
+#Register CoreCluster
+cl       <- makeCluster(UseCores)
+registerDoParallel(cl)
+
 #memory.size(10000)
 #----Setting vectors for loops for years, variables, day, and rasters---#
 
@@ -459,9 +466,12 @@ for (i in yearspan) {
   cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
   #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   #cdl <- projectRaster(cdl, crs = sr)
+  cl <- makeCluster(3)
+  registerDoParallel(cl)
   wintercdl <- cdl == 24 #winter wheat
   wintercdl <- crop(wintercdl, extent(counties))
   wintercdl[wintercdl==0] <- NA
+  stopCluster(cl)
   #--new matrix to contain variable, month, year, and county
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
   colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
@@ -519,6 +529,9 @@ for (i in yearspan) {
   #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
   write.matrix(newmatrix, file=name, sep=",")
 }
+
+#end cluster
+stopCluster(cl)
 
 
 palouse_counties <- rbind(palouse_Idaho_counties, palouse_Washington_counties, palouse_Oregon_counties)
