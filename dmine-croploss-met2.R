@@ -546,12 +546,44 @@ palouse_counties <- rbind(palouse_Idaho_counties, palouse_Washington_counties, p
 #----Now we need to merge the state files into one large matrix, and assign a 
 #-----continuous value column to allow us to sequentially select values across many years
 
-setwd(dirname2)
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries")
 files  <- list.files(pattern = '\\_summary')
 tables <- lapply(files, read.csv, header = TRUE)
 combined.df <- do.call(rbind , tables)
 #sums <- read.csv(paste(kk, "_", i, "_palouse_summary", sep=""))
-  
+
+
+#---construct a county fips name file
+library(maps)
+data(county.fips)
+colnames(combined.df)[16] <- "fips"
+library(stringr)
+county.fips2 <- data.frame(str_split_fixed(county.fips$polyname, ",", 2))
+colnames(county.fips2) <- c("state", "county")
+county.fips3 <- cbind(county.fips, county.fips2)
+combined1.df <- merge(combined.df,county.fips3, by = 'fips')
+
+#--create unique values for each county grouping for palouse region
+lister <- unique(combined1.df$county)
+
+capFirst <- function(s) {
+  paste(toupper(substring(s, 1, 1)), substring(s, 2), sep = "")
+}
+
+for (n in lister) {
+  newcounty <- subset(combined1.df, county == n)
+  newcounty$month <- capFirst(newcounty$month)
+  newcounty$month <- trimws(newcounty$month)
+  newcounty$ID<-seq.int(nrow(newcounty))
+  newcounty <-newcounty[with(newcounty, order(year, match(newcounty$month, month.abb))), ]
+  write.csv(newcounty, file = paste("2007_2015_palouse_", n, "_", newcounty$state[1], sep=""))
+}
+
+
+#---algorithm selection
+
+
+
 combined2.df <- subset(combined.df, countyfips == 41065)
 combined3.df <- subset(combined.df, countyfips == 41063)
 points(combined2.df$pdsi, col = "red")

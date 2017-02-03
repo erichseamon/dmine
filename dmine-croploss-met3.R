@@ -546,122 +546,48 @@ palouse_counties <- rbind(palouse_Idaho_counties, palouse_Washington_counties, p
 #----Now we need to merge the state files into one large matrix, and assign a 
 #-----continuous value column to allow us to sequentially select values across many years
 
-setwd(dirname2)
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries")
 files  <- list.files(pattern = '\\_summary')
 tables <- lapply(files, read.csv, header = TRUE)
 combined.df <- do.call(rbind , tables)
 #sums <- read.csv(paste(kk, "_", i, "_palouse_summary", sep=""))
-  
-combined2.df <- subset(combined.df, countyfips == 41065)
-combined3.df <- subset(combined.df, countyfips == 41063)
-points(combined2.df$pdsi, col = "red")
-lines(combined2.df$pdsi, col = "red")
-plot(combined3.df$pdsi, col = "blue")
-lines(combined3.df$pdsi, col = "blue")
-
-  
-for (kk in alllist ) {
-  
-setwd("/dmine/data/counties/")
-
-counties <- readShapePoly('UScounties.shp', 
-                          proj4string=CRS
-                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
-#counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
-paste("palouse_", kk, "_counties", collapse="")
-#counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
-
-#--loop list for county by fip
-countyfiploop <- counties@data$FIPS
-
-#--data frame of county fip list
-countyfiplist <- data.frame(counties@data$FIPS)
-
-#--data frame of county names
-countynames <- data.frame(counties@data$NAME)
-
-#combo of county names and fip for this list
-countylist <- cbind(countynames, countyfiplist)
-
-#--number of rows in county list
-countylistrows <- 12 * nrow(countylist)
-
-list <- list.files(path = dirname)
-list2 = list
-list2 = substr(list2,1,nchar(list2)-3)
-list3 <- data.frame(list2)
-
-listcols <- nrow(list)
 
 
-#--creates an empty matrix that is the number of counties mulitiplied by the number of months (one year standards for the runs.  
-#This will be the length of the full final matrix, which will be 14 variables/columns wide
-#longlist <- matrix(NA, nrow=countylistrows * 12)
+#---construct a county fips name file
+library(maps)
+data(county.fips)
+colnames(combined.df)[16] <- "fips"
+library(stringr)
+county.fips2 <- data.frame(str_split_fixed(county.fips$polyname, ",", 2))
+colnames(county.fips2) <- c("state", "county")
+county.fips3 <- cbind(county.fips, county.fips2)
+combined1.df <- merge(combined.df,county.fips3, by = 'fips')
 
-#--loop to generate raster brick from each nc file, subset by the county, extact the values 
-#--for each variable, for each month and year combo.
-library(raster)
+#--create unique values for each county grouping for palouse region
+lister <- unique(combined1.df$county)
 
-dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
-dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries2", sep="")
-setwd(dirname)
-varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
-monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(N1:N2)
-
-
-for (i in yearspan) { 
-  cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
-  #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-  #cdl <- projectRaster(cdl, crs = sr)
-  wintercdl <- cdl == 24 #spring wheat
-  wintercdl <- crop(wintercdl, extent(counties))
-  wintercdl[wintercdl==0] <- NA
-  #--new matrix to contain variable, month, year, and county
-  newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
-  colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
-  varspannumber = 0
-  for (j in varspan) { 
-    varspannumber = varspannumber + 1
-    jj=0
-    for (k in monthspan) {
-      ncfile <- paste(dirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
-      rasterout <- brick(ncfile) #create a brick
-      rasterout <- mean(rasterout) #get the mean of all 30 days for the month
-      rasterout <- mask(rasterout, counties) #- mask just the raster for the state in question
-      rasterout3 <- crop(rasterout, extent(counties)) #now crop it for the state
-      r.new = resample(rasterout3, wintercdl, "bilinear")
-      rasterout4 <- mask(r.new, wintercdl)
-      #png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
-      #plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
-      #plot(counties, add=TRUE)
-      #dev.off() 
-      #rasterout <- t(rasterout)
-      #proj4string(rasterout) <- projection 
-      for (l in countyfiploop) {
-        jj = jj + 1
-        subset_county <- counties[counties@data$FIPS == l,]
-        name_county <- subset_county$NAME
-        e <- crop(rasterout4, subset_county) 
-        ee <- mask(e, subset_county)
-        sp <- SpatialPoints(ee)
-        eee <- extract(ee, sp, method='bilinear')
-        newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
-        newmatrix[jj,16] <- l
-        newmatrix[jj,17] <- k #--month
-        newmatrix[jj,18] <- i #--yeari
-        print(paste("county climate construction for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
-      }  
-    } 
-  }
-  setwd(dirname2)
-  name <- paste(kk, "_", i, "_palouse_summary", sep="") #--used for individual states
-  #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
-  write.matrix(newmatrix, file=name, sep=",")
+capFirst <- function(s) {
+  paste(toupper(substring(s, 1, 1)), substring(s, 2), sep = "")
 }
+
+for (n in lister) {
+  newcounty <- subset(combined1.df, county == n)
+  newcounty$month <- capFirst(newcounty$month)
+  newcounty$month <- trimws(newcounty$month)
+  newcounty$ID<-seq.int(nrow(newcounty))
+  newcounty <-newcounty[with(newcounty, order(year, match(newcounty$month, month.abb))), ]
+  write.csv(newcounty, file = paste("2007_2015_palouse_", n, "_", newcounty$state[1], sep=""))
 }
+
+
+#---algorithm selection
+
+
+
+
+
+
+
 
 ##-merge climate data into one file
 
