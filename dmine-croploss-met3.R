@@ -57,6 +57,7 @@ library("sp")
 library("doParallel")  #Foreach Parallel Adaptor 
 library("foreach") 
 detach(package:tidyr)
+library(Hmisc)
 
 #Define how many cores you want to use
 UseCores <- detectCores() -7
@@ -574,11 +575,23 @@ for (n in lister) {
   newcounty <- subset(combined1.df, county == n)
   newcounty$month <- capFirst(newcounty$month)
   newcounty$month <- trimws(newcounty$month)
-  newcounty$ID<-seq.int(nrow(newcounty))
   newcounty <-newcounty[with(newcounty, order(year, match(newcounty$month, month.abb))), ]
+  newcounty$ID<-seq.int(nrow(newcounty))
   write.csv(newcounty, file = paste("2007_2015_palouse_", n, "_", newcounty$state[1], sep=""))
 }
 
+yearspan <- c(2007:2015)
+
+for (m in yearspan) {
+  setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries")
+  lister2 <- list.files(pattern = paste(m, "_palouse_summary", sep=""))
+  one <- read.csv(lister2[1], strip.white = TRUE)
+  two <- read.csv(lister2[2], strip.white = TRUE)
+  three <- read.csv(lister2[3], strip.white = TRUE)
+  #three$month <- trimws(three$month)
+  sumbound <- rbind(one, two, three)
+  write.csv(sumbound, file = paste(m, "_allstate_palouse_summary", sep=""))
+}
 
 #---algorithm selection
 
@@ -621,22 +634,157 @@ system(paste("mv *.png", " ./gridmet_monthly_plots", sep=""))
 #--done because years before 2001 have a different structure for USDA data,
 #--and thus require an additional loop or alteration to the following loop
 #--to factor in that alternative structure (so gridmet can merge correctly)
-
+statespan <- c("idaho", "oregon", "washington")
 if (N1 > '2000') {
   
-  yearspan <- c(N1:N2)
+  yearspan <- c(2007:2015)
   #--merge usda data with gridmet data
-  
+  for (qq in statespan) {
   for (i in yearspan) {
-    gridmetmonthly <- paste(dirname, "/summaries/", scen_state, "_",  i, "_summary", sep="")
+  for (p in lister) {
+    setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries")
+    gridmetmonthly <- paste("2007_2015_palouse_", p, "_", qq, sep="")
+    
+    
+    
+    usda7 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2007.txt", sep="")
+    usda7 <- read.csv(usda7, header=FALSE, sep="|")
+    usda7 <- data.frame(usda7)
+    usda8 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2008.txt", sep="")
+    usda8 <- read.csv(usda8, header=FALSE, sep="|")
+    usda8 <- data.frame(usda8)
+    usda9 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2009.txt", sep="")
+    usda9 <- read.csv(usda9, header=FALSE, sep="|")
+    usda9 <- data.frame(usda9)
+    usda10 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2010.txt", sep="")
+    usda10 <- read.csv(usda10, header=FALSE, sep="|")
+    usda10 <- data.frame(usda10)
+    usda11 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2011.txt", sep="")
+    usda11 <- read.csv(usda11, header=FALSE, sep="|")
+    usda11 <- data.frame(usda11)
+    usda12 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2012.txt", sep="")
+    usda12 <- read.csv(usda12, header=FALSE, sep="|")
+    usda12 <- data.frame(usda12)
+    usda13 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2013.txt", sep="")
+    usda13 <- read.csv(usda13, header=FALSE, sep="|")
+    usda13 <- data.frame(usda13)
+    usda14 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2014.txt", sep="")
+    usda14 <- read.csv(usda14, header=FALSE, sep="|")
+    usda14 <- data.frame(usda14)
+    usda15 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2015.txt", sep="")
+    usda15 <- read.csv(usda15, header=FALSE, sep="|")
+    usda15 <- data.frame(usda15)
+
+    usdabound <- rbind(usda7,usda8,usda9,usda10,usda11,usda12,usda13,usda14,usda15)
+    
+    colnames(usdabound) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
+    usdabound$county <- trimws(usdabound$county)
+    usdabound$commodity <- trimws(usdabound$commodity)
+    usdabound$damagecause <- trimws(usdabound$damagecause)
+   
+    
+    
+    
     usda <- paste("/dmine/data/USDA/crop_indemnity_txt/", i, ".txt", sep="")
-    usda <- read.csv(usda, sep="|")
+    usda <- read.csv(usda, header=FALSE, sep="|")
     usda <- data.frame(usda)
     gridmetmonthly <- read.csv(gridmetmonthly, strip.white=TRUE)
     gridmetmonthly <- data.frame(gridmetmonthly)
     #usda <- as.matrix(usda)
     #gridmetmonthly <- as.matrix(gridmetmonthly)
     colnames(usda) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
+    usda$county <- trimws(usda$county)
+    p <- capitalize(p)
+    pp <- stateFromLower(qq)
+    pp <- as.vector(pp)
+    usda_state <- subset(usda, state == pp)
+    usda_county <- subset(usda, county == p)
+    usda_county$ID<-seq.int(nrow(usda_county))
+    
+    usda_county$commodity <- trimws(usda_county$commodity)
+    
+    wheatclaim <- subset(usdabound, commodity == "WHEAT")
+    wheatdroughtclaim <- subset(wheatclaim, damagecause == "Drought")
+    wheatdroughtclaim <- subset(wheatdroughtclaim, state == pp)
+    wheatdroughtclaim <- subset(wheatdroughtclaim, county == p)
+   
+    
+    longterm2007 <- gridmetmonthly[1:6,]
+    shortterm2007 <- gridmetmonthly[3:6,]
+    climmeanlongterm2007 <- colMeans(longterm2007[,3:17])
+    wheatdrought2007 <- subset(wheatdroughtclaim, year == 2007)
+    wheatclaimlosssum2007 <- sum(wheatdrought2007$loss)
+    wheatclaimacressum2007 <- sum(wheatdrought2007$acres)
+    
+    
+    longterm2008 <- gridmetmonthly[10:18,]
+    shortterm2008 <- gridmetmonthly[15:18,]
+    climmeanlongterm2008 <- colMeans(longterm2008[,3:17])
+    wheatdrought2008 <- subset(wheatdroughtclaim, year == 2008)
+    wheatclaimlosssum2008 <- sum(wheatdrought2008$loss)
+    wheatclaimacressum2008 <- sum(wheatdrought2008$acres)
+    
+    longterm2009 <- gridmetmonthly[22:30,]
+    shortterm2009 <- gridmetmonthly[27:30,]
+    climmeanlongterm2009 <- colMeans(longterm2009[,3:17])
+    wheatdrought2009 <- subset(wheatdroughtclaim, year == 2009)
+    wheatclaimlosssum2009 <- sum(wheatdrought2009$loss)
+    wheatclaimacressum2009 <- sum(wheatdrought2009$acres)
+    
+    longterm2010 <- gridmetmonthly[34:42,]
+    shortterm2010 <- gridmetmonthly[39:42,]
+    climmeanlongterm2010 <- colMeans(longterm2010[,3:17])
+    wheatdrought2010 <- subset(wheatdroughtclaim, year == 2010)
+    wheatclaimlosssum2010 <- sum(wheatdrought2010$loss)
+    wheatclaimacressum2010 <- sum(wheatdrought2010$acres)
+    
+    longterm2011 <- gridmetmonthly[46:54,]
+    shortterm2011 <- gridmetmonthly[51:54,]
+    climmeanlongterm2011 <- colMeans(longterm2011[,3:17])
+    wheatdrought2011 <- subset(wheatdroughtclaim, year == 2011)
+    wheatclaimlosssum2011 <- sum(wheatdrought2011$loss)
+    wheatclaimacressum2011 <- sum(wheatdrought2011$acres)
+    
+    longterm2012 <- gridmetmonthly[58:66,]
+    shortterm2012 <- gridmetmonthly[63:66,]
+    climmeanlongterm2012 <- colMeans(longterm2012[,3:17])
+    wheatdrought2012 <- subset(wheatdroughtclaim, year == 2012)
+    wheatclaimlosssum2012 <- sum(wheatdrought2012$loss)
+    wheatclaimacressum2012 <- sum(wheatdrought2012$acres)
+    
+    longterm2013 <- gridmetmonthly[70:78,]
+    shortterm2013 <- gridmetmonthly[75:78,]
+    climmeanlongterm2013 <- colMeans(longterm2013[,3:17])
+    wheatdrought2013 <- subset(wheatdroughtclaim, year == 2013)
+    wheatclaimlosssum2013 <- sum(wheatdrought2013$loss)
+    wheatclaimacressum2013 <- sum(wheatdrought2013$acres)
+    
+    
+    longterm2014 <- gridmetmonthly[82:90,]
+    shortterm2014 <- gridmetmonthly[87:90,]
+    climmeanlongterm2014 <- colMeans(longterm2014[,3:17])
+    wheatdrought2014 <- subset(wheatdroughtclaim, year == 2014)
+    wheatclaimlosssum2014 <- sum(wheatdrought2014$loss)
+    wheatclaimacressum2014 <- sum(wheatdrought2014$acres)
+    
+    longterm2015 <- gridmetmonthly[94:102,]
+    shortterm2015 <- gridmetmonthly[3:6]
+    climmeanlongterm2015 <- colMeans(longterm2015[,3:17])
+    wheatdrought2015 <- subset(wheatdroughtclaim, year == 2015)
+    wheatclaimlosssum2015 <- sum(wheatdrought2015$loss)
+    wheatclaimacressum2015 <- sum(wheatdrought2015$acres)
+    
+    wls <- rbind(wheatclaimlosssum2007, wheatclaimlosssum2008,wheatclaimlosssum2009,wheatclaimlosssum2010,wheatclaimlosssum2011,wheatclaimlosssum2012,wheatclaimlosssum2013,wheatclaimlosssum2014,wheatclaimlosssum2015)
+    wla <- rbind(wheatclaimacressum2007, wheatclaimacressum2008,wheatclaimacressum2009,wheatclaimacressum2010,wheatclaimacressum2011,wheatclaimacressum2012,wheatclaimacressum2013,wheatclaimacressum2014,wheatclaimacressum2015)
+    climmeanlongterm1 <- rbind(climmeanlongterm2007,climmeanlongterm2008,climmeanlongterm2009,climmeanlongterm2010,climmeanlongterm2011,climmeanlongterm2012,climmeanlongterm2013,climmeanlongterm2014,climmeanlongterm2015)
+    finalz <- cbind(climmeanlongterm1, wls, wla)
+    finalz <- data.frame(finalz)
+    names(finalz$V16) <- c("loss")
+    names(finalz$V17) <- c("acres")
+    
+    
+    
+    
     usda$statecode <- str_pad(usda$statecode, 2, pad = "0") #--pad state with zeros in front so we can combine into one nationwide fips number
     usda$countycode <- str_pad(usda$countycode, 3, pad = "0") #--pad county with zeros in front so we can combine into one nationwide fips number
     usda["countyfips"] <- NA  #--creates a new countyfips column to hold the merged columns
@@ -661,7 +809,15 @@ if (N1 > '2000') {
   name2 = paste(scen1, "_", scen2, "_", "usda_gridmet_", scen_state, sep="")
   write.matrix(combined.df, file=name2, sep=",")
   
-} else {
+  } 
+    
+  }
+}
+    
+    
+    
+    
+    else {
   
   yearspan <- c(N1:N2)
   #--merge usda data with gridmet data
