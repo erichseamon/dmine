@@ -1,0 +1,60 @@
+---
+title: "Untitled"
+author: "Erich Seamon"
+date: "2/13/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r, echo=FALSE}
+
+library(DAAG)
+
+
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries/annual_county_summaries/")
+files <- list.files(pattern = "\\_WHEAT_drought$")
+myfiles = do.call(rbind, lapply(files, function(x) 
+  read.csv(x, stringsAsFactors = FALSE)))
+
+#names(myfiles)[19] <- c("year") 
+myfiles$prpet <- (myfiles$pr - myfiles$pet)
+write.csv(myfiles, file = "WHEAT_drought_summary")
+myfiles_allyears <- subset(myfiles, , c(pr, pdsi, pet, tmmx, prpet, erc, countratio, loss, acres, count, county, year))
+
+myfiles_allyears$county <- factor(myfiles_allyears$county)
+myfiles_allyears$year <- factor(myfiles_allyears$year)
+myfiles_allyears$loss <- scale(myfiles_allyears$loss, center = TRUE, scale = FALSE)
+myfiles_allyears[1:7] <- scale(myfiles_allyears[1:7], center = TRUE, scale = TRUE)
+
+#--allyears pairwise plot
+
+#--countratio
+```
+
+## Including Plots
+
+Pairwise plot of all years (2007-2015) for only Palouse 26 county region, with LOSS as the comparible dependent variable:
+
+```{r}
+pairs(myfiles_allyears[c(1,2,3,4,5,6,8)], lower.panel=panel.smooth, upper.panel=panel.cor)
+```
+
+
+Pairwise plot of all years (2007-2015) for only Palouse 26 county region, with FREQUENCY of claims as the comparible dependent variable:
+
+```{r}
+pairs(myfiles_allyears[c(1,2,3,4,5,6,7)], lower.panel=panel.smooth, upper.panel=panel.cor)
+```
+
+
+
+

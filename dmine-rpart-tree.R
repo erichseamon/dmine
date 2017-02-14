@@ -46,14 +46,15 @@ winterdata <- subset(train, month %in% winter)
 
 
 
-
-
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries/annual_county_summaries/")
+myfiles_allstates <- read.csv("WHEAT_drought_summary")
+attach(myfiles_allstates)
 
 
 
 # Make big tree
-form <- as.formula(loss ~ tmmx + tmmn + srad + sph + vs + fm100)
-tree.1 <- rpart(form,data=data,control=rpart.control(minsplit=20,cp=0))
+form <- as.formula(loss ~ tmmx + sph + vs + pr + pdsi + pet + erc)
+tree.1 <- rpart(form,data=myfiles_allstates,control=rpart.control(minsplit=20,cp=0))
 # 
 plot(tree.1)					# Will make a mess of the plot
 text(tree.1, cex = .5)
@@ -66,7 +67,7 @@ new.tree.1 <- prp(tree.1,snip=TRUE)$obj # interactively trim the tree
 prp(new.tree.1) # display the new tree
 #
 #-------------------------------------------------------------------
-tree.2 <- rpart(form,data)			# A more reasonable tree
+tree.2 <- rpart(form,myfiles_allstates)			# A more reasonable tree
 prp(tree.2)                                     # A fast plot													
 fancyRpartPlot(tree.1, )	
 rpart.plot(tree.2)
@@ -85,7 +86,7 @@ rpart.plot(tree.1, # middle graph
 jsontree <- json_prsr(tree.1)
 setwd(paste("/dmine/data/USDA/agmesh-scenarios/palouse/d3_tree_1/", sep=""))
 jsontree2 <- gsub("'", '"', jsontree)
-write(jsontree2, file="palousetree.JSON")
+write(jsontree2, file="palousetree2.JSON")
 
 
 

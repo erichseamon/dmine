@@ -1,5 +1,5 @@
 library(partykit) 
-json_prsr <- function(tree, node = 1, node_stats = NULL){
+json_prsr <- function(tree, node = 25, node_stats = NULL){
   
   # Checking the decision tree object
   if(!is(tree, c("constparty","party")))
