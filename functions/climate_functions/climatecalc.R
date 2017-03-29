@@ -1,17 +1,19 @@
-
-climatecalc <- function(gfunction, statesclim, statevar, startdatec, enddatec) {
-
+climatecalc <- function(gfunction, statesclim, startdatec, enddatec) {
+  
   sourceDir("/home/git/dmine/functions/climate_functions")
-
+  
   library(dplyr)
   library(tidyr)
   library(geoknife) #order matters because 'query' is masked by a function in dplyr
   library(RColorBrewer)
   library(maps)
-
+  
+  statevar <- as.character(substitute(gfunction))
+  statevar <- substring(statevar, 4, 9)
+  
   months <- seq(from=as.Date(startdatec), to=as.Date(enddatec),by='months' )
   monthspan <- length(months) - 1
-
+  
   
   
   final <- data.frame()
@@ -35,6 +37,6 @@ climatecalc <- function(gfunction, statesclim, statevar, startdatec, enddatec) {
   }
   
   return(get(paste(statevar, "final", sep="")))
-
+  
   
 }
