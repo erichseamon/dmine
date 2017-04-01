@@ -1,5 +1,5 @@
 climatecalc <- function(gfunction, statesclim, startdatec, enddatec) {
-  
+  source("/home/git/dmine/functions/admin_functions/sourceDir.R")
   sourceDir("/home/git/dmine/functions/climate_functions")
   
   library(dplyr)
