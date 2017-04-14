@@ -26,7 +26,7 @@ getPR <- function(states, startDate, endDate){
                      attribute = 'FIPS',
                      values = counties$FIPS)
   
-  fabric <- webdata(url = 'http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_pr_1979_CurrentYear_CONUS.nc', 
+  fabric <- webdata(url = 'http://thredds.northwestknowledge.net:8080/thredds/dodsC/MET/pr/pr_1997.nc', 
                     variables = "precipitation_amount", 
                     times = c(startDate, endDate))
   

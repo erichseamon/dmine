@@ -1,4 +1,4 @@
-getPDSI <- function(states, startDate, endDate){
+getVICSM <- function(states, startDate, endDate){
   
   #scen_state = c("Idaho", "Washington")
   scen_state = paste(states,sep="", collapse="|")
@@ -26,27 +26,23 @@ getPDSI <- function(states, startDate, endDate){
                      attribute = 'FIPS',
                      values = counties$FIPS)
   
-  fabric <- webdata(url = 'http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_pdsi_1979_CurrentYear_CONUS.nc', 
-                    variables = "daily_mean_palmer_drought_severity_index", 
+  fabric <- webdata(url = 'http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_met_srad_1979_CurrentYear_CONUS.nc', 
+                    variables = "daily_mean_shortwave_radiation_at_surface", 
                     times = c(startDate, endDate))
   
   job <- geoknife(stencil, fabric, wait = TRUE, REQUIRE_FULL_COVERAGE=FALSE)
-  #check(job)
+  check(job)
   precipData_result <- result(job, with.units=TRUE)
   precipData_result_frame <- data.frame(colMeans(precipData_result[sapply(precipData_result, is.numeric)]))
-  colnames(precipData_result_frame) <- c("daily_mean_palmer_drought_severity_index")
+  colnames(precipData_result_frame) <- c("daily_mean_shortwave_radiation_at_surface")
   precipData_result_frame$FIPS <- rownames(precipData_result_frame)
   # precipData <- precipData_result_frame %>% 
   #  select(-precipitation_amount) %>% 
   #  gather(key = FIPS, value = precipitation_amount) %>%
   #  left_join(counties, by="FIPS") #join w/ counties data
   
-  PDSIData <- merge(counties, precipData_result_frame, by="FIPS")
+  SRADData <- merge(counties, precipData_result_frame, by="FIPS")
   
-  return(PDSIData)
+  return(SRADData)
   
 }
-
-rownumm <- nrow(PDSIData)
-colregions <- colorRampPalette(c("blue", "red"))( rownumm )
-spplot(PDSIData, zcol = "daily_mean_palmer_drought_severity_index", col.regions = colregions)
