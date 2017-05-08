@@ -202,38 +202,38 @@ listcols <- nrow(list)
 library(raster)
 
 dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
-dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries2", sep="")
+dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries3", sep="")
 dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(2012:2012)
+yearspan = c(2001:2015)
 
 
 for (i in yearspan) { 
-  cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
+  ##cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
   #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   #cdl <- projectRaster(cdl, crs = sr)
-  wintercdl <- cdl == 24 #spring wheat
-  wintercdl <- crop(wintercdl, extent(counties))
-  wintercdl[wintercdl==0] <- NA
+  ##wintercdl <- cdl == 24 #spring wheat
+  ##wintercdl <- crop(wintercdl, extent(counties))
+  ##wintercdl[wintercdl==0] <- NA
   #writeRaster(wintercdl, paste(dirname3, "/", "CDL_", kk, "-", i, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
   #print(paste("cdl yearly winter wheat construction for:", kk, "-", i, "-", "-", name_county, "-", j,  sep=""))
   #--new matrix to contain variable, month, year, and county
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
   colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
   varspannumber = 0
-  for (j in varspan2) { 
+  for (j in varspan) { 
     varspannumber = varspannumber + 1
     jj=0
     for (k in monthspan) {
       ncfile <- paste(dirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile) #create a brick
       rasterout <- mean(rasterout) #get the mean of all 30 days for the month
-      rasterout <- mask(rasterout, counties) #- mask just the raster for the state in question
-      rasterout3 <- crop(rasterout, extent(counties)) #now crop it for the state
-      r.new = resample(rasterout3, wintercdl, "bilinear")
-      rasterout4 <- mask(r.new, wintercdl)
+      rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
+      rasterout4 <- crop(rasterout, extent(counties)) #now crop it for the state
+      #r.new = resample(rasterout3, wintercdl, "bilinear")
+      #rasterout4 <- mask(r.new, wintercdl)
       #png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
       #plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
       #plot(counties, add=TRUE)
@@ -256,14 +256,14 @@ for (i in yearspan) {
         r.new2 = resample(r.polys, e, "bilinear")
         
         
-        ee <- mask(e, r.new2)
+        ee <- raster::mask(e, r.new2)
         sp <- SpatialPoints(ee)
         eee <- extract(ee, sp, method='bilinear')
         newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
         newmatrix[jj,16] <- l
         newmatrix[jj,17] <- k #--month
         newmatrix[jj,18] <- i #--yeari
-        writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
+        #writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
         print(paste("writing raster, creating matrix of climate variables for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
       }  
     } 
@@ -326,10 +326,10 @@ listcols <- nrow(list)
 library(raster)
 
 dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
-dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries2", sep="")
+dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries3", sep="")
 dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
 dirname4 <- paste("/nethome/erichs/dmine-temp/", kk, "/cdl", sep="")
-dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries2", sep="")
+dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries3", sep="")
 
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
@@ -337,16 +337,16 @@ monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oc
 varspan2 = c("vs", "fm1000", "fm100") 
 
 
-yearspan = c(2014:2015)
+yearspan = c(2001:2015)
 
 
 for (i in yearspan) { 
-  cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
+  #cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
   #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   #cdl <- projectRaster(cdl, crs = sr)
-  wintercdl <- cdl == 24 #winter wheat
-  wintercdl <- crop(wintercdl, extent(counties))
-  wintercdl[wintercdl==0] <- NA
+  ##wintercdl <- cdl == 24 #winter wheat
+  ##wintercdl <- crop(wintercdl, extent(counties))
+  ##wintercdl[wintercdl==0] <- NA
   #--new matrix to contain variable, month, year, and county
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
   colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
@@ -358,10 +358,10 @@ for (i in yearspan) {
       ncfile <- paste(dirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile) #create a brick
       rasterout <- mean(rasterout) #get the mean of all 30 days for the month
-      rasterout <- mask(rasterout, counties) #- mask just the raster for the state in question
-      rasterout3 <- crop(rasterout, extent(counties)) #now crop it for the state
-      r.new = resample(rasterout3, wintercdl, "bilinear")
-      rasterout4 <- mask(r.new, wintercdl)
+      rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
+      rasterout4 <- crop(rasterout, extent(counties)) #now crop it for the state
+      ##r.new = resample(rasterout3, wintercdl, "bilinear")
+      ##rasterout4 <- mask(r.new, wintercdl)
       #png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
       #plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
       #plot(counties, add=TRUE)
@@ -384,14 +384,14 @@ for (i in yearspan) {
         r.new2 = resample(r.polys, e, "bilinear")
         
         
-        ee <- mask(e, r.new2)
+        ee <- raster::mask(e, r.new2)
         sp <- SpatialPoints(ee)
         eee <- extract(ee, sp, method='bilinear')
         newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
         newmatrix[jj,16] <- l
         newmatrix[jj,17] <- k #--month
         newmatrix[jj,18] <- i #--yeari
-        writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
+        #writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
         print(paste("writing raster, creating matrix of climate variables for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
         #print(paste("county climate construction for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
       }  
@@ -452,7 +452,7 @@ library(raster)
 
 
 dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
-dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries2", sep="")
+dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries3", sep="")
 dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
 dirname4 <- paste("/nethome/erichs/dmine-temp/", kk, "/cdl", sep="")
 dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries2", sep="")
@@ -460,24 +460,24 @@ dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries2", sep="")
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(2010:2010)
+yearspan = c(2001:2015)
 
 
 for (i in yearspan) { 
-  cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
+  ##cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
   #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
   #cdl <- projectRaster(cdl, crs = sr)
-  cl <- makeCluster(3)
-  registerDoParallel(cl)
-  wintercdl <- cdl == 24 #winter wheat
-  wintercdl <- crop(wintercdl, extent(counties))
-  wintercdl[wintercdl==0] <- NA
-  stopCluster(cl)
+  ##cl <- makeCluster(3)
+  ##registerDoParallel(cl)
+  ##wintercdl <- cdl == 24 #winter wheat
+  ##wintercdl <- crop(wintercdl, extent(counties))
+  ##wintercdl[wintercdl==0] <- NA
+  ##stopCluster(cl)
   #--new matrix to contain variable, month, year, and county
   newmatrix <- matrix(NA, nrow=countylistrows, ncol=18)
   colnames(newmatrix) <- c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100", "countyfips", "month", "year")
   varspannumber = 0
-  print(paste("annual winter cdl for:", kk, "-", i,  sep=""))
+  #print(paste("annual winter cdl for:", kk, "-", i,  sep=""))
   for (j in varspan) { 
     varspannumber = varspannumber + 1
     jj=0
@@ -485,17 +485,17 @@ for (i in yearspan) {
       ncfile <- paste(dirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile) #create a brick
       rasterout <- mean(rasterout) #get the mean of all 30 days for the month
-      rasterout <- mask(rasterout, counties) #- mask just the raster for the state in question
-      rasterout3 <- crop(rasterout, extent(counties)) #now crop it for the state
-      r.new = resample(rasterout3, wintercdl, "bilinear")
-      rasterout4 <- mask(r.new, wintercdl)
+      rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
+      rasterout4 <- crop(rasterout, extent(counties)) #now crop it for the state
+      #r.new = resample(rasterout3, wintercdl, "bilinear")
+      #rasterout4 <- mask(r.new, wintercdl)
       #png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
       #plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
       #plot(counties, add=TRUE)
       #dev.off() 
       #rasterout <- t(rasterout)
       #proj4string(rasterout) <- projection 
-      print(paste("monthly raster and mask for:", kk, "-", i, "-", k, "-",  j,  sep=""))
+      #print(paste("monthly raster and mask for:", kk, "-", i, "-", k, "-",  j,  sep=""))
       for (l in countyfiploop) {
         jj = jj + 1
         subset_county <- counties[counties@data$FIPS == l,]
@@ -512,14 +512,14 @@ for (i in yearspan) {
         r.new2 = resample(r.polys, e, "bilinear")
         
         
-        ee <- mask(e, r.new2)
+        ee <- raster::mask(e, r.new2)
         sp <- SpatialPoints(ee)
         eee <- extract(ee, sp, method='bilinear')
         newmatrix[jj,varspannumber] <- mean(eee, na.rm=TRUE)
         newmatrix[jj,16] <- l
         newmatrix[jj,17] <- k #--month
         newmatrix[jj,18] <- i #--yeari
-        writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
+        #writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
         print(paste("county loop for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
         #print(paste("county climate construction for:", kk, "-", i, "-", k, "-", name_county, "-", j,  sep=""))
       }  
@@ -547,7 +547,7 @@ palouse_counties <- rbind(palouse_Idaho_counties, palouse_Washington_counties, p
 #----Now we need to merge the state files into one large matrix, and assign a 
 #-----continuous value column to allow us to sequentially select values across many years
 
-setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries")
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3")
 files  <- list.files(pattern = '\\_summary')
 tables <- lapply(files, read.csv, header = TRUE)
 combined.df <- do.call(rbind , tables)
@@ -582,13 +582,13 @@ for (n in lister) {
   newcounty$month <- trimws(newcounty$month)
   newcounty <-newcounty[with(newcounty, order(year, match(newcounty$month, month.abb))), ]
   newcounty$ID<-seq.int(nrow(newcounty))
-  write.csv(newcounty, file = paste("2007_2015_palouse_", n, "_", newcounty$state[1], sep=""))
+  write.csv(newcounty, file = paste("2001_2015_palouse_", n, "_", newcounty$state[1], sep=""))
 }
 
-yearspan <- c(2007:2015)
+yearspan <- c(2001:2015)
 
 for (m in yearspan) {
-  setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries")
+  setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3")
   lister2 <- list.files(pattern = paste(m, "_palouse_summary", sep=""))
   one <- read.csv(lister2[1], strip.white = TRUE)
   two <- read.csv(lister2[2], strip.white = TRUE)
@@ -600,8 +600,11 @@ for (m in yearspan) {
 
 #---algorithm selection
 
-
-
+#-combine all three states climate data
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/")
+files  <- list.files(pattern = '\\_allstate_palouse_summary')
+tables <- lapply(files, read.csv, header = TRUE)
+combined.df2 <- do.call(rbind , tables)
 
 
 
@@ -643,7 +646,7 @@ statespan <- c("idaho", "oregon", "washington")
 
 if (N1 > '2000') {
   
-  yearspan <- c(2007:2015)
+  yearspan <- c(2001:2015)
   #--merge usda data with gridmet data
   #for (qq in statespan) {
   #for (i in yearspan) {
@@ -659,6 +662,25 @@ if (N1 > '2000') {
      pp <- stateFromLower(statez)
      pp <- as.vector(pp)
      
+     
+     usda1 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2001.txt", sep="")
+     usda1 <- read.csv(usda1, header=FALSE, sep="|")
+     usda1 <- data.frame(usda1)
+     usda2 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2002.txt", sep="")
+     usda2 <- read.csv(usda2, header=FALSE, sep="|")
+     usda2 <- data.frame(usda2)
+     usda3 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2003.txt", sep="")
+     usda3 <- read.csv(usda3, header=FALSE, sep="|")
+     usda3 <- data.frame(usda3)
+     usda4 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2004.txt", sep="")
+     usda4 <- read.csv(usda4, header=FALSE, sep="|")
+     usda4 <- data.frame(usda4)
+     usda5 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2005.txt", sep="")
+     usda5 <- read.csv(usda5, header=FALSE, sep="|")
+     usda5 <- data.frame(usda5)
+     usda6 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2006.txt", sep="")
+     usda6 <- read.csv(usda6, header=FALSE, sep="|")
+     usda6 <- data.frame(usda6)
      usda7 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2007.txt", sep="")
      usda7 <- read.csv(usda7, header=FALSE, sep="|")
      usda7 <- data.frame(usda7)
@@ -687,7 +709,7 @@ if (N1 > '2000') {
      usda15 <- read.csv(usda15, header=FALSE, sep="|")
      usda15 <- data.frame(usda15)
      
-     usdabound <- rbind(usda7,usda8,usda9,usda10,usda11,usda12,usda13,usda14,usda15)
+     usdabound <- rbind(usda1,usda2,usda3,usda4,usda5,usda6,usda7,usda8,usda9,usda10,usda11,usda12,usda13,usda14,usda15)
      
      colnames(usdabound) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
      usdabound$county <- trimws(usdabound$county)
@@ -698,10 +720,10 @@ if (N1 > '2000') {
      usdaboundsub <- subset(usdaboundsub, county == pu)
      commodityspan <- c(unique(usdaboundsub$commodity))
      for (q in commodityspan) {
-    setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries/county-summaries")
+    setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries/summaries3")
     p <- tolower(p)
     countyz <- tolower(countyz)
-    gridmetmonthly <- paste("2007_2015_palouse_", countyz, "_", statez, sep="")
+    gridmetmonthly <- paste("2001_2015_palouse_", countyz, "_", statez, sep="")
     
     
     
@@ -753,7 +775,67 @@ if (N1 > '2000') {
     wheatdroughtclaim4 <- subset(wheatdroughtclaim3, damagecause == "Drought")
     wheatdroughtclaim <- subset(wheatdroughtclaim4, monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10)
     
-   
+    longterm2001 <- gridmetmonthly[1:6,]
+    shortterm2001 <- gridmetmonthly[3:6,]
+    climmeanlongterm2001 <- colMeans(longterm2001[,3:17])
+    wheatdrought2001 <- subset(wheatdroughtclaim, year == 2001)
+    wheatdroughtclaim_all2001 <- subset(wheatdroughtclaim_allall_final, year == 2001)
+    wheatclaimlosssum2001 <- sum(wheatdrought2001$loss)
+    wheatclaimacressum2001 <- sum(wheatdrought2001$acres)
+    wheatclaimcounttotal2001 <- nrow(wheatdrought2001)/nrow(wheatdroughtclaim_all2001)
+    wheatclaimcountsum2001 <- nrow(wheatdrought2001)
+    
+    
+    longterm2002 <- gridmetmonthly[1:6,]
+    shortterm2002 <- gridmetmonthly[3:6,]
+    climmeanlongterm2002 <- colMeans(longterm2002[,3:17])
+    wheatdrought2002 <- subset(wheatdroughtclaim, year == 2002)
+    wheatdroughtclaim_all2002 <- subset(wheatdroughtclaim_allall_final, year == 2002)
+    wheatclaimlosssum2002 <- sum(wheatdrought2002$loss)
+    wheatclaimacressum2002 <- sum(wheatdrought2002$acres)
+    wheatclaimcounttotal2002 <- nrow(wheatdrought2002)/nrow(wheatdroughtclaim_all2002)
+    wheatclaimcountsum2002 <- nrow(wheatdrought2002)
+    
+    longterm2003 <- gridmetmonthly[1:6,]
+    shortterm2003 <- gridmetmonthly[3:6,]
+    climmeanlongterm2003 <- colMeans(longterm2003[,3:17])
+    wheatdrought2003 <- subset(wheatdroughtclaim, year == 2003)
+    wheatdroughtclaim_all2003 <- subset(wheatdroughtclaim_allall_final, year == 2003)
+    wheatclaimlosssum2003 <- sum(wheatdrought2003$loss)
+    wheatclaimacressum2003 <- sum(wheatdrought2003$acres)
+    wheatclaimcounttotal2003 <- nrow(wheatdrought2003)/nrow(wheatdroughtclaim_all2003)
+    wheatclaimcountsum2003 <- nrow(wheatdrought2003)
+    
+    longterm2004 <- gridmetmonthly[1:6,]
+    shortterm2004 <- gridmetmonthly[3:6,]
+    climmeanlongterm2004 <- colMeans(longterm2007[,3:17])
+    wheatdrought2004 <- subset(wheatdroughtclaim, year == 2004)
+    wheatdroughtclaim_all2004 <- subset(wheatdroughtclaim_allall_final, year == 2004)
+    wheatclaimlosssum2004 <- sum(wheatdrought2004$loss)
+    wheatclaimacressum2004 <- sum(wheatdrought2004$acres)
+    wheatclaimcounttotal2004 <- nrow(wheatdrought2004)/nrow(wheatdroughtclaim_all2004)
+    wheatclaimcountsum2004 <- nrow(wheatdrought2004)
+    
+    longterm2005 <- gridmetmonthly[1:6,]
+    shortterm2005 <- gridmetmonthly[3:6,]
+    climmeanlongterm2005 <- colMeans(longterm2005[,3:17])
+    wheatdrought2005 <- subset(wheatdroughtclaim, year == 2005)
+    wheatdroughtclaim_all2005 <- subset(wheatdroughtclaim_allall_final, year == 2005)
+    wheatclaimlosssum2005 <- sum(wheatdrought2005$loss)
+    wheatclaimacressum2005 <- sum(wheatdrought2005$acres)
+    wheatclaimcounttotal2005 <- nrow(wheatdrought2005)/nrow(wheatdroughtclaim_all2005)
+    wheatclaimcountsum2005 <- nrow(wheatdrought2005)
+    
+    
+    longterm2006 <- gridmetmonthly[1:6,]
+    shortterm2006 <- gridmetmonthly[3:6,]
+    climmeanlongterm2006 <- colMeans(longterm2006[,3:17])
+    wheatdrought2006 <- subset(wheatdroughtclaim, year == 2006)
+    wheatdroughtclaim_all2006 <- subset(wheatdroughtclaim_allall_final, year == 2006)
+    wheatclaimlosssum2006 <- sum(wheatdrought2006$loss)
+    wheatclaimacressum2006 <- sum(wheatdrought2006$acres)
+    wheatclaimcounttotal2006 <- nrow(wheatdrought2006)/nrow(wheatdroughtclaim_all2006)
+    wheatclaimcountsum2006 <- nrow(wheatdrought2006)
     
     longterm2007 <- gridmetmonthly[1:6,]
     shortterm2007 <- gridmetmonthly[3:6,]
@@ -858,8 +940,8 @@ if (N1 > '2000') {
     names(finalz)[16] <- c("loss")
     names(finalz)[17] <- c("acres")
     names(finalz)[18] <- c("count")
-    rownames(finalz) <- c(2007:2015)
-    finalz[19]<- c(2007:2015)
+    rownames(finalz) <- c(2001:2015)
+    finalz[19]<- c(2001:2015)
     finalz[20] <- c(pu)
     names(finalz)[19] <- c("year")
     names(finalz)[20] <- c("county")
@@ -874,7 +956,7 @@ if (N1 > '2000') {
     #gridmetmonthly$month <- sapply(gridmetmonthly$month, toupper)
     
     #df3 = merge(gridmetmonthly, usda, by.x=c("year", "month", "countyfips"), by.y=c("year", "month", "countyfips"))
-    setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries/annual_county_summaries/")
+    setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/annual_county_summaries/")
     name = paste("Annual_climate_crop_", p, "_", q, "_drought", sep="")
     write.csv(finalz, file=name)
     
