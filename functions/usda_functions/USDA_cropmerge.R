@@ -1,4 +1,4 @@
-USDA_cropmerge <- function(startyear, endyear, damage) {
+USDA_cropmerge <- function(startyear, endyear) {
 
 yearspan <- c(startyear:endyear)
 #--merge usda data with gridmet data
@@ -76,7 +76,9 @@ for (p in listercomb) {
   usdaboundsub <- subset(usdabound, state == pp)
   usdaboundsub <- subset(usdaboundsub, county == pu)
   commodityspan <- c(unique(usdaboundsub$commodity))
+  damagespan <- c(unique(usdaboundsub$damagecause))
   for (q in commodityspan) {
+    for (m in damagespan) {
     setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/")
     p <- tolower(p)
     countyz <- tolower(countyz)
@@ -121,7 +123,7 @@ for (p in listercomb) {
     wheatdroughtclaim_allall <- rbind(wheatdroughtclaim_allWA, wheatdroughtclaim_allOR, wheatdroughtclaim_allID)
     
     wheatdroughtclaim_allall_comm <- subset(wheatdroughtclaim_allall, commodity == q)
-    wheatdroughtclaim_allall_drought <- subset(wheatdroughtclaim_allall_comm, damagecause == damage)
+    wheatdroughtclaim_allall_drought <- subset(wheatdroughtclaim_allall_comm, damagecause == m)
     wheatdroughtclaim_allall_final <- subset(wheatdroughtclaim_allall_drought, monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10)
     
     
@@ -129,7 +131,7 @@ for (p in listercomb) {
     wheatdroughtclaim1 <- subset(usdabound, state == statez1)
     wheatdroughtclaim2 <- subset(wheatdroughtclaim1, county == countyz)
     wheatdroughtclaim3 <- subset(wheatdroughtclaim2, commodity == q)
-    wheatdroughtclaim4 <- subset(wheatdroughtclaim3, damagecause == damage)
+    wheatdroughtclaim4 <- subset(wheatdroughtclaim3, damagecause == m)
     wheatdroughtclaim <- subset(wheatdroughtclaim4, monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10)
     
     longterm2001 <- gridmetmonthly[1:6,]
@@ -333,7 +335,7 @@ for (p in listercomb) {
     
     #df3 = merge(gridmetmonthly, usda, by.x=c("year", "month", "countyfips"), by.y=c("year", "month", "countyfips"))
     setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/annual-summaries/")
-    name = paste("Annual_climate_crop_", p, "_", q, "_drought", sep="")
+    name = paste("Annual_climate_crop_", p, "_", q, "_", m, sep="")
     write.csv(finalz, file=name)
     
     #--merge county shapefile with USDA data for mapping purposes
@@ -343,7 +345,7 @@ for (p in listercomb) {
     #write.matrix(m, file=mergename, sep=",")
   }
 }
-
+}
 
 }
 
