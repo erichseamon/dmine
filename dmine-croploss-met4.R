@@ -831,7 +831,24 @@ if (N1 > '2000') {
     wheatdroughtclaim_allall_drought <- subset(wheatdroughtclaim_allall_comm, damagecause == m)
     wheatdroughtclaim_allall_final <- subset(wheatdroughtclaim_allall_drought, monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10)
     
+    wheatdroughtclaim_allall_final$monthyear <- paste(wheatdroughtclaim_allall_final$year, ".", wheatdroughtclaim_allall_final$monthcode, sep="")
     
+    
+    #--claims summarized by month associated to climate short term and long term drought
+    claimagg <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, sum)
+    claimagg$month <- tolower(claimagg$month)
+    claimagg$month <- capitalize(claimagg$month)
+    claimagg$month <- factor(claimagg$month, levels=month.abb)
+    claimaggloss_final <- claimagg[order(claimagg[,2], claimagg[,1]),]
+    
+    
+    claimagg_countratio <- nrow(wheatdrought2001)/nrow(wheatdroughtclaim_all2001)
+    ca_factored <- wheatdroughtclaim_allall_final[order(wheatdroughtclaim_allall_final[,1], wheatdroughtclaim_allall_final[,14]),]
+    
+    ca <- data.frame(table(wheatdroughtclaim_allall_final$monthyear))
+    
+
+    #---annual claim summary and association to climate short term and long term
     
     wheatdroughtclaim1 <- subset(usdabound, state == statez1)
     wheatdroughtclaim2 <- subset(wheatdroughtclaim1, county == countyz)
