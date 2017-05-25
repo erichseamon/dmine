@@ -31,7 +31,7 @@ getSPH <- function(states, startDate, endDate){
                     times = c(startDate, endDate))
   
   job <- geoknife(stencil, fabric, wait = TRUE, REQUIRE_FULL_COVERAGE=FALSE)
-  check(job)
+  #check(job)
   precipData_result <- result(job, with.units=TRUE)
   precipData_result_frame <- data.frame(colMeans(precipData_result[sapply(precipData_result, is.numeric)]))
   colnames(precipData_result_frame) <- c("daily_mean_specific_humidity")
@@ -46,3 +46,8 @@ getSPH <- function(states, startDate, endDate){
   return(SPHData)
   
 }
+
+
+rownumm <- nrow(SPHData)
+colregions <- colorRampPalette(c("blue", "red"))( rownumm )
+spplot(SPHData, zcol = "daily_mean_specific_humidity", col.regions = colregions)

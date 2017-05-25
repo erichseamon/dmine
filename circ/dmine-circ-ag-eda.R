@@ -177,13 +177,18 @@ for (i in yearspanz) {
 }
 
 
-setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summary")
-combined.df <- read.csv("2001_2015_palouse_summary")
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/")
+combined.df <- read.csv("2001_2015_Annual_climate_crop_palouse_summary")
+combined.df$loss <- scale(combined.df$loss, center = TRUE, scale = FALSE)
 
-
-lm(loss ~ pr + th + pdsi + pet + erc + rmin + rmax + tmmn + tmmx + srad + sph + vs + fm1000 + fm100 + bi, data=combined.df)
+fit <- lm(countratio ~ pr + th + pdsi + pet + erc + rmin + rmax + tmmn + tmmx + srad + sph + vs + fm1000 + fm100 + bi, data=combined.df)
 fit <- fit
 summary(fit)
+
+
+combined.df$loss <- scale(combined.df$loss, center = TRUE, scale = FALSE)
+combined.df[1:15] <- scale(combined.df[1:15], center = TRUE, scale = TRUE)
+
 
 coefficients(fit) # model coefficients
 confint(fit, level=0.95) # confidence intervals for model parameters

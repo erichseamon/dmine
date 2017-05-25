@@ -1,13 +1,15 @@
 library(rnoaa)
 library(maptools)
+library(sp)
 
 setwd("/dmine/data/ghcnd/ghcnd_admin/")
 ghcnd_stations <- read.csv("ghcnd-stations_revised.csv")
 
-coordinates(ghcnd_stations) <- ~long + lat
-summary(points)
-
 xy <- ghcnd_stations[,c(3,2)]
+
+#coordinates(ghcnd_stations) <- ~long + lat
+summary(ghcnd_stations)
+
 
 spdf <- SpatialPointsDataFrame(coords = xy, data = ghcnd_stations,
                                proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
@@ -21,8 +23,8 @@ counties <- readShapePoly('UScounties.shp',
                          proj4string=CRS
                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 
-counties <- counties[grep("Idaho", counties@data$STATE_NAME),]
-counties <- counties[grep("Latah", counties@data$NAME),]
+counties <- counties[grep("Washington|Idaho|Oregon", counties@data$STATE_NAME),]
+#counties <- counties[grep("Whitman", counties@data$NAME),]
 
 subset_stations <- spdf[counties, ]
 
@@ -47,17 +49,12 @@ library(doBy)
 prcp <- summaryBy(prcp ~ year, data = subsetstations_month, 
           FUN = list(mean, max, min, median, sd))
 
-plot(prcp$year, prcp$prcp.mean)
 
-lines(stats::lowess(prcp), col = "red")
+barplot(prcp$prcp.mean)
 
-plot(tmax$year, tmax$tmax.mean)
+barplot(tmax$tmax.mean, names.arg = tmax$year, las=3)
 
 lines(stats::lowess(tmax), col = "red")
-
-
-
-
 
 
 newz1 <- mean(na.omit(subset_stations_data$prcp))

@@ -1,6 +1,25 @@
 library(DAAG)
 library(ridge)
 
+panel.cor <- function(x, y, digits=2, prefix="", cex.cor) 
+{
+  usr <- par("usr"); on.exit(par(usr)) 
+  par(usr = c(0, 1, 0, 1)) 
+  r <- abs(cor(x, y)) 
+  txt <- format(c(r, 0.123456789), digits=digits)[1] 
+  txt <- paste(prefix, txt, sep="") 
+  if(missing(cex.cor)) cex <- 0.8/strwidth(txt) 
+  
+  test <- cor.test(x,y) 
+  # borrowed from printCoefmat
+  Signif <- symnum(test$p.value, corr = FALSE, na = FALSE, 
+                   cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1),
+                   symbols = c("***", "**", "*", ".", " ")) 
+  
+  text(0.5, 0.5, txt, cex = 2) 
+  text(.8, .8, Signif, cex=cex, col=2) 
+}
+
 
 setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries/annual_county_summaries/")
 files <- list.files(pattern = "\\_WHEAT_drought$")
@@ -11,16 +30,16 @@ myfiles = do.call(rbind, lapply(files, function(x)
 myfiles$prpet <- (myfiles$pr - myfiles$pet)
 write.csv(myfiles, file = "WHEAT_drought_summary")
 
-setwd("/dmine/data/USDA/agmesh-scenarios/Idaho/summaries/")
-myfiles1 <- read.csv("2001_2015_usda_gridmet_Idaho", strip.white=TRUE)
+setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summary/")
+myfiles <- read.csv("2001_2015_palouse_summary", strip.white=TRUE)
 
-setwd("/dmine/data/USDA/agmesh-scenarios/Washington/summaries/")
-myfiles2 <- read.csv("2001_2015_usda_gridmet_Washington", strip.white=TRUE)
-setwd("/dmine/data/USDA/agmesh-scenarios/Oregon/summaries/")
-myfiles3 <- read.csv("2001_2015_usda_gridmet_Oregon", strip.white=TRUE)
-myfile4 <- rbind(myfiles1,myfiles2,myfiles3)
+#setwd("/dmine/data/USDA/agmesh-scenarios/Washington/summaries/")
+#myfiles2 <- read.csv("2001_2015_usda_gridmet_Washington", strip.white=TRUE)
+#setwd("/dmine/data/USDA/agmesh-scenarios/Oregon/summaries/")
+#myfiles3 <- read.csv("2001_2015_usda_gridmet_Oregon", strip.white=TRUE)
+#myfile4 <- rbind(myfiles1,myfiles2,myfiles3)
 
-myfiles_allyears <- subset(myfile4, , c(pr, pdsi, pet, tmmx, erc, loss, acres, county, year))
+myfiles_allyears <- subset(myfiles, , c(pr, pdsi, pet, tmmx, erc, loss, acres, county, damagecause, monthcode, year))
 
 myfiles_allyears$county <- factor(myfiles_allyears$county)
 myfiles_allyears$year <- factor(myfiles_allyears$year)
@@ -31,10 +50,13 @@ myfiles_allyears[1:7] <- scale(myfiles_allyears[1:7], center = TRUE, scale = TRU
 
 
 #--countratio
+myfiles_allyears <- subset(myfiles_allyears, monthcode == 6)
 
+myfiles_allyears <- subset(myfiles_allyears, county =="Whitman")
 
-myfiles_whitman <- subset(myfiles_allyears, county =="Yakima")
-pairs(data.matrix(myfiles_whitman[c(1,2,3,4,5,6)], ))
+myfiles_whitman <- subset(myfiles_allyears, damagecause =="Drought")
+
+pairs(data.matrix(myfiles_allyears[c(1,2,3,4,5,6)]), lower.panel=panel.smooth, upper.panel=panel.cor)
 dev.off()
 
 #-loss

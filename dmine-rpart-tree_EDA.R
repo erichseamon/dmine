@@ -35,14 +35,14 @@ uniquez <- data.frame(uniquez)
 dc <- unique(uniquez$damagecause)
 com <- unique(uniquez$commodity)
 
-#for (i in dc) {
-#  for (k in com) {
+for (i in dc) {
+  for (k in com) {
     train <- subset(uniquez, commodity == k)
     train <- subset(train, damagecause == i)
-#    
-#  }
-#  
-#}
+    
+  }
+ 
+}
 
 
 cols <- train[]

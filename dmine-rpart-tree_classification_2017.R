@@ -54,6 +54,7 @@ attach(myfiles_allstates)
 
 
 
+
 # Make big tree
 form <- as.formula(countratio ~ tmmx + sph + vs + pr + pdsi + pet + erc)
 tree.1 <- rpart(form,data=myfiles_allstates,control=rpart.control(minsplit=20,cp=0))
@@ -93,14 +94,14 @@ write(jsontree2, file="palousetree2.JSON")
 
 
 #------additional tree
-# Regression Tree Example
+# Regression Tree to determine bins for count loss data
 library(rpart)
 
 # grow tree 
-fit <- rpart(countratio ~ tmmx + tmmn + srad + sph + vs + fm100 + erc + fm1000 + pdsi + pet + rmin + rmax, 
-             method="anova", control=rpart.control(minsplit=30, cp=0.001), data=data)
+party.fit <- rpart(tmmx + tmmn + srad + sph + vs + fm100 + erc + fm1000 + pdsi + pet + rmin + rmax ~ count, 
+             method="anova", control=rpart.control(minsplit=30, cp=0.001), data=myfiles_allstates)
 
-fit <- rpart(loss ~ tmmx + tmmn + srad + sph + vs + fm100 + erc + fm1000 + pdsi + pet + rmin + rmax, 
+fit_count <- rpart(tmmx + tmmn + srad + sph + vs + fm100 + erc + fm1000 + pdsi + pet + rmin + rmax ~ countratio, 
              method="anova", control=rpart.control(minsplit=50, cp=0.001), data=data)
 
 node.fun <- function(x, labs, digits, varlen)

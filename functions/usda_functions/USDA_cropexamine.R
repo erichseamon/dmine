@@ -1,7 +1,7 @@
 #--USDA-cropexamine 
 #- takes crop outputs from cropmerge and examines each commodity 
 
-USDA_cropexamine <- function() {
+USDA_cropexamine <- function(kommodity, ) {
 
 library(DAAG)
 library(ridge)
@@ -26,10 +26,41 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor)
 }
 
 
+
+
 setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/annual-summaries-drought/")
 files <- list.files(pattern = "")
 myfiles = do.call(rbind, lapply(files, function(x) 
   read.csv(x, stringsAsFactors = FALSE)))
+combined.df <- myfiles
+
+
+
+library(maps)
+data(county.fips)
+colnames(combined.df)[16] <- "fips"
+library(stringr)
+county.fips2 <- data.frame(str_split_fixed(county.fips$polyname, ",", 2))
+colnames(county.fips2) <- c("state", "county")
+county.fips3 <- cbind(county.fips, county.fips2)
+combined1.df <- merge(combined.df,county.fips3, by = 'fips')
+
+#--create unique values for each county grouping for palouse region
+lister <- unique(combined1.df$county)
+listerstate <- unique(combined1.df$state)
+listeridaho<- paste(lister[1:7], "_", listerstate[1], sep="")
+listeroregon <- paste(lister[8:14], "_", listerstate[2], sep="")
+listerwashington <- paste(lister[15:26], "_", listerstate[3], sep="")
+listercomb <- c(listeridaho, listeroregon, listerwashington)
+
+capFirst <- function(s) {
+  paste(toupper(substring(s, 1, 1)), substring(s, 2), sep = "")
+}
+
+
+
+
+
 
 #names(myfiles)[19] <- c("year") 
 myfiles$prpet <- (myfiles$pr - myfiles$pet)

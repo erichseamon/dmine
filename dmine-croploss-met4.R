@@ -723,6 +723,7 @@ if (N1 > '2000') {
   
   
    for (p in listercomb) {
+     library(Hmisc)
      
      listersplitter <- unlist(strsplit(p, "[_]"))
      countyz <- listersplitter[1]
@@ -786,6 +787,7 @@ if (N1 > '2000') {
     
     
     
+    
     #usda <- paste("/dmine/data/USDA/crop_indemnity_txt/", i, ".txt", sep="")
     #usda <- read.csv(usda, header=FALSE, sep="|")
     #usda <- data.frame(usda)
@@ -836,10 +838,14 @@ if (N1 > '2000') {
     
     #--claims summarized by month associated to climate short term and long term drought
     claimagg <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, sum)
+    claimaggmean <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, mean)
+    claimaggcount <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, length)
+    
     claimagg$month <- tolower(claimagg$month)
     claimagg$month <- capitalize(claimagg$month)
     claimagg$month <- factor(claimagg$month, levels=month.abb)
     claimaggloss_final <- claimagg[order(claimagg[,2], claimagg[,1]),]
+    
     
     
     claimagg_countratio <- nrow(wheatdrought2001)/nrow(wheatdroughtclaim_all2001)
