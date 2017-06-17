@@ -1,0 +1,191 @@
+---
+title: "Stream Temperature Analysis - Washington Coast"
+author: "Erich Seamon - erichs@uidaho.edu"
+date: "5/20/2017"
+output: html_document
+
+---
+
+<style type="text/css">
+
+h1.title {
+  font-size: 24px;
+}
+
+</style>
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This analysis looks at stream temperature observational data that is collected by the USDA NorWest program.  Data is collected going back to roughly 1994, and this analysis looks at data for just one processing unit region - the Washington Coast region, that covers Seattle and the surrounding area.
+
+Below we are loading geographic data that will be used as part of the analysis, including:
+
+Regional processing units:  The regional polygons that NorWeST uses to define geographic regions.  There are approximately 10 regions that cover WA, ID, and OR.
+
+Stream temperature site locations:  These are the locations where stream temperatures are measured on a monthly basis.  
+
+Stream temperature attribute file:  This is an excel file that contains the stream temperature readings for each site location.  For our example, we are looking at just one region, and subsetting for one month, which is described later.
+
+Climate data.  We are extracting climate data dynamically for just the 3581 observational stream locations from the USGS data portal.
+
+```{r, message=FALSE}
+
+library(maptools)
+library(leaflet)
+library(ggplot2)
+library(gridExtra)
+
+#--add Norwest boundary processing units
+setwd("/dmine/data/norwest/NorWeST_WBD_ProcessingUnits_wgs84/")
+units <- readShapePoly('NorWeST_WBD_ProcessingUnits_wgs84.shp', 
+                        proj4string=CRS
+                        ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+
+#--add Norwest Predicted stream temperature points for the WA Coast region
+setwd("/dmine/data/norwest/NorWeST_PredictedStreamTempPoints_WACoast_wgs84/")
+WACoast_points_pred <- readShapePoints('NorWeST_PredictedStreamTempPoints_WACoast_wgs84.shp', 
+                       proj4string=CRS
+                       ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+
+#--add Norwest Predicted stream temperature lines for the WA Coast region
+setwd("/dmine/data/norwest/NorWeST_PredictedStreamTempLines_WACoast_wgs84/")
+WACoast_streams_pred <- readShapeLines('NorWeST_PredictedStreamTempLines_WACoast_wgs84.shp', 
+                                       proj4string=CRS
+                                       ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+
+#--add Norwest Historical stream temperature points for the WA Coast region
+setwd("/dmine/data/norwest/")
+projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+streamtemp <- readShapePoints('NorWeST_ObservedTempPoints_WACoast_wgs84/NorWeST_ObservedTempPoints_WACoast_wgs84.shp', proj4string = projection)
+
+
+#--add states
+setwd("/dmine/data/states/")
+states <- readShapePoly('states.shp', proj4string=CRS
+("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
+
+#plot all the units, with the Washington Coast highlighted
+plot(units)
+units_WA_coast <- subset(units, NORWEST == "WA Coast")
+plot(units_WA_coast, add=T, border='cyan', lwd=2)
+
+```
+
+Here we plot the boundary of the loaded WA Coast processing unit, as well as streams and ALL stream temperature observational locations, taken from the NorWeST site (3581 total observational locations).  Note that not all locations will have readings for each month.
+
+```{r}
+
+plot(units_WA_coast)
+lines(WACoast_streams_pred, col="gray")
+points(streamtemp, pch=16, cex=.8, col="blue")
+
+```
+
+Loading stream temperature locations and attribute data.  This attribute data can be acessed from the USDA/FRS NorWeST web site.
+
+```{r}
+
+setwd("/dmine/data/norwest/")
+streamtemp_att <- read.csv("NorWeST_ObservedStreamTemp_TempMonthlySummaries_WashingtonCoast_AllDays.csv")
+
+```
+
+
+Here we extract climate data for just the stream temperature observation locations, loaded above.  Note that we are using the geoknife package to extract data using the stencil/fabric approach.  A stencil is the polygon or point that indicates the location from which you wish to extract data.  Fabric is the webdata that you are actually extracting from those locations.  In our example, our stream temperature locations for a particular month are our stencil, and climate data is our fabric.
+
+We want to extract the climate data for just the stream temperature observational locations that we are passing. In reality, you can pass any geometry to extract your data.
+
+
+```{r, message=FALSE}
+
+  library(dplyr)
+  library(tidyr)
+  library(geoknife) #order matters because 'query' is masked by a function in dplyr
+  library(RColorBrewer)
+  library(maps) 
+  
+  setwd("/dmine/data/norwest/")
+  
+  stm <- subset(streamtemp_att, MonthYear == "06-2009")
+  streamtemp_joined_final <-  merge(streamtemp, stm, by='OBSPRED_ID')
+  streamtemp_joined_final <- subset(streamtemp_joined_final, MonthYear == "06-2009")
+
+  xystream <- data.frame(t(data.frame(streamtemp_joined_final@coords)))
+  rownames(xystream) <- c("longitude", "latitude")
+  stencil <- simplegeom(xystream)
+             
+  fabric <- webdata(list(url = 'https://cida.usgs.gov/thredds/dodsC/UofIMETDATA', variables = "max_air_temperature", 
+            times = c('2009-06-01','2009-07-01')))
+  
+  job <- geoknife(stencil, fabric, wait = TRUE, REQUIRE_FULL_COVERAGE=FALSE)
+  check(job)
+  tmmxData_result <- result(job, with.units=TRUE)
+  tmmxData_result_frame <- data.frame(colMeans(tmmxData_result[sapply(tmmxData_result, is.numeric)]))
+  colnames(tmmxData_result_frame) <- c("max_air_temperature")
+  streamtemp_combined <<- cbind(streamtemp_joined_final, tmmxData_result_frame$max_air_temperature)
+  streamtemp_combined_frame <<- data.frame(streamtemp_combined)
+  
+  streamtemp_combined$tmmx <- streamtemp_combined$c.295.612906451613..295.612906451613..295.76129483871..295.76129483871..
+  streamtemp_combined$tmmx_zscore <- (streamtemp_combined$tmmx - mean(streamtemp_combined$tmmx)) /   sd(streamtemp_combined$tmmx)
+  
+  streamtemp_combined$MonthlyMean_zscore <- (streamtemp_combined$MonthlyMean -   mean(streamtemp_combined$MonthlyMean)) / sd(streamtemp_combined$MonthlyMean)
+  
+  #--difference between climate tmmx zscores and stream temp monthly mean zscore for each location, June 2009
+  
+  streamtemp_combined$diff <- streamtemp_combined$MonthlyMean_zscore - streamtemp_combined$tmmx_zscore
+
+```
+
+Plotting the extracted climate data for just the June 2009 observational locations for stream temperature in the WA coast region.  The total number of observations is 221 of the 2581 total observational location possibilities.
+
+```{r}
+
+col_temp = colorRampPalette(c('blue', 'red'))(length(streamtemp_combined))
+plot(units_WA_coast)
+plot(streamtemp_combined, add=T, col=col_temp)
+
+```
+
+
+Subsetting stream temperature locations temporally - so we look at only one month.  Lets pick June of 2009.  Then, lets merge this data with the previously constructed stream temperature locations, that have already been merged with max air temperature for June of 2009.  Below we are plotting our stream temperature data for June 2009.  
+  
+```{r}
+
+lengthh <- length(streamtemp_joined_final)
+data_seq = seq(min(na.omit(streamtemp_joined_final$MonthlyMean)), max(na.omit(streamtemp_joined_final$MonthlyMean)), length=length(streamtemp_joined_final))
+col_pal = colorRampPalette(c('blue', 'red'))(lengthh)
+cols = col_pal[ cut(streamtemp_joined_final$MonthlyMean, data_seq, include.lowest=T) ]
+plot(subset(units, GNLCCunit == "WACO"))
+lines(WACoast_streams_pred, col = 'lightgray')
+points(streamtemp_joined_final, col = cols, pch=16, cex=1)
+```
+
+``` {r}
+
+#--zscores for climate tmmx and MonthlyMean for comparison for each site.  
+
+colsdiff <- colorRampPalette(brewer.pal(11,"Spectral"))(length(streamtemp_combined))
+
+plot(subset(units, GNLCCunit == "WACO"))
+points(streamtemp_combined, col=colsdiff)
+```
+
+
+Time sequenced boxed plots of stream temperature for all WA coast sites from 1994 - 2013.
+
+```{r}
+
+MonthYearz <- streamtemp_att$MonthYear
+streamtemp_att$sort_order <- streamtemp_att$SampleYear *100 + streamtemp_att$SampleMonth
+p <- ggplot(streamtemp_att) + geom_boxplot(aes(x=reorder(MonthYear, sort_order), y=MonthlyMean))
+#p <- ggplot(streamtemp_att) + geom_boxplot(aes(x = MonthYear, y = MonthlyMean, group = MonthYear, las=3))
+p + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+
+

@@ -1,38 +1,57 @@
-#
-# DATE:         December 2015
-#
-# STAGE:        dmine-wordcloud.R
-#
-# COMMENTS:     this accesses the twitter api using the twitteR package,
-#               and finds the last 500 tweets using a particular phrase,
-#               and then creates a word cloud of the most frequent words
-#               around these tweets.  Uses the tm text mining package as well.
-#
-#
-#--Setting the working directory an d clearing the workspace-----------
+---
+title: ""
+author: "Erich Seamon, University of Idaho"
+date: "6/12/2017"
+output: html_document
+---
 
+<style type="text/css">
+
+h1.title {
+     color: DarkBlue; font-size: 24px;
+}
+
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+This is a Twitter wordcloud, constructed daily, using the phrase "climate change". The most recent 500 tweets from the time of the run (2pm) that contain the phrase "climate change" are organized in a corpus and then a term document sparse matrix.
+
+We then determine word frequency counts and display that in the form of a word cloud - on a daily basis. We take into account the geographic location of the tweets by selecting a radius of 100 miles around the University of Idaho, in Moscow, ID.
+
+```{r, message=F, warning=F}
 
 library(twitteR)
 library(tm)
 library(wordcloud)
 library(RColorBrewer)
 library(SnowballC)
+
 #--twitter authentication
+
 options(httr_oauth_cache=T)
 api_key <- "aoMASn5GMUb7cFciJiyHNn70z"
 api_secret <- "zo6sOFA9x7waw1VGvi5R0i3gGn9hrmDDKcz7hH6mY6ehyjfuP3"
 access_token <- "11766682-JXMveG0dc97FUpkF1o8EapLsGGMdyddbFKQpgKefH"
 access_token_secret <- "bjy8lXYh5yroi7QzTkSw1in9k70ANTueRiLNUkZrvnz5Q"
+
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
+
 #-uses the twitter api and twitteR to search the last n number of tweets
 mach_tweets = searchTwitter("climate+change", n=500, lang="en", resultType = "recent")
-#mach_tweets = searchTwitter("climate+change", n=500, lang="en", geocode='46.732,-117.001, 100mi', resultType = "recent")
+
 #--create a matrix using apply of the tweet texts
 mach_text = sapply(mach_tweets, function(x) x$getText())
 mach_text <- iconv(mach_text,to="utf-8")
+
 # create a corpus
 mach_corpus = Corpus(VectorSource(mach_text))
+
 # create document term matrix applying some transformations
+
 control <- list(
   removePunctuation = TRUE,
   stopwords = c("climate", "change", stopwords("english")),
@@ -40,29 +59,22 @@ control <- list(
   tolower = TRUE)
 
 tdm <- TermDocumentMatrix(mach_corpus, control = control)
+
 # define tdm as matrix
 m = as.matrix(tdm)
+
 # get word counts in decreasing order
 word_freqs = sort(rowSums(m), decreasing=TRUE)
+
 # create a data frame with words and their frequencies
 dm = data.frame(word=names(word_freqs), freq=word_freqs)
 
-
-setwd("/dmine/data/wordclouds")
-#"%Y-%j-%H%M%S"
+#setwd("/dmine/data/wordclouds")
 
 string <- format(Sys.time(), format = "%Y-%m-%d_%H:%M:%S")
+#cloudname <- "climate.png"
+#cloudpng <- png(paste0(string, "_", cloudname), width=12, height=8, units="in", res=300)
+invisible(wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2")))
+```
 
-layout(matrix(c(2, 1), ncol=2), heights=c(4,1))
-par(mar=c(0,0,0,8))
-#text(x=0.5, y=0.5, "Title of my first plot")
-cloudname <- "climate.png"
-cloudpng <- png(paste0(string, "_", cloudname),width=8,height=8,units="in", res=300)
-#mtext(format(Sys.time(), "%a %b %d %X %Y"), side = 3, col="blue", cex=1.5)
-wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"), main = "Title")
-mtext(format(Sys.time(), "%a %b %d %X %Y"), side = 3, col="blue", cex=1.5)
-#mtext(format(Sys.time(), "%a %b %d %X %Y"), side = 3, col="blue", cex=1.5)
 
-#--set the wordcloud png name, which will be appended to the time stamp later
-dev.off()
-#system(paste("cp ", string, "_", cloudname, " ", cloudname, sep=""))
