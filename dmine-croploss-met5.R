@@ -201,13 +201,15 @@ listcols <- nrow(list)
 #--for each variable, for each month and year combo.
 library(raster)
 
+
+ndirname <- paste("/dmine/data/USDA/agmesh-scenarios/", "scenario_", RSCENARIO, sep='')
 dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
 dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries4", sep="")
 dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(1989:2000)
+yearspan = c(1994:2000)
 
 
 for (i in yearspan) { 
@@ -218,7 +220,7 @@ for (i in yearspan) {
     varspannumber = varspannumber + 1
     jj=0
     for (k in monthspan) {
-      ncfile <- paste(dirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
+      ncfile <- paste(ndirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile) #create a brick
       rasterout <- mean(rasterout) #get the mean of all 30 days for the month
       rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
@@ -304,9 +306,9 @@ listcols <- nrow(list)
 #--loop to generate raster brick from each nc file, subset by the county, extact the values 
 #--for each variable, for each month and year combo.
 library(raster)
-
+ndirname <- paste("/dmine/data/USDA/agmesh-scenarios/", "scenario_", RSCENARIO, sep='')
 dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
-dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries3", sep="")
+dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries4", sep="")
 dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
 dirname4 <- paste("/nethome/erichs/dmine-temp/", kk, "/cdl", sep="")
 dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries3", sep="")
@@ -317,7 +319,7 @@ monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oc
 varspan2 = c("vs", "fm1000", "fm100") 
 
 
-yearspan = c(2001:2015)
+yearspan = c(1989:2000)
 
 
 for (i in yearspan) { 
@@ -335,7 +337,7 @@ for (i in yearspan) {
     varspannumber = varspannumber + 1
     jj=0
     for (k in monthspan) {
-      ncfile <- paste(dirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
+      ncfile <- paste(ndirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile) #create a brick
       rasterout <- mean(rasterout) #get the mean of all 30 days for the month
       rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
@@ -430,9 +432,9 @@ listcols <- nrow(list)
 #--for each variable, for each month and year combo.
 library(raster)
 
-
+ndirname <- paste("/dmine/data/USDA/agmesh-scenarios/", "scenario_", RSCENARIO, sep='')
 dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, sep = "")
-dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries3", sep="")
+dirname2 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/summaries4", sep="")
 dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
 dirname4 <- paste("/nethome/erichs/dmine-temp/", kk, "/cdl", sep="")
 dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries2", sep="")
@@ -440,7 +442,7 @@ dirname5 <- paste("/nethome/erichs/dmine-temp/", kk, "/summaries2", sep="")
 setwd(dirname)
 varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
 monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(2001:2015)
+yearspan = c(1989:2000)
 
 
 for (i in yearspan) { 
@@ -462,7 +464,7 @@ for (i in yearspan) {
     varspannumber = varspannumber + 1
     jj=0
     for (k in monthspan) {
-      ncfile <- paste(dirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
+      ncfile <- paste(ndirname, "/netcdf/", j, "_", k, "_", i, ".nc", sep="")
       rasterout <- brick(ncfile) #create a brick
       rasterout <- mean(rasterout) #get the mean of all 30 days for the month
       rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
@@ -564,7 +566,8 @@ for (n in lister) {
   newcounty$month <- trimws(newcounty$month)
   newcounty <-newcounty[with(newcounty, order(year, match(newcounty$month, month.abb))), ]
   newcounty$ID<-seq.int(nrow(newcounty))
-  write.csv(newcounty, file = paste("2001_2015_palouse_", n, "_", newcounty$state[1], sep=""))
+  setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/annual-county-summaries")
+  write.csv(newcounty, file = paste("1989_2015_palouse_", n, "_", newcounty$state[1], sep=""))
 }
 
 yearspan <- c(2001:2015)
@@ -762,7 +765,8 @@ if (N1 > '2000') {
   
   usdabound2a <- data.frame(append(usdabound2, list(acres=NA), after=match("V14", names(usdabound2)))) 
   usdabound2b <- usdabound2a[,1:16]
-  colnames(usdabound2b) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
+  colnames(DT) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
+  
   
   colnames(usdabound2) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
   colnames(usdabound) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
@@ -781,166 +785,11 @@ if (N1 > '2000') {
   
   usdabound <- usdabound3
   
-   for (p in listercomb) {
-     library(Hmisc)
-     
-     listersplitter <- unlist(strsplit(p, "[_]"))
-     countyz <- listersplitter[1]
-     statez <- listersplitter[2]
-     pu <- capitalize(countyz)
-     pu <- simpleCap(pu)
-     p <- tolower(p) #--p is the county and state combined.  eg. whitman_washington
-     
-     pp <- stateFromLower(statez)
-     pp <- as.vector(pp) #--pp is state capitialized, abbrieviated.  eg. WA
-     
-     
-     usdaboundsub <- subset(usdabound, state == pp)
-     usdaboundsub <- subset(usdaboundsub, county == pu)
-     commodityspan <- c(unique(usdaboundsub$commodity))
-     damagespan <- c(unique(usdaboundsub$damagecause))
- 
-    setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/")
-    p <- tolower(p)
-    countyz <- tolower(countyz)
-    #statez <- toupper(statez)
-    
-    files  <- list.files(pattern = '\\_palouse_summary$')
-    tables <- lapply(files, read.csv, header = TRUE, strip.white = TRUE)
-    gridmetmonthly <- do.call(rbind , tables)
-    
-    gridmetmonthly <- data.frame(gridmetmonthly)
-    
-    library(maps)
-    data(county.fips)
-    colnames(gridmetmonthly)[16] <- "fips"
-    library(stringr)
-    county.fips2 <- data.frame(str_split_fixed(county.fips$polyname, ",", 2))
-    colnames(county.fips2) <- c("state", "county")
-    county.fips3 <- cbind(county.fips, county.fips2)
-    gridmetmonthly <- merge(gridmetmonthly,county.fips3, by = 'fips')
-    
-    
-    #statez = simpleCap(statez)
-    #countyz = simpleCap(countyz)
-    #statez = state.abb[grep(statez, state.name)]
-    gridmetmonthly <- subset(gridmetmonthly, state == statez)
-    gridmetmonthly <- subset(gridmetmonthly, county == countyz)
-    
-    gridmetmonthly$monthchar <- as.character(gridmetmonthly$month)
-    
-    library(Hmisc)
-    gridmetmonthly$monthchar <- capitalize(gridmetmonthly$monthchar)
-    
-    gridmetmonthly$monthchar <- factor(gridmetmonthly$monthchar, levels=month.abb)
-    #gridmetmonthly$monthchar <- as.numeric(gridmetmonthly$monthchar)
-    
-    gridmetmonthly <- gridmetmonthly[order(gridmetmonthly[,18], gridmetmonthly[,22]),]
-    
-    #gridmetmonthly$monthyear <- paste(as.numeric(gridmetmonthly$monthchar), ".", gridmetmonthly$year, sep="")
-    gridmetmonthly$ID<-seq.int(nrow(gridmetmonthly))
-    
-    #---05.18.17 need to create loop thru all claims and assign short term and long term drought variables.  mar 2009 is go back 3 and 6.  June 2009 is go back 6 and 9
-   
-    
-    
-    
-    
-    #usda <- paste("/dmine/data/USDA/crop_indemnity_txt/", i, ".txt", sep="")
-    #usda <- read.csv(usda, header=FALSE, sep="|")
-    #usda <- data.frame(usda)
-    #gridmetmonthly <- read.csv(gridmetmonthly, strip.white=TRUE)
-    gridmetmonthly <- data.frame(gridmetmonthly)
-    #usda <- as.matrix(usda)
-    #gridmetmonthly <- as.matrix(gridmetmonthly)
-    #colnames(usda) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
-    #usda$county <- trimws(usda$county)
-    listersplit <- unlist(strsplit(p, "[_]"))
-    countyz <- listersplit[1]
-    countyz <- simpleCap(countyz)
-    
-    statez <- listersplit[2]
-    #countyz <- capitalize(countyz)
-    statez1 <- stateFromLower(statez)
-    statez1 <- as.vector(statez1)
-    #usda_state <- subset(usda, state == statez)
-    #usda_county <- subset(usda, county == countyz)
-    #usda_county$ID<-seq.int(nrow(usda_county))
-    
-    
-    
-    
-    
-    
-    for (q in commodityspan) {
-      for (m in damagespan) {
-    
-    
-    
-    
-    #usda_county$commodity <- trimws(usda_county$commodity)
-    
-    wheatdroughtclaim_allID <- subset(usdabound, state == "ID")
-    wheatdroughtclaim_allID <- subset(wheatdroughtclaim_allID, county == "Idaho" | county == "Nez Perce" | county == "Clearwater" | county == "Latah" | county == "Benewah" | county == "Kootenai" | county == "Lewis")
-    wheatdroughtclaim_allWA <- subset(usdabound, state == "WA")
-    wheatdroughtclaim_allWA <- subset(wheatdroughtclaim_allWA, county == "Okananogan" | county == "Douglas" | county == "Grant" | county == "Benton" | county == "Franklin" | county == "Walla Walla" | county == "Adams" | county == "Lincoln" | county == "Spokane" | county == "Whitman" | county == "Columbia" | county == "Garfield" | county == "Asotin")
-    wheatdroughtclaim_allOR <- subset(usdabound, state == "OR")
-    wheatdroughtclaim_allOR <- subset(wheatdroughtclaim_allOR, county == "Wasco" | county == "Sherman" | county == "Gilliam" | county == "Morrow" | county == "Umatilla" | county == "Union" | county == "Wallowa")
-    wheatdroughtclaim_allall <- rbind(wheatdroughtclaim_allWA, wheatdroughtclaim_allOR, wheatdroughtclaim_allID)
 
-    wheatdroughtclaim_allall_comm <- subset(wheatdroughtclaim_allall, commodity == q)
-    #wheatdroughtclaim_allall_drought <- wheatdroughtclaim_allall_comm
-    wheatdroughtclaim_allall_drought <- subset(wheatdroughtclaim_allall_comm, damagecause == m)
-    #--only March thru Oct
-    #wheatdroughtclaim_allall_final <- subset(wheatdroughtclaim_allall_drought, monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10)
-    #--all months below
-    wheatdroughtclaim_allall_final <- subset(wheatdroughtclaim_allall_drought, monthcode == 1 | monthcode == 2 | monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10 | monthcode == 11 | monthcode == 12)
-    
-    wheatdroughtclaim_allall_final$monthyear <- paste(wheatdroughtclaim_allall_final$year, ".", wheatdroughtclaim_allall_final$monthcode, sep="")
-    
-    
-    #--claims summarized by month associated to climate short term and long term drought
-    claimagg <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, sum)
-    claimaggmean <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, mean)
-    claimaggcount <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, length)
-    
-    claimagg$month <- tolower(claimagg$month)
-    claimaggmean$month <- tolower(claimaggmean$month)
-    claimaggcount$month <- tolower(claimaggcount$month)
-    
-    claimagg$month <- capitalize(claimagg$month)
-    claimaggmean$month <- capitalize(claimaggmean$month)
-    claimaggcount$month <- capitalize(claimaggcount$month)
-    
-    claimagg$month <- factor(claimagg$month, levels=month.abb)
-    claimaggmean$month <- factor(claimaggmean$month, levels=month.abb)
-    claimaggcount$month <- factor(claimaggcount$month, levels=month.abb)
-    
-    claimaggloss_final <- claimagg[order(claimagg[,2], claimagg[,1]),]
-    claimaggmean_final <- claimaggmean[order(claimaggmean[,2], claimaggmean[,1]),]
-    claimaggcount_final <- claimaggcount[order(claimaggcount[,2], claimaggcount[,1]),]
-    
-    
-    claimaggloss_final$monthcode <-  c(jan=1,feb=2,mar=3,apr=4,may=5,jun=6,jul=7,aug=8,sep=9,oct=10,nov=11,dec=12)[tolower(claimaggloss_final$month)]
-    
-    my1 <- as.data.frame(as.yearmon(seq(as.Date("1989-01-01"), as.Date("2015-12-01"), by = "month")))
-    
-    library(stringr)
-    colnames(my1) <- c("monthyear")
-    my2 <- as.data.frame(str_split_fixed(my1$monthyear, " ", 2))
-    colnames(my2) <- c("month", "year")
-    claimaggloss_final$year <- factor(claimaggloss_final$year)
-    claimaggmean_final$year <- factor(claimaggloss_final$year)
-    claimaggcount_final$year <- factor(claimaggloss_final$year)
-    
-    library(plyr)
-    claimaggloss_final2 <- join(my2, claimaggloss_final, by = c("month", "year"))
-    claimaggmean_final2 <- join(my2, claimaggmean_final, by = c("month", "year"))
-    claimaggcount_final2 <- join(my2, claimaggcount_final, by = c("month", "year"))
-    
-    
-    
-    
+  
+  
+  
+  #----------------
     
     
     for (l in 1:nrow(claimaggloss_final)) {
@@ -1184,13 +1033,16 @@ if (N1 > '2000') {
    }
   
    }
-  
+
+  setwd("/dmine/data/USDA/agmesh-scenarios/Allstates")
   #setwd(dirname)
   #files <- list.files(dirname, pattern = 'monthly_usda_gridmet_post2001')
   #tables <- lapply(files, read.csv, header=TRUE)
   #combined.df <- do.call(rbind, tables)
   #name2 = paste(scen1, "_", scen2, "_", "usda_gridmet_", scen_state, sep="")
-  #write.matrix(combined.df, file=name2, sep=",")
+  
+
+  write.matrix(usdabound3, file="usda_allstates_1989_2015", sep=",")
   
   #} 
     
@@ -1232,13 +1084,56 @@ library(fields)
 library(dplyr)
 library(tidyr)
 
+scen = "Idaho"
 setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/summaries", sep=""))
-combined.df <- data.frame(read.csv(paste(scen1, "_", scen2, "_", "usda_gridmet_", scen_state, sep=""), strip.white = TRUE))
+setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/month_2001")
+files  <- list.files(pattern = scen)
+tables <- lapply(files, read.csv, header = TRUE)
+combined.df_2001 <- do.call(rbind , tables)
+
+#colnames(combined.df) <- c("ID", "year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "loss", "dummy")
+
+scen = "Idaho"
+#setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/summaries", sep=""))
+setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/month_1989")
+files  <- list.files(pattern = scen)
+tables <- lapply(files, read.csv, header = TRUE)
+combined.df_1989 <- do.call(rbind , tables)
+
+
+#combined.df_1989a <- as.data.frame(read.csv("/dmine/data/USDA/crop_indemnity_txt/1998.txt", sep="|", header = FALSE))
+
+#colnames(combined.df_1989a)[15] <- "acres1"
+#colnames(combined.df_1989a)[16] <- "acres"
+#colnames(combined.df_1989a)[15] <- "loss"
+#combined.df_1989a$ID <- NA
+
+#combined.df_1989a <- as.data.frame(combined.df_1989a[,c(17,1,3,2,4,5,6,7,8,9,10,11,12,13,14,16,15)])
+#colnames(combined.df_1989a) <- c("X", "year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
+
+
+colnames(combined.df_1989)[16] <- "acres1"
+colnames(combined.df_1989)[17] <- "acres"
+colnames(combined.df_1989)[16] <- "loss"
+combined.df_1989 <- combined.df_1989[,c(1,3,2,4,5,6,7,8,9,10,11,12,13,14,15,17,16)]
+
+vectt <- as.vector(colnames(combined.df_1989))
+colnames(combined.df_1989a) <- vectt
+
+#combined.df_1989b <- rbind(combined.df_1989, combined.df_1989a)
+
+#combined.df <- rbind(combined.df_1989b, combined.df_2001)
+#combined.df <- rbind(combined.df_1989a)
+
+#--
+
+combined.df <- rbind(combined.df_1989, combined.df_2001)
+#combined.df <- data.frame(read.csv(paste(scen1, "_", scen2, "_", "usda_gridmet_", scen_state, sep=""), strip.white = TRUE))
 
 #-remove all other variables to allow for datasets based on year, month, county, and commodity - loss and acres
-combined.df2 <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,damagecause,month,statecode,state,countyfips,countycode,bi,pr,th,pdsi,pet,erc,rmin,rmax,tmmn,tmmx,srad,sph,vs,fm1000,fm100) )
+#combined.df2 <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,damagecause,month,statecode,state,countyfips,countycode) )
 
-combined.df <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,month,statecode,state,countyfips,countycode,bi,pr,th,pdsi,pet,erc,rmin,rmax,tmmn,tmmx,srad,sph,vs,fm1000,fm100) )
+combined.df <- subset(combined.df, select = -c(insuranceplancode,insurancename,stagecode,damagecausecode,statecode,countycode) )
 
 #-convert to a data table
 
@@ -1247,7 +1142,7 @@ combined.df <- data.table(combined.df)
 ttt <- function (x) sub("\\s+$", "", x)
 
 combined.df <- combined.df[with(combined.df, order(commoditycode,year,monthcode,county)), ]
-setwd(paste("/dmine/data/USDA/agmesh-scenarios/", "Idaho", "/commodity_csv/", sep=""))
+#setwd(paste("/dmine/data/USDA/agmesh-scenarios/", "Idaho", "/commodity_csv/", sep=""))
 #function(commoditynames) sub("\\s+$", "", commoditynames)
 #--strip white space off so file names are right
 #lapply(combined.df$commodity, function(funct){sub("\\s+$", "", combined.df$commodity[[funct]])})
@@ -1256,10 +1151,11 @@ ttt <- function (x) sub("\\s+$", "", x)
 #commoditytrim <- unique(ttt(combined.df$commodity))
 commoditytrim <- unique(combined.df$commodity)
 
-for (i in commoditytrim) {
-  x <- subset(combined.df, combined.df$commodity == i)
-  write.csv(x, file=paste(scen1, "_", scen2, "_", scen_state, i, ".csv", sep=""))
-}
+#for (i in commoditytrim) {
+#  x <- subset(combined.df, combined.df$commodity == i)
+  
+#  write.csv(x, file=paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/", scen1, "_", scen2, "_", scen_state, i, ".csv", sep=""))
+#}
 
 
 #-order the columns by commodity, then year, month, and county
@@ -1270,11 +1166,13 @@ combined.df <- subset(combined.df, commoditycode != "NA")
 
 #-sum the acres and loss columns for all common rows  This merges all rows that have the same values exept for acres and loss.  We sum those to create a geographic
 #-representation for each commodity - for each county, year, and month.  This will be use to convert to a raster for comparison to meterological data.
-
-combined.df <- combined.df[, lapply(.SD, sum), by=list(year,county,commoditycode,monthcode,commodity)]
+combined.dfa <- subset(combined.df, select = -c(3, 9))
+combined.df <- combined.dfa[, lapply(.SD, sum), by=list(year,county,commoditycode,monthcode,commodity,damagecause)]
 #combined.df <- data.frame(lapply(combined.df, trimws))
 #--replacing commoditycode with commodity name
-
+combined.df$commodity<- trimws(combined.df$commodity)
+combined.df$damagecause<- trimws(combined.df$damagecause)
+combined.df$county<- trimws(combined.df$county)
 #profession.code <- c(Apples=54, Wheat=11, Barley=91, SugarBeets=39, Cherries=57, Grapes=53, AdjustedGrossRevenue=63, 
 #                     GreenPeas=64, AllOtherCrops=99, Pears=89, Canola=15, SweetCorn=42, Mint=74, Potatoes=84, 
 #                     DryPeas=67, ProcessingBeans=46, DryBeans=47, Onions=13, Cranberries=58, Corn=41, 
@@ -1284,18 +1182,62 @@ combined.df <- combined.df[, lapply(.SD, sum), by=list(year,county,commoditycode
 
 #combined.df$commodity <- names(profession.code)[match(combined.df$commoditycode, profession.code)]
 
+combined.df <- combined.df[,-c(7)]  #--remove ID field
+combined.df <- subset(combined.df, monthcode != 0)
+
+
+
+combined.dff <- aggregate(loss ~ county, data=combined.df, sum)
+combined.dff$year <- combined.df$year[1]
+combined.dff$commoditycode <- combined.df$commoditycode[1]
+combined.dff$monthcode <- combined.df$monthcode[1]
+combined.dff$commodity <- combined.df$commodity[1]
+combined.dff$state <- scen
+
+
+
+
 #-----
 combined.df$year <- as.numeric(as.character(combined.df$year))
 
-vect <- c(N1:N2)
-combined.df2 <- subset(combined.df, year > 2000) 
-combined.df3 <- subset(combined.df2, year < 2017) 
+combined.df4 <- combined.df
 
-combined.df <- combined.df3
+combined.df5 <- aggregate(loss ~ year + monthcode + + commodity + county, data=combined.df4, sum)
 
-combined.yearmonth <- split(combined.df,list(combined.df$year,combined.df$monthcode, combined.df$commodity))
-setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month", sep=""))
-lapply(names(combined.yearmonth), function(funct){write.csv(combined.yearmonth[[funct]], file = paste(funct, ".csv", sep = ""))})
+#--yearmonth4 is for all claims not summarized by county.  Used for summary display of info in shiny.  shows number of claims by damagecause per commodity per year per month
+combined.yearmonth4 <- split(combined.df4,list(combined.df4$year,combined.df4$monthcode, combined.df4$commodity))
+#--yearmonth5 is for all claims summarized by county.  Used in shiny to show total claims loss for one county per month.year
+combined.yearmonth5 <- split(combined.df5,list(combined.df5$year,combined.df5$monthcode, combined.df5$commodity))
+
+setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_1989_2015", sep=""))
+#lapply(names(combined.yearmonth), function(funct){ if (dim(combined.yearmonth[[funct]])[1] > 0) {write.csv(combined.yearmonth[[funct]], file = paste(funct, ".csv", sep = ""))}})
+lapply(names(combined.yearmonth5), function(funct){write.csv(combined.yearmonth5[[funct]], file = paste(funct, ".csv", sep = ""))})
+
+setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_1989_2015_county_nosum", sep=""))
+#lapply(names(combined.yearmonth), function(funct){ if (dim(combined.yearmonth[[funct]])[1] > 0) {write.csv(combined.yearmonth[[funct]], file = paste(funct, ".csv", sep = ""))}})
+lapply(names(combined.yearmonth4), function(funct){write.csv(combined.yearmonth4[[funct]], file = paste(funct, ".csv", sep = ""))})
+
+
+filenames <- list.files(pattern="*.csv")
+setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_1989_2015", sep=""))
+ldf <- lapply(filenames, read.csv)
+
+
+
+
+setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, "/month_1989_2015_month_positive", sep=""))
+lapply(names(combined.yearmonth), function(funct){ if (dim(combined.yearmonth[[funct]])[1] > 0) {write.csv(combined.yearmonth[[funct]], file = paste(funct, ".csv", sep = ""))}})
+
+mlist[sapply(mlist, function(x) dim(x)[1]) > 0]  
+
+
+lapply(names(combined.yearmonth[[]]), function(functz){
+  
+
+  
+  combined.df5 <- aggregate(loss ~ year + monthcode + + commodity + county, data=combined.df4, sum)
+  
+    })
 
 system("mv *ADJUSTED* ../commodity_csv_agr/")
 system("rm *NA*")

@@ -71,7 +71,7 @@ registerDoParallel(cl)
 
 #----input ranges of years to examine----------#
 
-rm(list = ls()) #--clears all lists------#
+#rm(list = ls()) #--clears all lists------#
 
 N1 <- readline("enter first year of data range: ")
 N2 <- readline("enter last year of data range: ")
