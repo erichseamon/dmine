@@ -1,5 +1,12 @@
 library(compare)
-
+library(plyr)
+library(reshape2)
+library(data.table)
+library(raster)
+library(ncdf4)
+library(maptools)
+library(compare)
+library(stringr)
 
 
 rm(list = ls()) #--clears all lists------#
@@ -76,7 +83,7 @@ counties <- subset(counties, STATE_NAME %in% scen_state)
 monthdir <- paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, sep="")
 yeardir <- paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/summaries/", sep="")
 #uniquez <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month", sep=""))
-maskraster <- raster(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/netcdf/pdsi_apr_", startyear, ".nc", sep=""))
+maskraster <- raster(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/netcdf/pdsi_apr_", "2001", ".nc", sep=""))
 #setwd(monthdir)
 #system("find month -type f -size +75c -exec cp -nv {} month_positive/ \\;")
 
@@ -167,6 +174,8 @@ for (kkk in uniquecomm) {
   DTz1_base$commodity <- trimws(DTz1_base$commodity)
   DTz1 <- subset(DTz1_base, damagecause == dcause) 
   DTz1 <- subset(DTz1, commodity == kkk)
+  DTz1$county <- trimws(DTz1$county)
+  DTz1 <- subset(DTz1, monthcode != 0)
   
   if (nrow(DTz1) == 0) {
     DTzmax1 <<- 1
@@ -551,15 +560,11 @@ bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(sce
 title(ylab="Commodity loss in dollars ($)", line=9, cex.lab=2)
 title(xlab="Commodity loss totals ($) 1989 - 2015", line=8, cex.lab=2)
 
-
-
-
-
-
 #axis(1, xaxp=c(1, 15, 19), las=2)
       
  #-plot the bar plot for the animation beside the map
 abline(v=(bar[thenum[1]]), col="red", lty=2)
+
 dev.off()
 #bb <- barplot(DT7$ACRES, names.arg = DT7$DAMAGECAUSE, las=2, col = newmatrix_acres)
 #text(b, midpoint_acres, labels=mzacres$acres, xpd=NA, col = "White")
