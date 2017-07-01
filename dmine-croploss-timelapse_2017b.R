@@ -129,7 +129,6 @@ DTzlen1 <- (nrow(DTza1)/10)
 
 len4a_out <- tt1((DTzmax1 - DTzmin1)/DTzlen1)
 
-
 #---------------
 
 years <- c(startyear:endyear)
@@ -157,9 +156,6 @@ x <- subset(x, commoditycode != 88)
 x$commodity <- trimws(x$commodity)
 
 
-xright <- subset(x, damagecause == dcause)
-uniquecomm2 <- unique(xright$commodity)
-
 
 uniquecomm <- unique(x$commodity)
 months_noblanks <- subset(x, monthcode != 0)
@@ -184,9 +180,7 @@ for (kkk in uniquecomm) {
   if (nrow(DTz1) == 0) {
     DTzmax1 <<- 1
     DTzmin1 <<- 0
-  } 
-  
-  if (nrow(DTz1) != 0) {
+  } else {
     
     DTzsumz <- as.data.frame(aggregate(DTz1$loss~DTz1$month+DTz1$year+DTz1$county, DTz1, sum))
     colnames(DTzsumz) <- c("month", "year", "county", "loss")
@@ -202,55 +196,12 @@ for (kkk in uniquecomm) {
   
 }
   
-  DTza1a <- subset(DTza1, monthcode != 0)
-  DTza1a$commodity <- trimws(DTza1a$commodity)
-  DTza1aa <- subset(DTza1a, commodity == kkk)
-  #--nEED IF STATEMENT - for aggregate
-  rows.per.group  <- aggregate(rep(1, length(DTza1aa$loss)),
-                               by=list(DTza1aa$month, DTza1aa$year), sum)
-  
-  rows.per.group22  <- aggregate(rep(1, length(DTza1aa$loss)),
-                               by=list(DTza1aa$month, DTza1aa$year, DTza1aa$county), sum)
-  
-  rows.per.group$Group.1 <- tolower(rows.per.group$Group.1)
-  rows.per.group$month <- sapply(rows.per.group$Group.1, simpleCap)
-  
-  rows.per.group$monthcode <- match(rows.per.group$month, month.abb)
-  
-  rows.per.group$monthcode2 <- sprintf("%02d", rows.per.group$monthcode)
-  
-  rows.per.group$yearmonth <- as.Date(paste(rows.per.group$Group.2, rows.per.group$monthcode2, "01", sep="-"))
-  rows.per.group$yearmonth2 <- paste(rows.per.group$Group.2, rows.per.group$monthcode2, sep=".")
-  
-  rows.per.group <- rows.per.group[with(rows.per.group, order(yearmonth)), ]
+ 
   
   
   
-  rows.years <- as.data.frame(rep(c(1989:2015), each = 12))
-  
-  rows.months <- as.data.frame(rep(c(1:12), times = 27))
-  
-  rows1 <- cbind(rows.years, rows.months)
-  colnames(rows1) <- c("year", "monthcode")
   
   
-  rows1$monthcode2 <- sprintf("%02d", rows1$monthcode)
-  rows1$yearmonth <- paste(rows1$year, rows1$monthcode2, "01", sep="-")
-  rows1$yearmonth2 <- paste(rows1$year, rows1$monthcode2, sep=".")
-  
-  
-  rowsfinal <- join(rows1, rows.per.group, by = "yearmonth")
-  
-  rowsfinal$x[is.na(rowsfinal$x)] <- 0
-  
-  rowsfinal_max <- max(rowsfinal$x)
-  rowsfinal_min <- min(rowsfinal$x)
-  
-  rowsfinal_length <- (nrow(rowsfinal))
-  
-  
-  tt <- colorRampPalette(c("light blue", "blue", "red"))
-  len5a_out <- tt(rowsfinal_max)
   
   for (jj in months) {
 
@@ -319,10 +270,7 @@ m$loss[is.na(m$loss)] <- 0
 #shapefile(m)
 #--begin polygon work
 #length(na.omit(m$LOSS))
-nrowcounties <- nrow(counties)
-tt_county <- colorRampPalette(c("white", "blue", "red"))(nrowcounties) 
-tt_county2 <- colorRampPalette(c("white", "blue", "red"))
-
+tt_county <- colorRampPalette(c("white", "blue", "red"))( 44) 
 tt <- colorRampPalette(c("light blue", "blue", "red"))
 #mz <- subset(m, LOSS != 0)
 #mzacres <- subset(m, acres > 0)
@@ -362,9 +310,6 @@ DTza_len <- length(DTza_sorted)
 len4a <- tt((DTzmax - DTzmin))
 len44a <- tt(DTzsum_max)
 
-len5a <- tt((max(rowsfinal$x) - min(rowsfinal$x)))
-len55a <- tt(max(rowsfinal$x))
-
 #len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
 
 #----------
@@ -380,23 +325,6 @@ orderedcolors2 <- tt(length(m$loss))[order(order(m$loss))]
 #newframe <- data.frame(m$LOSS)
 m[["loss"]][is.na(m[["loss"]])] <- 0
 #m[["acres"]][is.na(m[["acres"]])] <- 0 
-
-jjx <- tolower(jj)
-jjx <- sapply(jjx, simpleCap)
-jjx <- match(jjx, month.abb)
-
-rowsfinal$month2 <- month.abb[ rowsfinal$month ]
-
-rows.per.group222 <- subset(rows.per.group22, Group.2 == j)
-rows.per.group222 <- subset(rows.per.group222, Group.1 == jj)
-colnames(rows.per.group222) <- c("month", "year", "county", "x")
-rows.per.group222$county <- trimws(rows.per.group222$county)
-
-mnew <- merge(m, rows.per.group222, by = "county")
-
-mnew$x[is.na(mnew$x)] <- 0
-mnew2 <- tt_county2(mnew$x)
-
 
 xx <- unique(counties$county)
 newmatrix <- matrix(data = NA, nrow = leng, ncol = 1)
@@ -425,23 +353,6 @@ for (ll in vect) {
     }}}
 
 newmatrix[is.na(newmatrix)] <- 0
-
-
-newmatrix2 <- matrix(data = NA, nrow = leng, ncol = 1)
-
-for (ll in vect) {
-  for (kk in xx){
-    comp <- compare(kk,ll)
-    if (isTRUE(comp)) {
-      rownumber <- which(xx == kk)
-      #print("yes this worked, added 0")
-      if (mnew$x != 0) {
-        newmatrix2[rownumber,] <- len55a[mnew$x]
-        #newmatrix[yy,] <- orderedcolors2[yy]
-      } else {
-        newmatrix2[rownumber,] <- len55a[1]
-      }
-    }}}
 
   
 #xx <- 1
@@ -597,35 +508,18 @@ midpoint_loss <- (max(m$loss) + min(m$loss)/2)
 
 png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", j, "_", nn, "_", kkk,  "_plot.png", sep=""), width=1000, height=1000)
 par(mar=c(3,3,3,2)+1)
-layout(matrix(c(1,1,2,3,3,4,5,5,5,5,5,5,6,6,6,6,6,6), 3, 6, byrow = TRUE))
-
-plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk,  "\n", "monthly total loss: $", DT7$LOSS, sep=""), cex.main = 1.5)
+layout(matrix(c(1,2,3,3,3,3), 3, 2, byrow = TRUE),
+       widths=c(2,1), heights=c(2,1))
+plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk,  "\n", "monthly total loss: $", DT7$LOSS, ":", " monthly drought claims:", nrow(DT2), sep=""), cex.main = 2)
 
 
 legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
-plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range: \n 1989-2015', cex.main = 1.5)
+plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range: 1989-2015', cex.main = 2)
 #text(x=1.5, y = c(0,5), labels = c(0,5))
-text(x=2.2, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5), cex = 1.5)
+text(x=2.2, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5), cex = 2)
 rasterImage(legend_image, 0, 0, .45, DTzsum_max)
 
-
-
-plot(mnew, col = newmatrix2, main = paste(scen_state,  " ", jj, " ", j, " ", kkk,  "\n", "monthly drought claims: ", nrow(DT2), sep=""), cex.main = 1.5)
-
-
-legend_image <- as.raster(matrix(rev(len5a_out), ncol=1))
-plot(c(0,3),c(0,rowsfinal_max),type = 'n', axes = F,xlab = '', ylab = '', main = "Claim Count Range: \n 1989-2015", cex.main = 1.5)
-#text(x=1.5, y = c(0,5), labels = c(0,5))
-text(x=2.2, y = seq(0,rowsfinal_max,l=5), labels = seq(0,rowsfinal_max,l=5), cex = 1.5)
-rasterImage(legend_image, 0, 0, .45, rowsfinal_max)
-
-
-
-
-
-
-
-par(mar=c(14,7,5,5))
+par(mar=c(14,11,5,5))
 par(lty = 1) 
 
 #--fix barplot xaxis names
@@ -660,7 +554,7 @@ baryears <- c("1989", "", "", "", "", "", "", "", "", "", "", "",
 nxxsd <- sd(nxx$loss)
 cols <- ifelse(nxx$loss > nxxsd, "red","blue")
 #legend.col(col = len4a, lev = m$loss)
-bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", dcause, ",", " Total claim counts by month, 1989 - 2015", sep="")
+bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", dcause, "\n", "Total loss by month, 1989 - 2015", sep="")
                , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
 
 title(ylab="Commodity loss in dollars ($)", line=9, cex.lab=2)
@@ -670,22 +564,6 @@ title(xlab="Commodity loss totals ($) 1989 - 2015", line=8, cex.lab=2)
       
  #-plot the bar plot for the animation beside the map
 abline(v=(bar[thenum[1]]), col="red", lty=2)
-
-
-countsd <- sd(rowsfinal$x)
-cols2 <- ifelse(rowsfinal$x > countsd, "red","blue")
-bar <- barplot(rowsfinal$x, space = 0, col=cols2, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", dcause, ",", " Total loss ($) by month, 1989 - 2015", sep="")
-               , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
-
-title(ylab="Commodity loss in dollars ($)", line=9, cex.lab=2)
-title(xlab="Commodity loss totals ($) 1989 - 2015", line=8, cex.lab=2)
-
-#axis(1, xaxp=c(1, 15, 19), las=2)
-
-#-plot the bar plot for the animation beside the map
-abline(v=(bar[thenum[1]]), col="red", lty=2)
-
-
 
 dev.off()
 #bb <- barplot(DT7$ACRES, names.arg = DT7$DAMAGECAUSE, las=2, col = newmatrix_acres)
