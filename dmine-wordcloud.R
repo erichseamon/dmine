@@ -35,7 +35,7 @@ mach_corpus = Corpus(VectorSource(mach_text))
 # create document term matrix applying some transformations
 control <- list(
   removePunctuation = TRUE,
-  stopwords = c("climate", "change", stopwords("english")),
+  stopwords = c("climate", "change", "http", "https", stopwords("english")),
   removeNumbers = TRUE,
   tolower = TRUE)
 
