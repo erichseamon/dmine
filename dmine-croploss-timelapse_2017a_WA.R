@@ -12,6 +12,13 @@ library(stringr)
 rm(list = ls()) #--clears all lists------#
 cat("\14")
 
+
+simpleCap <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2),
+        sep="", collapse=" ")
+}
+
 #---legend function
 
 
@@ -122,7 +129,7 @@ DTz1$damagecause <- trimws(DTz1$damagecause)
 DTz1_damage_unique <- trimws(unique(DTz1$damagecause))
 DTz1_damage_unique <- DTz1_damage_unique[DTz1_damage_unique != ""]
 
-DTz1_damage_unique <-DTz1_damage_unique[25:32]  #--remove first two causes since they have already been processed.
+#DTz1_damage_unique <-DTz1_damage_unique[25:32]  #--remove first two causes since they have already been processed.
 
 
 
@@ -176,6 +183,11 @@ setwd(yeardir)
 #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
 #setwd(yeardir)
 #x <- as.data.frame(read.csv(i, strip.white = TRUE))
+x3 <- subset(DTz1_base, monthcode != "NA")
+x3 <- subset(x3, commoditycode != 88)
+x3$commodity <- trimws(x3$commodity)
+xright3 <- subset(x3, damagecause == lll)
+uniquecomm4 <- unique(xright3$commodity)
 
 x2 <- DTz1_base
 x2 <- subset(x2, year == j)
@@ -201,7 +213,7 @@ months_noblanks <- subset(x, monthcode != 0)
 months <- na.omit(unique(months_noblanks$month))
 #-------------
  
-for (kkk in uniquecomm3) {
+for (kkk in uniquecomm4) {
 
   tt1 <- colorRampPalette(c("white", "blue", "red"))
   setwd(yeardir)
@@ -211,6 +223,8 @@ for (kkk in uniquecomm3) {
   DTz1_base$damagecause <- trimws(DTz1_base$damagecause)
   DTz1_base$commodity <- trimws(DTz1_base$commodity)
   DTz1 <- subset(DTz1_base, damagecause == lll) 
+  
+  
   DTz1 <- subset(DTz1, commodity == kkk)
   DTz1$county <- trimws(DTz1$county)
   DTz1 <- subset(DTz1, monthcode != 0)
@@ -244,7 +258,7 @@ for (kkk in uniquecomm3) {
   months_all <- c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
   DTza1aa$month  <- month.abb[DTza1aa$monthcode]
 
-  
+  if (nrow(DTza1aa) != 0) {
   rows.per.group  <- aggregate(rep(1, length(DTza1aa$loss)),
                                by=list(DTza1aa$month, DTza1aa$year), sum)
   
@@ -295,7 +309,7 @@ for (kkk in uniquecomm3) {
   
   tt <- colorRampPalette(c("light blue", "blue", "red"))
   len5a_out <- tt(rowsfinal_max)
-  }  
+  }}  
   
 months_all <- c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
   
@@ -321,69 +335,120 @@ DT <- data.table(x)
 #--change to lowercase DT2!!
 #DT2 <- DT
 
-  
 DT2 <- subset(DT, damagecause == lll) #---set for drought!!!
 
 DT2 <- subset(DT2, month == jj)
 DT2 <- subset(DT2, commodity == kkk)
 
-
-
-
-
 if (nrow(DT2) != 0 ) {
   
   
-#DT2 <- subset(DTnew3, commodity == input$commodity)
-#DT3 <- data.frame(DT2$acres, DT2$loss)
-#DT4 <- cbind(x, DT3)
-DT2loss <- DT2[,list(loss=sum(loss)), by = county]
-#DT2 <- DT2[, lapply(.SD, sum), by=list(county)]
-DT2acres <- DT2[,list(acres=sum(acres)), by = county]
-DTdamage_loss <- DT2[,list(loss=sum(loss)), by = damagecause]
-DTdamage_acres <- DT2[,list(acres=sum(acres)), by = damagecause]
-#lengthDT2 <- length(DT2)
-#DT5 <- matrix(input@commodity, nrow = lengthDT2, ncol = 1) 
-DT6 <- cbind(DT2loss, DT2acres$acres)
-#--DT7 is for barplot of summarized damage causes for the state, annually, with loss and acres per damage type
-DT7 <- cbind(DTdamage_loss, DTdamage_acres$acres) 
-setnames(DT7, c("DAMAGECAUSE", "LOSS", "ACRES"))
-#m <- subset(x, county = "ID")
-names(counties)[1] <- "county"
-#colnames(x) <- c("UNIQUEID", "YEAR", "COUNTY", "COMMODITYCODE", "MONTHCODE", "ACRES", "LOSS", "COMMODITY")
+  
+  #DT2 <- subset(DTnew3, commodity == input$commodity)
+  #DT3 <- data.frame(DT2$acres, DT2$loss)
+  #DT4 <- cbind(x, DT3)
+  DT2loss <- DT2[,list(loss=sum(loss)), by = county]
+  #DT2 <- DT2[, lapply(.SD, sum), by=list(county)]
+  DT2acres <- DT2[,list(acres=sum(acres)), by = county]
+  DTdamage_loss <- DT2[,list(loss=sum(loss)), by = damagecause]
+  DTdamage_acres <- DT2[,list(acres=sum(acres)), by = damagecause]
+  #lengthDT2 <- length(DT2)
+  #DT5 <- matrix(input@commodity, nrow = lengthDT2, ncol = 1) 
+  DT6 <- cbind(DT2loss, DT2acres$acres)
+  #--DT7 is for barplot of summarized damage causes for the state, annually, with loss and acres per damage type
+  DT7 <- cbind(DTdamage_loss, DTdamage_acres$acres) 
+  setnames(DT7, c("DAMAGECAUSE", "LOSS", "ACRES"))
+  #m <- subset(x, county = "ID")
+  names(counties)[1] <- "county"
+  #colnames(x) <- c("UNIQUEID", "YEAR", "COUNTY", "COMMODITYCODE", "MONTHCODE", "ACRES", "LOSS", "COMMODITY")
+  
+  #colnames(u) <- c("NAME")
+  #z <- cbind(u,DT)
+  DT2loss$county <- trimws(DT2loss$county)
+  m <- merge(counties, DT2loss, by='county')
+  #names(m)[7] <- "acres" 
+  
+  
+  m$loss[is.na(m$loss)] <- 0
+  #m$COMMODITYCODE[is.na(m$COMMODITYCODE)] <- 0
+  #m$acres[is.na(m$acres)] <- 0
+  
+  #------------
+  
+  
+  #shapefile(m)
+  #--begin polygon work
+  #length(na.omit(m$LOSS))
+  nrowcounties <- nrow(counties)
+  tt_county <- colorRampPalette(c("white", "blue", "red"))(nrowcounties) 
+  tt_county2 <- colorRampPalette(c("white", "blue", "red"))
+  
+  tt <- colorRampPalette(c("light blue", "blue", "red"))
+  #mz <- subset(m, LOSS != 0)
+  #mzacres <- subset(m, acres > 0)
+  #lengacres <- length(m$acres)
+  leng <- length(m$loss)
+  #len2 <- tt(len <- length(mz$loss))
+  #len2acres <- tt(len <- length(mzacres$acres))
+  #len2a <- length(mz$loss)
+  #len2a <- length(mzacres$acres)
+  len3 <- tt(len <- length(m$loss))
+  #len4 <- tt(len <- length(m$acres))
+  
+  
 
-#colnames(u) <- c("NAME")
-#z <- cbind(u,DT)
-DT2loss$county <- trimws(DT2loss$county)
-m <- merge(counties, DT2loss, by='county')
-#names(m)[7] <- "acres" 
 
 
-m$loss[is.na(m$loss)] <- 0
-#m$COMMODITYCODE[is.na(m$COMMODITYCODE)] <- 0
-#m$acres[is.na(m$acres)] <- 0
 
-#------------
+DTz_rev <- subset(DTz1_base, damagecause == lll) 
+DTz <- subset(DTz_rev, commodity == kkk)
 
 
-#shapefile(m)
-#--begin polygon work
-#length(na.omit(m$LOSS))
-nrowcounties <- nrow(counties)
-tt_county <- colorRampPalette(c("white", "blue", "red"))(nrowcounties) 
-tt_county2 <- colorRampPalette(c("white", "blue", "red"))
+if (DTz != 0) {
+  
+  DTzsum <- as.data.frame(aggregate(DTz$loss~DTz$month+DTz$year+DTz$county, DTz, sum))
+  colnames(DTzsum) <- c("month", "year", "county", "loss")
+  DTzsum_max <<- max(DTzsum$loss)
+  
+  
+  DTza <- as.data.frame(subset(DTz, loss > 0))
+  DTza <- subset(DTza, monthcode != 0)
+  DTzmax <- max(DTza$loss)
+  DTzmin <- min(DTza$loss)
+  DTzlen <- (nrow(DTza)/10)
+  DTzlen_county <- length(counties)
+  
+  DTza_sorted <- sort(DTza$loss)
+  DTza_len <- length(DTza_sorted)
+  
+  tt <- colorRampPalette(c("light blue", "blue", "red"))
+  
+  len4a <- tt((DTzmax - DTzmin))
+  len44a <- tt(DTzsum_max)
+  
+  rowsfinal$x[is.na(rowsfinal$x)] <- 0
+  
+  len5a <- tt((max(rowsfinal$x) - min(rowsfinal$x)))
+  len55a <- tt(max(rowsfinal$x))
+  
+  #len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
+  
+  #----------
+  tt_DTza <- colorRampPalette(c("light blue", "blue", "red"))( DTza_len) 
+  DTza_s1 <- cbind (tt_DTza, DTza_sorted)
+  
+  len4ab <- tt(DTzlen_county)
+  #len4abc <- tt(DTza_sorted)
+  
+  #--
+DTz77 <- subset(DTz, month == jj)
+DTz77 <- subset(DTz77, year == j)
+DTz77$commodity <- trimws(DTz77$commodity)
+DTz77$county <- trimws(DTz77$county)
 
-tt <- colorRampPalette(c("light blue", "blue", "red"))
-#mz <- subset(m, LOSS != 0)
-#mzacres <- subset(m, acres > 0)
-#lengacres <- length(m$acres)
-leng <- length(m$loss)
-#len2 <- tt(len <- length(mz$loss))
-#len2acres <- tt(len <- length(mzacres$acres))
-#len2a <- length(mz$loss)
-#len2a <- length(mzacres$acres)
-len3 <- tt(len <- length(m$loss))
-#len4 <- tt(len <- length(m$acres))
+DT2 <- DTz77
+
+
 
 
 
@@ -392,40 +457,9 @@ len3 <- tt(len <- length(m$loss))
 #--create a color vector for ALL commodity drought values for all years.  used for the gradient legend and coloring
 #za <- as.data.frame(read.csv(i, strip.white = TRUE))
 #DTz <- data.table(za)
-DTz_rev <- subset(DTz1_base, damagecause == lll) 
-DTz <- subset(DTz_rev, commodity == kkk)
-
-DTzsum <- as.data.frame(aggregate(DTz$loss~DTz$month+DTz$year+DTz$county, DTz, sum))
-colnames(DTzsum) <- c("month", "year", "county", "loss")
-DTzsum_max <<- max(DTzsum$loss)
 
 
-DTza <- as.data.frame(subset(DTz, loss > 0))
-DTza <- subset(DTza, monthcode != 0)
-DTzmax <- max(DTza$loss)
-DTzmin <- min(DTza$loss)
-DTzlen <- (nrow(DTza)/10)
-DTzlen_county <- length(counties)
 
-DTza_sorted <- sort(DTza$loss)
-DTza_len <- length(DTza_sorted)
-
-len4a <- tt((DTzmax - DTzmin))
-len44a <- tt(DTzsum_max)
-
-rowsfinal$x[is.na(rowsfinal$x)] <- 0
-
-len5a <- tt((max(rowsfinal$x) - min(rowsfinal$x)))
-len55a <- tt(max(rowsfinal$x))
-
-#len4a_out <- tt((DTzmax - DTzmin)/DTzlen)
-
-#----------
-tt_DTza <- colorRampPalette(c("light blue", "blue", "red"))( DTza_len) 
-DTza_s1 <- cbind (tt_DTza, DTza_sorted)
-
-len4ab <- tt(DTzlen_county)
-#len4abc <- tt(DTza_sorted)
 #----
 
 orderedcolors2 <- tt(length(m$loss))[order(order(m$loss))]
@@ -445,6 +479,7 @@ rows.per.group222 <- subset(rows.per.group222, Group.1 == jj)
 colnames(rows.per.group222) <- c("month", "year", "county", "x")
 rows.per.group222$county <- trimws(rows.per.group222$county)
 
+names(m)[1] <- "county"
 mnew <- merge(m, rows.per.group222, by = "county")
 
 mnew$x[is.na(mnew$x)] <- 0
@@ -540,7 +575,6 @@ nn <- str_pad(n, 2, pad = "0")
 #orderedcolors2 <- colorRampPalette(c(44))
 #m <- cbind(m$LOSS, newmatrix)
 #midpoints <- barplot(mz$LOSS)
-kkk <- gsub("\\s+","\\",kkk)
 #png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", j, "_", nn, "_", kkk,  "_plot.png", sep=""))
 
 
@@ -592,7 +626,9 @@ for (iii in yr) {
 
 listzz <- newmatrixcomm
 #---fix kkk spaces
-kkkk <- gsub(" ", "", kkk, fixed = TRUE)
+#kkkk <- gsub(" ", "", kkk, fixed = TRUE)
+kkkk <- gsub("\\s+","\\",kkk)
+
 #--below - you need to include those months that have no data in the barplot.  unizz only has populated values.  How to get a column of all 
 #listzz <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", "Idaho", "/month_png/", "drought/", kkkk, sep=""))
 #lisss <- length(listzz)
@@ -613,7 +649,7 @@ DT2x$commodity <- gsub(" ", "", DT2x$commodity, fixed = TRUE)
 #unizz <- sort(unique(paste(DT2x$year, ".", DT2x$monthcode, sep="")))
 
 DT2x <- subset(DT2x, damagecause == lll )
-DT2x <- subset(DT2x, commodity == kkk)
+DT2x <- subset(DT2x, commodity == kkkk)
 DT2x <- data.table(DT2x)
 DT2x <- subset(DT2x, monthcode != 0)
 
@@ -656,11 +692,11 @@ lll <- gsub("\\(", "_", lll)
 lll <- gsub("\\)", "_", lll)
 lll <- gsub(" ", "_", lll)
 
-png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", j, "_", nn, "_", kkk, "_", lll,  "_plot.png", sep=""), width=1200, height=1000)
+png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", j, "_", nn, "_", kkkk, "_", lll,  "_plot.png", sep=""), width=1200, height=1000)
 par(mar=c(3,3,3,2)+1)
 layout(matrix(c(1,1,2,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5), 3, 6, byrow = TRUE))
 
-plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk, " ", lll, sep=""), sub=paste("Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=1)
+plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk, "\n", lll, sep=""), sub=paste("Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=0)
 
 legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
 plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range', cex.main = 1.5)
@@ -718,7 +754,7 @@ cols <- ifelse(nxx$loss > nxxsd, "red","blue")
 #legend.col(col = len4a, lev = m$loss)
 
 par(adj = 0)
-bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ",", " Total loss ($) by month, 1989 - 2015", sep="")
+bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ",", " Total loss ($) by month", sep="")
                , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
 
 par(adj = .5)
@@ -742,7 +778,7 @@ abline(v=(bar[thenum[1]]), col="red", lty=2)
 
 countsd <- sd(rowsfinal$x)
 cols2 <- ifelse(rowsfinal$x > countsd, "red","blue")
-bar <- barplot(rowsfinal$x, space = 0, col=cols2, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ",", " Total claim counts by month, 1989 - 2015", sep="")
+bar <- barplot(rowsfinal$x, space = 0, col=cols2, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ",", " Total claim counts by month", sep="")
                , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
 
 title(ylab="Commodity loss in dollars ($)", line=9, cex.lab=2)
@@ -762,7 +798,9 @@ dev.off()
 #text(b, midpoint_acres, labels=mzacres$acres, xpd=NA, col = "White")
 #plot(m, col = newmatrix_acres, main = paste(scen_state, " crop loss acres \n", " ", plotyear, "\n", plotcommodity, sep=""))
 
-} else {
+}} else {
+  
+  if (nrow(DT2) == 0) {
   
                      m <- counties
                      m@data$loss <- runif(nrow(m@data))
@@ -916,9 +954,11 @@ dev.off()
                      DT2x$commodity <- gsub(" ", "", DT2x$commodity, fixed = TRUE)
                      
                      #unizz <- sort(unique(paste(DT2x$year, ".", DT2x$monthcode, sep="")))
+                     kkkk <- gsub("\\s+","\\",kkk)
+                     
                      
                      DT2x <- subset(DT2x, damagecause == lll )
-                     DT2x <- subset(DT2x, commodity == kkk)
+                     DT2x <- subset(DT2x, commodity == kkkk)
                      DT2x <- data.table(DT2x)
                      DT2x <- subset(DT2x, monthcode != 0)
                      ##--merge
@@ -959,7 +999,6 @@ dev.off()
                      #orderedcolors2 <- colorRampPalette(c(44))
                      #m <- cbind(m$LOSS, newmatrix)
                      #midpoints <- barplot(mz$LOSS)
-                     kkk <- gsub("\\s+","\\",kkk)
                      
                      lll <- gsub(" ", "_", lll)
                      lll <- gsub("/", "_", lll)
@@ -967,7 +1006,7 @@ dev.off()
                      lll <- gsub("\\)", "_", lll)
                      lll <- gsub(" ", "_", lll)
                      
-                     png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", j, "_", nn, "_", kkk, "_", lll,  "_plot.png", sep=""), width=1200, height=1000)
+                     png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", j, "_", nn, "_", kkkk, "_", lll,  "_plot.png", sep=""), width=1200, height=1000)
                      #par(mar=c(1,1,1,1))
                      #par(mar=c(3,3,3,2)+1)
                      #par(mfrow=c(1,1))
@@ -1003,7 +1042,7 @@ dev.off()
                      #text(bb, midpoint_loss, labels=mz$loss, srt=90)
                      #plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk, "\n", "monthly total loss: $", "0", ":", " monthly drought claims:", "0", sep=""), cex.main = 2)
                      
-                     plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk, " ", lll, sep=""), sub=paste("Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=1)
+                     plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk, "\n", lll, sep=""), sub=paste("Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=0)
                      
                      
                      
@@ -1026,7 +1065,7 @@ dev.off()
                        
                        legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
                        plot(c(0,3),c(0,DTzsum_maxz),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range', cex.main = 1.5)
-                       text(x=1.5, y = c(0,5), labels = c(0,5), cex = 2)
+                       #text(x=1.5, y = c(0,5), labels = c(0,5), cex = 2)
                        text(x=1.5, y = seq(0,DTzsum_maxz,l=5), labels = seq(0,DTzsum_maxz,l=5), cex = 1.5)
                        rasterImage(legend_image, 0, 0, .35, DTzsum_maxz)
                        
@@ -1079,7 +1118,7 @@ dev.off()
                        
                        
                        par(adj=0)
-                       bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ", ", "Total loss by month, 1989 - 2015", sep="")
+                       bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ", ", "Total loss by month", sep="")
                                       , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
                        par(adj = .5)
                        title(ylab="Commodity loss ($)", line=9, cex.lab=2)
@@ -1097,7 +1136,7 @@ dev.off()
                      
                      countsd <- sd(rowsfinal$x)
                      cols2 <- ifelse(rowsfinal$x > countsd, "red","blue")
-                     bar <- barplot(rowsfinal$x, space = 0, col=cols2, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ",", " Total claim counts by month, 1989 - 2015", sep="")
+                     bar <- barplot(rowsfinal$x, space = 0, col=cols2, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ",", " Total claim counts by month", sep="")
                                     , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
                      
                      title(ylab="Commodity claim counts", line=9, cex.lab=2)
@@ -1117,7 +1156,7 @@ dev.off()
                      #text(b, midpoint_acres, labels=mzacres$acres, xpd=NA, col = "White")
                      #plot(m, col = newmatrix_acres, main = paste(scen_state, " crop loss acres \n", " ", plotyear, "\n", plotcommodity, sep=""))                     
                      
-} }}}}
+  }} }}}}
 
 
 listz <- list.files(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", lll, sep=""))

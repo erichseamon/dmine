@@ -62,7 +62,7 @@ options(scipen=5)
 
 #dmineplots <- function(scen_state, startyear, endyear, dcause, Kommodity) {
 
-scen_state = "Washington"
+scen_state = "Idaho"
 startyear = "1989"
 endyear = "2015"
 #dcause = "Drought"
@@ -106,13 +106,15 @@ combined.df_1989 <- combined.df_1989[,c(1,3,2,4,5,6,7,8,9,10,11,12,13,14,15,17,1
 colnames(combined.df_1989)[17] <- "loss"
 colnames(combined.df_1989)[16] <- "acres"
 
+file1990 <- read.csv(paste("1990_monthly_usda_", scen_state, "_summary", sep=""))
+file2000 <- read.csv(paste("2000_monthly_usda_", scen_state, "_summary", sep=""))
+
 setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/month_2001")
 files  <- list.files(pattern = scen_state)
 tables <- lapply(files, read.csv, header = TRUE, strip.white = TRUE)
 combined.df_2001 <- do.call(rbind , tables)
 
 zaa <- rbind(combined.df_1989, combined.df_2001)
-
 
   
 #zaa <- as.data.frame(read.csv(it, strip.white = TRUE))
@@ -122,7 +124,7 @@ DTz1$damagecause <- trimws(DTz1$damagecause)
 DTz1_damage_unique <- trimws(unique(DTz1$damagecause))
 DTz1_damage_unique <- DTz1_damage_unique[DTz1_damage_unique != ""]
 
-DTz1_damage_unique <-DTz1_damage_unique[25:32]  #--remove first two causes since they have already been processed.
+#DTz1_damage_unique <-DTz1_damage_unique[25:32]  #--remove first two causes since they have already been processed.
 
 
 
@@ -445,6 +447,7 @@ rows.per.group222 <- subset(rows.per.group222, Group.1 == jj)
 colnames(rows.per.group222) <- c("month", "year", "county", "x")
 rows.per.group222$county <- trimws(rows.per.group222$county)
 
+names(m)[1] <- "county"
 mnew <- merge(m, rows.per.group222, by = "county")
 
 mnew$x[is.na(mnew$x)] <- 0
