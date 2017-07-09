@@ -9,7 +9,6 @@ library(compare)
 library(stringr)
 
 
-
 rm(list = ls()) #--clears all lists------#
 cat("\14")
 
@@ -130,7 +129,7 @@ DTz1$damagecause <- trimws(DTz1$damagecause)
 DTz1_damage_unique <- trimws(unique(DTz1$damagecause))
 DTz1_damage_unique <- DTz1_damage_unique[DTz1_damage_unique != ""]
 
-#DTz1_damage_unique <-DTz1_damage_unique[4:32]  #--remove first two causes since they have already been processed.
+DTz1_damage_unique <-DTz1_damage_unique[4:32]  #--remove first two causes since they have already been processed.
 
 
 
@@ -694,25 +693,22 @@ lll2 <- gsub("\\(", "_", lll2)
 lll2 <- gsub("\\)", "_", lll2)
 lll2 <- gsub(" ", "_", lll2)
 
-png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", scen_state, "_", j, "_", nn, "_", kkkk, "_", lll2,  "_plot.png", sep=""), width=1200, height=1000)
-par(mar=c(3,3,5,2)+1, oma = c(2,2,2,2))
-#par(mar=c(3,3,3,2)+1)
+png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", j, "_", nn, "_", kkkk, "_", lll2,  "_plot.png", sep=""), width=1200, height=1000)
+par(mar=c(3,3,3,2)+1)
 layout(matrix(c(1,1,2,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5), 3, 6, byrow = TRUE))
 
-plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", "\n", kkk, ": ", lll, sep=""), sub=paste("Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=0)
+plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk, "\n", lll, sep=""), sub=paste("Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=0)
 
 legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
 plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range', cex.main = 1.5)
 #text(x=1.5, y = c(0,5), labels = c(0,5))
-text(x=1.5, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5), cex = 1.5)
-rasterImage(legend_image, 0, 0, .35, DTzsum_max)
+text(x=2.2, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5), cex = 1.5)
+rasterImage(legend_image, 0, 0, .45, DTzsum_max)
 
-barplot(mnew$x, names = mnew$county, col=newmatrix, las=3, cex.axis=2.0, cex.main = 2, cex.names=1.5, ylim=c(0,max(rows.per.group22$x)))
-#mtext(paste("Total Claim Counts: ", sum(mnew$x), sep=""), col="blue", cex = 1.5, line=-1)
-#mtext(paste("**color coding is for loss, matches map**", sep=""), col="black", cex = 1, line=-2.2)
+barplot(mnew$x, names = mnew$county, col=newmatrix, las=3, cex.axis=1.5, cex.main = 2, cex.names=1.5, ylim=c(0,max(rows.per.group22$x)), main=paste(scen_state,  " ", jj, " ", j, " ", kkk, " Claim Counts", sep=""))
+mtext(paste("Total Claim Counts: ", sum(mnew$x), sep=""), col="blue", cex = 1.5, line=-1)
+mtext(paste("**color coding is for loss, matches map**", sep=""), col="black", cex = 1, line=-2.2)
 
-mtext(paste(scen_state,  " ", jj, " ", j, " ", kkk, " Claim Counts", sep=""), col="Black", cex = 1.75, line=2.8)
-mtext(paste("Total Claim Counts: ", sum(mnew$x), sep=""), col="blue", cex = 1.5, line=.7)
 
 ##legend_image <- as.raster(matrix(rev(len5a_out), ncol=1))
 ##plot(c(0,3),c(0,rowsfinal_max),type = 'n', axes = F,xlab = '', ylab = '', main = "Claim Count Range: \n 1989-2015", cex.main = 1.5)
@@ -764,7 +760,7 @@ bar <- barplot(nxx$loss, space = 0, col=cols, xlab="", ylab="", main = paste(sce
 
 par(adj = .5)
 title(ylab="Commodity loss ($)", line=9, cex.lab=2)
-title(xlab="Commodity loss totals ($) 1989 - 2015 \n **Red bars indicate months that are 2 standard deviations above the 1989-2015 mean**", line=8, cex.lab=2)
+title(xlab="Commodity loss totals ($) 1989 - 2015", line=8, cex.lab=2)
 
 #legend("topleft",
 #       lty = 5, bty = "n", cex = 2, col = c("red"),
@@ -781,14 +777,13 @@ title(xlab="Commodity loss totals ($) 1989 - 2015 \n **Red bars indicate months 
 abline(v=(bar[thenum[1]]), col="red", lty=2)
 
 
-
 countsd <- sd(rowsfinal$x)
-cols2 <- ifelse(rowsfinal$x > (2*countsd), "red","blue")
+cols2 <- ifelse(rowsfinal$x > countsd, "red","blue")
 bar <- barplot(rowsfinal$x, space = 0, col=cols2, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ",", " Total claim counts by month, 1989 - 2015", sep="")
                , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
 
-title(ylab="Commodity claim counts", line=9, cex.lab=2)
-title(xlab="Commodity claim counts \n **Red bars indicate months that are 2 standard deviations above the 1989-2015 mean**, 1989 - 2015", line=8, cex.lab=2)
+title(ylab="Commodity loss in dollars ($)", line=9, cex.lab=2)
+title(xlab="Commodity loss totals ($) 1989 - 2015", line=8, cex.lab=2)
 
 #axis(1, xaxp=c(1, 15, 19), las=2)
 
@@ -1012,7 +1007,7 @@ dev.off()
                      lll2 <- gsub("\\)", "_", lll2)
                      lll2 <- gsub(" ", "_", lll2)
                      
-                     png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", scen_state, "_", j, "_", nn, "_", kkkk, "_", lll2,  "_plot.png", sep=""), width=1200, height=1000)
+                     png(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", j, "_", nn, "_", kkkk, "_", lll2,  "_plot.png", sep=""), width=1200, height=1000)
                      #par(mar=c(1,1,1,1))
                      #par(mar=c(3,3,3,2)+1)
                      #par(mfrow=c(1,1))
@@ -1031,7 +1026,7 @@ dev.off()
                      #layout(matrix(c(1,2,3,3,3,3), 3, 2, byrow = TRUE),
                     #        widths=c(2,1), heights=c(2,1))
                      
-                     par(mar=c(3,3,5,2)+1, oma = c(2,2,2,2))
+                     par(mar=c(3,3,3,2)+1)
                      layout(matrix(c(1,1,2,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5), 3, 6, byrow = TRUE))
                      
                      #layout(matrix(c(1,2,3,4),2, 2, byrow=TRUE))
@@ -1081,10 +1076,9 @@ dev.off()
                      #legend.col(col = orderedcolors2a, lev = m$loss)
 
                      
-                     barplot(m$loss, names = mnew$county, col=newmatrix, las=3, cex.main = 1, cex.names=1.5, ylim=c(0,max(rows.per.group22$x)), cex.axis = 2)
-                     mtext(paste(scen_state,  " ", jj, " ", j, " ", kkk, " Claim Counts", sep=""), col="Black", cex = 1.75, line=2.8)
-                     mtext(paste("Total Claim Counts: ", "0", sep=""), col="blue", cex = 1.5, line=.7)
-                     #mtext(paste("**color coding is for loss, matches map**", sep=""), col="black", cex = 1, line=1.9)
+                     barplot(m$loss, names = mnew$county, col=newmatrix, las=3, cex.main = 2, cex.names=1.5, ylim=c(0,max(rows.per.group22$x)), cex.axis = 2, main=paste(scen_state,  " ", jj, " ", j, " ", kkk, " Claim Counts", sep=""))
+                     mtext(paste("Total Claim Counts: ", m$loss, sep=""), col="blue", cex = 1.5, line=-1)
+                     mtext(paste("**color coding is for loss, matches map**", sep=""), col="black", cex = 1, line=-2.2)
                      
                        
                        par(mar=c(14,12,5,5))
@@ -1120,7 +1114,7 @@ dev.off()
                                      "2015", "", "", "", "", "", "", "", "", "", "", "")
                        
                        nxxsd <- sd(nxx$loss)
-                       cols <- ifelse(nxx$loss > (2*nxxsd), "red","blue")
+                       cols <- ifelse(nxx$loss > nxxsd, "red","blue")
                        #legend.col(col = len4a, lev = m$loss)
                        
                        
@@ -1129,7 +1123,7 @@ dev.off()
                                       , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
                        par(adj = .5)
                        title(ylab="Commodity loss ($)", line=9, cex.lab=2)
-                       title(xlab="Commodity loss totals ($) 1989 - 2015 \n **Red bars indicate months that are 2 standard deviations above the 1989-2015 mean**", line=8, cex.lab=2)
+                       title(xlab="Commodity loss totals ($) 1989 - 2015", line=8, cex.lab=2)
                        
                        #legend("topleft",
                       #        lty = 5, bty = "n", cex = 2, col = c("red"),
@@ -1138,7 +1132,8 @@ dev.off()
                        
                      #bar <- barplot(nxx$loss) #-plot the bar plot for the animation beside the map
                      abline(v=(bar[thenum[1]]), col="red", lty=2)
-
+                     
+                     
                      
                      countsd <- sd(rowsfinal$x)
                      cols2 <- ifelse(rowsfinal$x > countsd, "red","blue")
@@ -1146,14 +1141,12 @@ dev.off()
                                     , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
                      
                      title(ylab="Commodity claim counts", line=9, cex.lab=2)
-                     title(xlab="Commodity claim counts, 1989 - 2015 \n **Red bars indicate months that are 2 standard deviations above the 1989-2015 mean**", line=8, cex.lab=2)
-
+                     title(xlab="Commodity claim counts, 1989 - 2015", line=8, cex.lab=2)
+                     
                      #axis(1, xaxp=c(1, 15, 19), las=2)
                      
                      #-plot the bar plot for the animation beside the map
                      abline(v=(bar[thenum[1]]), col="red", lty=2)    
-                     
-
                      
                      #legend("topleft", inset=c(0,-.2),
                       #      lty = 2, bty = "n", cex = 2, col = c("red"),
