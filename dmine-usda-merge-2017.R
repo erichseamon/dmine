@@ -41,9 +41,10 @@ usda_WA_90 <- subset(usda90, state == "WA")
 usda_ID_90 <- subset(usda90, state == "ID")
 usda_OR_90 <- subset(usda90, state == "OR")
 setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/")
-write.csv(usda_WA_0, file="1990_monthly_usda_Washington_summary")
-write.csv(usda_ID_0, file="1990_monthly_usda_Idaho_summary")
-write.csv(usda_OR_0, file="1990_monthly_usda_Oregon_summary")
+write.csv(usda_WA_90, file="1990_monthly_usda_Washington_summary")
+write.csv(usda_ID_90, file="1990_monthly_usda_Idaho_summary")
+write.csv(usda_OR_90, file="1990_monthly_usda_Oregon_summary")
+
 
 usda91 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1991.txt", sep="")
 usda91 <- read.csv(usda91, header=FALSE, sep="|")

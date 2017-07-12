@@ -70,7 +70,7 @@ options(scipen=5)
 
 #dmineplots <- function(scen_state, startyear, endyear, dcause, Kommodity) {
 
-scen_state = "Washington"
+scen_state = "Idaho"
 startyear = "1989"
 endyear = "2015"
 #dcause = "Drought"
@@ -699,7 +699,7 @@ par(mar=c(3,3,5,2)+1, oma = c(2,2,2,2))
 #par(mar=c(3,3,3,2)+1)
 layout(matrix(c(1,1,2,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5), 3, 6, byrow = TRUE))
 
-plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", "\n", kkk, ": ", lll, sep=""), sub=paste("Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=0)
+plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", "\n", kkk, ": ", lll, sep=""), sub=paste("\n Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=0)
 
 legend_image <- as.raster(matrix(rev(len4a_out), ncol=1))
 plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'Loss $ Range', cex.main = 1.5)
@@ -707,12 +707,14 @@ plot(c(0,3),c(0,DTzsum_max),type = 'n', axes = F,xlab = '', ylab = '', main = 'L
 text(x=1.5, y = seq(0,DTzsum_max,l=5), labels = seq(0,DTzsum_max,l=5), cex = 1.5)
 rasterImage(legend_image, 0, 0, .35, DTzsum_max)
 
+par(mar=c(5,6,4,2))
 barplot(mnew$x, names = mnew$county, col=newmatrix, las=3, cex.axis=2.0, cex.main = 2, cex.names=1.5, ylim=c(0,max(rows.per.group22$x)))
+title(ylab="Commodity claim counts", line=3, cex.lab=1.4)
 #mtext(paste("Total Claim Counts: ", sum(mnew$x), sep=""), col="blue", cex = 1.5, line=-1)
 #mtext(paste("**color coding is for loss, matches map**", sep=""), col="black", cex = 1, line=-2.2)
 
-mtext(paste(scen_state,  " ", jj, " ", j, " ", kkk, " Claim Counts", sep=""), col="Black", cex = 1.75, line=2.8)
-mtext(paste("Total Claim Counts: ", sum(mnew$x), sep=""), col="blue", cex = 1.5, line=.7)
+mtext(paste(scen_state,  " ", jj, " ", j, " ", kkk, sep=""), col="Black", cex = 1.4, line=2.8)
+mtext(paste("Total Claim Counts: ", sum(mnew$x), ": **bar colors match $ loss from map**", sep=""), col="blue", cex = 1.4, line=.7)
 
 ##legend_image <- as.raster(matrix(rev(len5a_out), ncol=1))
 ##plot(c(0,3),c(0,rowsfinal_max),type = 'n', axes = F,xlab = '', ylab = '', main = "Claim Count Range: \n 1989-2015", cex.main = 1.5)
@@ -755,7 +757,7 @@ baryears <- c("1989", "", "", "", "", "", "", "", "", "", "", "",
               "2015", "", "", "", "", "", "", "", "", "", "", "")
 
 nxxsd <- sd(nxx$loss)
-cols <- ifelse(nxx$loss > nxxsd, "red","blue")
+cols <- ifelse(nxx$loss > (2*nxxsd), "red","blue")
 #legend.col(col = len4a, lev = m$loss)
 
 par(adj = 0)
@@ -778,7 +780,7 @@ title(xlab="Commodity loss totals ($) 1989 - 2015 \n **Red bars indicate months 
 #axis(1, xaxp=c(1, 15, 19), las=2)
       
  #-plot the bar plot for the animation beside the map
-abline(v=(bar[thenum[1]]), col="red", lty=2)
+abline(v=(bar[thenum[1]]), col="firebrick1", lty=2)
 
 
 
@@ -788,12 +790,12 @@ bar <- barplot(rowsfinal$x, space = 0, col=cols2, xlab="", ylab="", main = paste
                , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
 
 title(ylab="Commodity claim counts", line=9, cex.lab=2)
-title(xlab="Commodity claim counts \n **Red bars indicate months that are 2 standard deviations above the 1989-2015 mean**, 1989 - 2015", line=8, cex.lab=2)
+title(xlab="Commodity claim counts, 1989 - 2015 \n **Red bars indicate months that are 2 standard deviations above the 1989-2015 mean**", line=8, cex.lab=2)
 
 #axis(1, xaxp=c(1, 15, 19), las=2)
 
 #-plot the bar plot for the animation beside the map
-abline(v=(bar[thenum[1]]), col="red", lty=2)
+abline(v=(bar[thenum[1]]), col="firebrick1", lty=2)
 
 #legend("topleft",
 #       lty = 5, bty = "n", cex = 2, col = c("red"),
@@ -1048,7 +1050,7 @@ dev.off()
                      #text(bb, midpoint_loss, labels=mz$loss, srt=90)
                      #plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", kkk, "\n", "monthly total loss: $", "0", ":", " monthly drought claims:", "0", sep=""), cex.main = 2)
                      
-                     plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", "\n", kkk,  ": ", lll, sep=""), sub=paste("Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=0)
+                     plot(m, col = newmatrix, main = paste(scen_state,  " ", jj, " ", j, " ", "\n", kkk,  ": ", lll, sep=""), sub=paste("\n Total Monthly Loss: $", sum(m$loss), sep=""), col.sub="blue", cex.sub=2.5, cex.main = 2, line=0)
                      
                      
                      
@@ -1080,10 +1082,11 @@ dev.off()
                      #plot(m, col = newmatrix, main = paste(scen_state, " crop loss $ \n", " ", jj, " ", j, "\n", kkk, sep=""))
                      #legend.col(col = orderedcolors2a, lev = m$loss)
 
-                     
-                     barplot(m$loss, names = mnew$county, col=newmatrix, las=3, cex.main = 1, cex.names=1.5, ylim=c(0,max(rows.per.group22$x)), cex.axis = 2)
-                     mtext(paste(scen_state,  " ", jj, " ", j, " ", kkk, " Claim Counts", sep=""), col="Black", cex = 1.75, line=2.8)
-                     mtext(paste("Total Claim Counts: ", "0", sep=""), col="blue", cex = 1.5, line=.7)
+                     par(mar=c(5,6,4,2))
+                     barplot(m$loss, names = counties$NAME, col=newmatrix, las=3, cex.main = 1, cex.names=1.5, ylim=c(0,max(rows.per.group22$x)), cex.axis = 2)
+                     title(ylab="Commodity claim counts", line=3, cex.lab=1.4)
+                     mtext(paste(scen_state,  " ", jj, " ", j, " ", kkk, sep=""), col="Black", cex = 1.4, line=2.8)
+                     mtext(paste("Total Claim Counts: ", "0: **bar colors match $ loss from map**", sep=""), col="blue", cex = 1.4, line=.7)
                      #mtext(paste("**color coding is for loss, matches map**", sep=""), col="black", cex = 1, line=1.9)
                      
                        
@@ -1137,11 +1140,11 @@ dev.off()
                        
                        
                      #bar <- barplot(nxx$loss) #-plot the bar plot for the animation beside the map
-                     abline(v=(bar[thenum[1]]), col="red", lty=2)
+                     abline(v=(bar[thenum[1]]), col="firebrick1", lty=2)
 
                      
                      countsd <- sd(rowsfinal$x)
-                     cols2 <- ifelse(rowsfinal$x > countsd, "red","blue")
+                     cols2 <- ifelse(rowsfinal$x > (2*countsd), "red","blue")
                      bar <- barplot(rowsfinal$x, space = 0, col=cols2, xlab="", ylab="", main = paste(scen_state,  " ", kkk, " for ", lll, ",", " Total claim counts by month, 1989 - 2015", sep="")
                                     , names.arg = baryears, las = 2, cex.main = 2, cex.names = 2, cex.axis = 2)
                      
@@ -1151,7 +1154,7 @@ dev.off()
                      #axis(1, xaxp=c(1, 15, 19), las=2)
                      
                      #-plot the bar plot for the animation beside the map
-                     abline(v=(bar[thenum[1]]), col="red", lty=2)    
+                     abline(v=(bar[thenum[1]]), col="firebrick1", lty=2)    
                      
 
                      

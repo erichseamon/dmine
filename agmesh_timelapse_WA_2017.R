@@ -3,7 +3,7 @@
   
   
   setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", sep=""))
-  system(paste("mkdir ", "timelapse", sep=""))
+  #system(paste("mkdir ", "timelapse", sep=""))
   
   #----
   listallnames <- list.files(setdir)
@@ -12,18 +12,19 @@
   lan$names <- as.character(lan$names)
   
   lan$names2 = substr(lan$names,1,nchar(lan$names)-9)
-
+  lan$names2 <- substring(lan$names2, 19)
   
-  lan$names2 <- substring(lan$names2, 9)
+  lan2 <- lan
+  lan2$names2 <- substring(lan2$names2, 2)
   
-  DTz1list <- unique(lan$names2)
+  DTz1list <- unique(lan2$names2)
  
   #----
   
   for (i in DTz1list) {
     
-  setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/timelapse/, i, sep="")) 
-  system(paste("ffmpeg -framerate 5 -i ", "'%*", i, "_plot.png' ", "-q:v 20 ", i, "_timelapse.mp4", sep="")) #--plays in chrome
+  setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", sep="")) 
+  system(paste("ffmpeg -framerate 5 -i ", "'%*", i, "_plot.png' ", "-q:v 20 ", scen_state, i, "_timelapse.mp4", sep="")) #--plays in chrome
   system(paste("mv *.mp4 /dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png/timelapse/", sep=""))
                 
     }
