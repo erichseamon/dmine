@@ -46,8 +46,8 @@ for (i in 1:nt) {
   count <- size                # begin with count=(nx,ny,...,nt), reads entire var
   count[dims] <- 1             # change to count=(nx,ny,...,1) to read 1 tstep
   
-
-  dt<-ncvar_get(nc, varid = 'soil_moisture', start = start, count = count)
+  
+  dt<-ncvar_get(nc, varid = 'precipitation_amount', start = start, count = count)
   
   # convert to raster
   r[i]<-raster(dt)

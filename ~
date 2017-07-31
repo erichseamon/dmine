@@ -1,4 +1,4 @@
-eda changes
+alterations`
 # Please enter the commit message for your changes. Lines starting
 # with '#' will be ignored, and an empty message aborts the commit.
 # Explicit paths specified without -i nor -o; assuming --only paths...
@@ -6,15 +6,32 @@ eda changes
 # Changes to be committed:
 #   (use "git reset HEAD <file>..." to unstage)
 #
-#	new file:   circ/dmine-circ-ag-cdl-prep.R
-#	modified:   circ/dmine-circ-ag-eda.R
-#	modified:   dmine-croploss-met.R
+#	modified:   agmesh_timelapse_ID_2017b.R
+#	new file:   agmesh_timelapse_OR_2017b.R
+#	modified:   agmesh_timelapse_WA_2017b.R
+#	new file:   dmine-croploss-met8.R
+#	new file:   dmine-croploss-met9_vic.R
+#	modified:   dmine-modis-npp2.R
+#	new file:   dmine-modis-npp3.R
+#	new file:   dmine-modis-npp4.R
+#	new file:   dmine-palouse-join-annual-counties.R
+#	new file:   dmine-rpart-tree_EDA_summer2017.R
+#	new file:   dmine-summarylist.R
+#	new file:   dmine-vic1.R
+#	new file:   eda_output/agmesh-commodity-annual-palouse_ed42.R
+#	new file:   eda_output/agmesh-commodity-annual-palouse_eda2.R
+#	new file:   eda_output/climate-landslide-full.html
+#	new file:   functions/plot.getTree.R
 #
 # Changed but not updated:
 #   (use "git add/rm <file>..." to update what will be committed)
 #   (use "git checkout -- <file>..." to discard changes in working directory)
 #
+#	deleted:    agmesh-dials.R
+#	deleted:    agmesh-hist3d.R
+#	deleted:    agmesh-image-scale.R
 #	deleted:    agmesh-wordcloud.ipynb
+#	deleted:    agmesh_gridcorrelation.R
 #
 # Untracked files:
 #   (use "git add <file>..." to include in what will be committed)

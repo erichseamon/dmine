@@ -1,5 +1,5 @@
 
-scen_state="Washington"
+scen_state="Oregon" 
 
 setdir <- paste("/dmine/data/USDA/agmesh-scenarios/", scen_state, "/month_png2/", sep="")
 
@@ -14,13 +14,13 @@ colnames(lan) <- "names"
 lan$names <- as.character(lan$names)
 
 lan$names2 = substr(lan$names,1,nchar(lan$names)-9)
-lan$names2 <- substring(lan$names2,18)
+lan$names2 <- substring(lan$names2,14)
 
 lan2 <- lan
 lan2$names2 <- substring(lan2$names2, 2)
 
 DTz1list <- unique(lan2$names2)
-DTz1list <- DTz1list[2:length(DTz1list)]
+DTz1list <- DTz1list[1:length(DTz1list)-1]
 
 #----
 

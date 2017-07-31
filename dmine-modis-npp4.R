@@ -18,7 +18,7 @@ projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 #counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
 counties <- subset(counties, STATE_NAME %in% "Idaho")
 
-inputfile <- "/dmine/data/VIC/total_column_soil_moisture.nc"
+inputfile <- "/dmine/data/VIC/month/total_moisture_feb_2013.nc"
 
 #ncin <- open.ncdf(inputfile)
 #nc <- open.ncdf(inputfile)
@@ -47,11 +47,14 @@ for (i in 1:nt) {
   count[dims] <- 1             # change to count=(nx,ny,...,1) to read 1 tstep
   
 
-  dt<-ncvar_get(nc, varid = 'soil_moisture', start = start, count = count)
+  dt<-ncvar_get(nc, varid = 'total_moisture', start = start, count = count)
   
   # convert to raster
   r[i]<-raster(dt)
 }
+
+image(t(flip(x, 1)))
+
 
 # create layer stack with time dimension
 r<-stack(r)
@@ -59,6 +62,9 @@ r<-stack(r)
 # transpose the raster to have correct orientation
 rt<-t(r)
 extent(rt)<-extent(c(range(lon), range(lat)))
+extent(r)<-extent(c(range(lon), range(lat)))
+
+
 
 # plot the result
 spplot(rt)
