@@ -1,4 +1,4 @@
-
+ 
 #------------------------------------------------------------------------#
 # TITLE:        dmine-gridmet-monthly.R
 # AUTHOR:       Erich Seamon
@@ -812,23 +812,23 @@ write.csv(claimaggall, file = "PNW_summary_all.csv")
 write.csv(claimaggallpalouse, file = "palouse_summary_all.csv")
 
 
-for (p in listercomb) {
 
 
 
-setwd("/dmine/data/VIC/county")
+
+setwd("/dmine/data/USDA/agmesh-scenarios/Idaho/summaries5")
 files  <- list.files(pattern = 'Idaho')
 tables <- lapply(files, read.csv, header = TRUE)
 combined_idaho.df <- do.call(rbind , tables)
 combined_idaho.df$state <- "Idaho"
 
-setwd("/dmine/data/VIC/county")
+setwd("/dmine/data/USDA/agmesh-scenarios/Oregon/summaries5")
 files  <- list.files(pattern = 'Oregon')
 tables <- lapply(files, read.csv, header = TRUE)
 combined_oregon.df <- do.call(rbind , tables)
 combined_oregon.df$state <- "Oregon"
 
-setwd("/dmine/data/VIC/county")
+setwd("/dmine/data/USDA/agmesh-scenarios/Washington/summaries5")
 files  <- list.files(pattern = 'Washington')
 tables <- lapply(files, read.csv, header = TRUE)
 combined_washington.df <- do.call(rbind , tables)
@@ -840,12 +840,13 @@ combined.df <- rbind(combined_idaho.df, combined_washington.df, combined_oregon.
 #---construct a county fips name file
 library(maps)
 data(county.fips)
-colnames(combined.df)[4] <- "fips"
+colnames(county.fips)[1] <- "countyfips"
+colnames(combined.df)[16] <- "countyfips"
 library(stringr)
 county.fips2 <- data.frame(str_split_fixed(county.fips$polyname, ",", 2))
 colnames(county.fips2) <- c("state", "county")
 county.fips3 <- cbind(county.fips, county.fips2)
-combined1.df <- merge(combined.df,county.fips3, by = 'fips')
+combined1.df <- merge(combined.df,county.fips3, by = 'countyfips')
 
 #--create unique values for each county grouping for palouse region
 lister <- unique(combined1.df$county)
@@ -936,7 +937,7 @@ capFirst <- function(s) {
 #--to factor in that alternative structure (so gridmet can merge correctly)
 
 
-
+for (p in listercomb) {
 
 
 statespan <- c("idaho", "oregon", "washington")
@@ -1018,12 +1019,12 @@ statespan <- c("idaho", "oregon", "washington")
     #gridmetmonthly <- do.call(rbind , tables)
     
     gridmetmonthly <- data.frame(combined1.df)
-    colnames(gridmetmonthly)[5] <- "state"
+    colnames(gridmetmonthly)[19] <- "state"
     
     statez = simpleCap(statez)
     countyz = simpleCap(countyz)
     countyz = tolower(countyz)
-    #statez = state.abb[grep(statez, state.name)]
+    statez1a = state.abb[grep(simpleCap(statez), state.name)]
     gridmetmonthly <- subset(gridmetmonthly, state == statez)
     gridmetmonthly <- subset(gridmetmonthly, county == countyz)
 
@@ -1033,10 +1034,11 @@ statespan <- c("idaho", "oregon", "washington")
     gridmetmonthly$monthchar <- capitalize(gridmetmonthly$monthchar)
     gridmetmonthly$monthchar <- factor(gridmetmonthly$monthchar, levels=month.abb)
     #gridmetmonthly$monthchar <- as.numeric(gridmetmonthly$monthchar)
-    gridmetmonthly <- gridmetmonthly[order(gridmetmonthly[,4], gridmetmonthly[,9]),]
+    gridmetmonthly <- gridmetmonthly[order(gridmetmonthly[,18], gridmetmonthly[,23]),]
     #gridmetmonthly$monthyear <- paste(as.numeric(gridmetmonthly$monthchar), ".", gridmetmonthly$year, sep="")
     gridmetmonthly$ID<-seq.int(nrow(gridmetmonthly))
     
+    gridmetmonthly$month <- trimws(gridmetmonthly$month)
     #---05.18.17 need to create loop thru all claims and assign short term and long term drought variables.  mar 2009 is go back 3 and 6.  June 2009 is go back 6 and 9
    
     gridmetmonthly <- data.frame(gridmetmonthly)
@@ -1124,34 +1126,394 @@ statespan <- c("idaho", "oregon", "washington")
     claimaggcount_final2 <- join(my2, claimaggcount_final, by = c("month", "year"))
     
     
+    #------
     
+    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/summaries/")
+    sumcount1 <-  read.csv("Palouse_summary_counts.csv")
+    sumcount2 <- subset(sumcount1, state == statez1a)
+    sumcount2 <- subset(sumcount2, county == countyz)
+    sumcount2 <- subset(sumcount2, commodity == q)
+    claimaggcount_final2 <- subset(sumcount2, damagecause == m)
     
+    meanloss1 <- read.csv("Palouse_summary_meanloss.csv")
+    meanloss2 <- subset(meanloss1, state == statez1a)
+    meanloss2 <- subset(meanloss2, county == countyz)
+    meanloss2 <- subset(meanloss2, commodity == q)
+    claimaggmean_final2 <- subset(meanloss2, damagecause == m)
     
+    sumloss1 <- read.csv("Palouse_summary_sumloss.csv")
+    sumloss2 <- subset(sumloss1, state == statez1a)
+    sumloss2 <- subset(sumloss2, county == countyz)
+    sumloss2 <- subset(sumloss2, commodity == q)
+    claimaggloss_final2 <- subset(sumloss2, damagecause == m)
     
-    #for (l in 1:nrow(claimaggloss_final)) {
-    #  shortermmean <- mean(claimaggmean_final$loss)
-    #}
+    sumacres1 <- read.csv("Palouse_summary_sumacres.csv")
+    sumacres2 <- subset(sumacres1, state == statez1a)
+    sumacres2 <- subset(sumacres2, county == countyz)
+    sumacres2 <- subset(sumacres2, commodity == q)
+    claimaggacres_final2 <- subset(sumacres2, damagecause == m)
     
-    #claimagg_countratio <- nrow(wheatdrought2001)/nrow(wheatdroughtclaim_all2001)
-    #ca_factored <- wheatdroughtclaim_allall_final[order(wheatdroughtclaim_allall_final[,1], wheatdroughtclaim_allall_final[,14]),]
+    claimaggloss_aggy <- aggregate(loss ~ month + damagecause + county + state + commodity, claimaggloss_final2, sum)
     
-    #ca <- data.frame(table(wheatdroughtclaim_allall_final$monthyear))
+    yearr <- as.data.frame(toupper(month.abb))
+    colnames(yearr) <- "month"
+    claimaggloss_aggy2 <- join(yearr, claimaggloss_aggy)
     
-
-    #---annual claim summary and association to climate short term and long term
-    
-    wheatdroughtclaim1 <- subset(usdabound, state == statez1)
-    wheatdroughtclaim2 <- subset(wheatdroughtclaim1, county == capitalize(countyz))
-    wheatdroughtclaim3 <- subset(wheatdroughtclaim2, commodity == q)
-    wheatdroughtclaim4 <- subset(wheatdroughtclaim3, damagecause == m)
-    wheatdroughtclaim <- subset(wheatdroughtclaim4, monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10)
     
     #--
+    climvar <- c("pr", "th", "pdsi", "pet", "erc", "rmin", "rmax",  "tmmn",  "tmmx",  "srad",  "sph", "vs", "fm1000",  "fm100")
+    startingmonth <- tolower(month.abb)
+    monthrange <- rev(c(1:12))
     
-    longterm1989 <- gridmetmonthly[1:6,]
-    shortterm1989 <- gridmetmonthly[3:6,]
+    for (n in climvar) {}
+    
+      for (o in startingmonth) {}
+    
+    
+         
+         jan1 <- subset(gridmetmonthly, month == "jan"  | month == "dec")
+         jan1 <- mean(getElement(jan1, n))
+         
+         jan2 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov")
+         jan2 <- mean(getElement(jan2, n))
+         
+         jan3 <- subset(gridmetmonthly, month == "jan"  | month == "dec"| month == "nov" | month == "oct")
+         jan3 <- mean(getElement(jan3, n))
+         
+         jan4 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+         jan4 <- mean(getElement(jan4, n))
+         
+         jan5 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+         jan5 <- mean(getElement(jan5, n))
+         
+         jan6 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+         jan6 <- mean(getElement(jan6, n))
+         
+         jan7 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+         jan7 <- mean(getElement(jan7, n))
+         
+         jan8 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+         jan8 <- mean(getElement(jan8, n))
+         
+         jan9 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+         jan9 <- mean(getElement(jan9, n))
+         
+         jan10 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+         jan10 <- mean(getElement(jan10, n))
+         
+         jan11 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+         jan11 <- mean(getElement(jan11, n))
+         
+         jan12 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" )
+         jan12 <- mean(getElement(jan12, n))
+         janfull <- c(jan1, jan2, jan3, jan4, jan5, jan6, jan7, jan8, jan9, jan10, jan11, jan12)
+         
+         
+         
+         
+         
+         feb1 <- subset(gridmetmonthly, month == "feb"  | month == "jan")
+         feb1 <- mean(getElement(feb1, n))
+         feb2 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec")
+         feb2 <- mean(getElement(feb2, n))
+         feb3 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov")
+         feb3 <- mean(getElement(feb3, n))
+         feb4 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+         feb4 <- mean(getElement(feb4, n))
+         feb5 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+         feb5 <- mean(getElement(feb5, n))
+         feb6 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+         feb6 <- mean(getElement(feb6, n))
+         feb7 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+         feb7 <- mean(getElement(feb7, n))
+         feb8 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+         feb8 <- mean(getElement(feb8, n))
+         feb9 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+         feb9 <- mean(getElement(feb9, n))
+         feb10 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+         feb10 <- mean(getElement(feb10, n))
+         feb11 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+         feb11 <- mean(getElement(feb11, n))
+         feb12 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" )
+         feb12 <- mean(getElement(feb12, n))
+         febfull <- c(feb1, feb2, feb3, feb4, feb5, feb6, feb7, feb8, feb9, feb10, feb11, feb12)
+         
+         mar1 <- subset(gridmetmonthly, month == "mar"  | month == "feb")
+         mar1 <- mean(getElement(mar1, n))
+         mar2 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan")
+         mar2 <- mean(getElement(mar2, n))
+         mar3 <- subset(gridmetmonthly, month == "mar"  | month == "feb"| month == "jan" | month == "dec")
+         mar3 <- mean(getElement(mar3, n))
+         mar4 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+         mar4 <- mean(getElement(mar4, n))
+         mar5 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+         mar5 <- mean(getElement(mar5, n))
+         mar6 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+         mar6 <- mean(getElement(mar6, n))
+         mar7 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+         mar7 <- mean(getElement(mar7, n))
+         mar8 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+         mar8 <- mean(getElement(mar8, n))
+         mar9 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+         mar9 <- mean(getElement(mar9, n))
+         mar10 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+         mar10 <- mean(getElement(mar10, n))
+         mar11 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+         mar11 <- mean(getElement(mar11, n))
+         mar12 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" )
+         mar12 <- mean(getElement(mar12, n))
+         marfull <- c(mar1, mar2, mar3, mar4, mar5, mar6, mar7, mar8, mar9, mar10, mar11, mar12)
+         
+         
+         apr1 <- subset(gridmetmonthly, month == "apr"  | month == "mar")
+         apr1 <- mean(getElement(apr1, n))
+         apr2 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb")
+         apr2 <- mean(getElement(apr2, n))
+         apr3 <- subset(gridmetmonthly, month == "apr"  | month == "mar"| month == "feb" | month == "jan")
+         apr3 <- mean(getElement(apr3, n))
+         apr4 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+         apr4 <- mean(getElement(apr4, n))
+         apr5 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+         apr5 <- mean(getElement(apr5, n))
+         apr6 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+         apr6 <- mean(getElement(apr6, n))
+         apr7 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+         apr7 <- mean(getElement(apr7, n))
+         apr8 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+         apr8 <- mean(getElement(apr8, n))
+         apr9 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+         apr9 <- mean(getElement(apr9, n))
+         apr10 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+         apr10 <- mean(getElement(apr10, n))
+         apr11 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+         apr11 <- mean(getElement(apr11, n))
+         apr12 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" )
+         apr12 <- mean(getElement(apr12, n))
+         aprfull <- c(apr1, apr2, apr3, apr4, apr5, apr6, apr7, apr8, apr9, apr10, apr11, apr12)
+         
+         
+         may1 <- subset(gridmetmonthly, month == "may"  | month == "apr")
+         may1 <- mean(getElement(may1, n))
+         may2 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar")
+         may2 <- mean(getElement(may2, n))
+         may3 <- subset(gridmetmonthly, month == "may"  | month == "apr"| month == "mar" | month == "feb")
+         may3 <- mean(getElement(may3, n))
+         may4 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+         may4 <- mean(getElement(may4, n))
+         may5 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+         may5 <- mean(getElement(may5, n))
+         may6 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+         may6 <- mean(getElement(may6, n))
+         may7 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+         may7 <- mean(getElement(may7, n))
+         may8 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+         may8 <- mean(getElement(may8, n))
+         may9 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+         may9 <- mean(getElement(may9, n))
+         may10 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+         may10 <- mean(getElement(may10, n))
+         may11 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+         may11 <- mean(getElement(may11, n))
+         may12 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" )
+         may12 <- mean(getElement(may12, n))
+         mayfull <- c(may1, may2, may3, may4, may5, may6, may7, may8, may9, may10, may11, may12)
+         
+         
+         jun1 <- subset(gridmetmonthly, month == "jun"  | month == "may")
+         jun1 <- mean(getElement(jun1, n))
+         jun2 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr")
+         jun2 <- mean(getElement(jun2, n))
+         jun3 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar")
+         jun3 <- mean(getElement(jun3, n))
+         jun4 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb")
+         jun4 <- mean(getElement(jun4, n))
+         jun5 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+         jun5 <- mean(getElement(jun5, n))
+         jun6 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+         jun6 <- mean(getElement(jun6, n))
+         jun7 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+         jun7 <- mean(getElement(jun7, n))
+         jun8 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+         jun8 <- mean(getElement(jun8, n))
+         jun9 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+         jun9 <- mean(getElement(jun9, n))
+         jun10 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+         jun10 <- mean(getElement(jun10, n))
+         jun11 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+         jun11 <- mean(getElement(jun11, n))
+         jun12 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" )
+         jun12 <- mean(getElement(jun12, n))
+         junfull <- c(jun1, jun2, jun3, jun4, jun5, jun6, jun7, jun8, jun9, jun10, jun11, jun12)
+         
+         
+         jul1 <- subset(gridmetmonthly, month == "jul"  | month == "jun")
+         jul1 <- mean(getElement(jul1, n))
+         jul2 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may")
+         jul2 <- mean(getElement(jul2, n))
+         jul3 <- subset(gridmetmonthly, month == "jul"  | month == "jun"| month == "may" | month == "apr")
+         jul3 <- mean(getElement(jul3, n))
+         jul4 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar")
+         jul4 <- mean(getElement(jul4, n))
+         jul5 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+         jul5 <- mean(getElement(jul5, n))
+         jul6 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+         jul6 <- mean(getElement(jul6, n))
+         jul7 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+         jul7 <- mean(getElement(jul7, n))
+         jul8 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+         jul8 <- mean(getElement(jul8, n))
+         jul9 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+         jul9 <- mean(getElement(jul9, n))
+         jul10 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+         jul10 <- mean(getElement(jul10, n))
+         jul11 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+         jul11 <- mean(getElement(jul11, n))
+         jul12 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" )
+         jul12 <- mean(getElement(jul12, n))
+         julfull <- c(jul1, jul2, jul3, jul4, jul5, jul6, jul7, jul8, jul9, jul10, jul11, jul12)
+         
+         aug1 <- subset(gridmetmonthly, month == "aug"  | month == "jul")
+         aug1 <- mean(getElement(aug1, n))
+         aug2 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun")
+         aug2 <- mean(getElement(aug2, n))
+         aug3 <- subset(gridmetmonthly, month == "aug"  | month == "jul"| month == "jun" | month == "may")
+         aug3 <- mean(getElement(aug3, n))
+         aug4 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr")
+         aug4 <- mean(getElement(aug4, n))
+         aug5 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+         aug5 <- mean(getElement(aug5, n))
+         aug6 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+         aug6 <- mean(getElement(aug6, n))
+         aug7 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+         aug7 <- mean(getElement(aug7, n))
+         aug8 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+         aug8 <- mean(getElement(aug8, n))
+         aug9 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+         aug9 <- mean(getElement(aug9, n))
+         aug10 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+         aug10 <- mean(getElement(aug10, n))
+         aug11 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+         aug11 <- mean(getElement(aug11, n))
+         aug12 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" )
+         aug12 <- mean(getElement(aug12, n))
+         augfull <- c(aug1, aug2, aug3, aug4, aug5, aug6, aug7, aug8, aug9, aug10, aug11, aug12)
+         
+         
+         sep1 <- subset(gridmetmonthly, month == "sep"  | month == "aug")
+         sep1 <- mean(getElement(sep1, n))
+         sep2 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul")
+         sep2 <- mean(getElement(sep2, n))
+         sep3 <- subset(gridmetmonthly, month == "sep"  | month == "aug"| month == "jul" | month == "jun")
+         sep3 <- mean(getElement(sep3, n))
+         sep4 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may")
+         sep4 <- mean(getElement(sep4, n))
+         sep5 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+         sep5 <- mean(getElement(sep5, n))
+         sep6 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+         sep6 <- mean(getElement(sep6, n))
+         sep7 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+         sep7 <- mean(getElement(sep7, n))
+         sep8 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+         sep8 <- mean(getElement(sep8, n))
+         sep9 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+         sep9 <- mean(getElement(sep9, n))
+         sep10 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+         sep10 <- mean(getElement(sep10, n))
+         sep11 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+         sep11 <- mean(getElement(sep11, n))
+         sep12 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" )
+         sep12 <- mean(getElement(sep12, n))
+         sepfull <- c(sep1, sep2, sep3, sep4, sep5, sep6, sep7, sep8, sep9, sep10, sep11, sep12)
+         
+         
+         oct1 <- subset(gridmetmonthly, month == "oct"  | month == "sep")
+         oct1 <- mean(getElement(oct1, n))
+         oct2 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug")
+         oct2 <- mean(getElement(oct2, n))
+         oct3 <- subset(gridmetmonthly, month == "oct"  | month == "sep"| month == "aug" | month == "jul")
+         oct3 <- mean(getElement(oct3, n))
+         oct4 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+         oct4 <- mean(getElement(oct4, n))
+         oct5 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+         oct5 <- mean(getElement(oct5, n))
+         oct6 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+         oct6 <- mean(getElement(oct6, n))
+         oct7 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+         oct7 <- mean(getElement(oct7, n))
+         oct8 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+         oct8 <- mean(getElement(oct8, n))
+         oct9 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+         oct9 <- mean(getElement(oct9, n))
+         oct10 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+         oct10 <- mean(getElement(oct10, n))
+         oct11 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+         oct11 <- mean(getElement(oct11, n))
+         oct12 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" )
+         oct12 <- mean(getElement(oct12, n))
+         octfull <- c(oct1, oct2, oct3, oct4, oct5, oct6, oct7, oct8, oct9, oct10, oct11, oct12)
+         
+         
+         nov1 <- subset(gridmetmonthly, month == "nov"  | month == "oct")
+         nov1 <- mean(getElement(nov1, n))
+         nov2 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep")
+         nov2 <- mean(getElement(nov2, n))
+         nov3 <- subset(gridmetmonthly, month == "nov"  | month == "oct"| month == "sep" | month == "aug")
+         nov3 <- mean(getElement(nov3, n))
+         nov4 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+         nov4 <- mean(getElement(nov4, n))
+         nov5 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+         nov5 <- mean(getElement(nov5, n))
+         nov6 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+         nov6 <- mean(getElement(nov6, n))
+         nov7 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+         nov7 <- mean(getElement(nov7, n))
+         nov8 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+         nov8 <- mean(getElement(nov8, n))
+         nov9 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+         nov9 <- mean(getElement(nov9, n))
+         nov10 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+         nov10 <- mean(getElement(nov10, n))
+         nov11 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+         nov11 <- mean(getElement(nov11, n))
+         nov12 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" )
+         nov12 <- mean(getElement(nov12, n))
+         novfull <- c(nov1, nov2, nov3, nov4, nov5, nov6, nov7, nov8, nov8, nov10, nov11, nov12)
+         
+         
+         dec1 <- subset(gridmetmonthly, month == "dec"  | month == "nov")
+         dec1 <- mean(getElement(dec1, n))
+         dec2 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct")
+         dec2 <- mean(getElement(dec2, n))
+         dec3 <- subset(gridmetmonthly, month == "dec"  | month == "nov"| month == "oct" | month == "sep")
+         dec3 <- mean(getElement(dec3, n))
+         dec4 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+         dec4 <- mean(getElement(dec4, n))
+         dec5 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+         dec5 <- mean(getElement(dec5, n))
+         dec6 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+         dec6 <- mean(getElement(dec6, n))
+         dec7 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+         dec7 <- mean(getElement(dec7, n))
+         dec8 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+         dec8 <- mean(getElement(dec8, n))
+         dec9 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+         dec9 <- mean(getElement(dec9, n))
+         dec10 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+         dec10 <- mean(getElement(dec10, n))
+         dec11 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+         dec11 <- mean(getElement(dec11, n))
+         dec12 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" )
+         dec12 <- mean(getElement(dec12, n))
+         decfull <- c(dec1, dec2, dec3, dec4, dec5, dec6, dec7, dec8, dec9, dec10, dec11, dec12)
+         
+         monthfull <- rbind(janfull, febfull, marfull, aprfull, mayfull, junfull, julfull, augfull, sepfull, octfull, novfull, decfull)
+         
+         
+         
+         
+         
+    
     climmeanlongterm1989<- mean(longterm1989[,2])
-    climmeanshortterm1989 <- mean(shortterm1989[,2])
     wheatdrought1989 <- subset(wheatdroughtclaim, year == 1989)
     wheatdroughtclaim_all1989 <- subset(wheatdroughtclaim_allall_final, year == 1989)
     wheatclaimlosssum1989 <- sum(wheatdrought1989$loss)

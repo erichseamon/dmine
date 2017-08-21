@@ -1,4 +1,4 @@
-
+ 
 #------------------------------------------------------------------------#
 # TITLE:        dmine-gridmet-monthly.R
 # AUTHOR:       Erich Seamon
@@ -18,19 +18,8 @@
 #               More on the dmine design: dmine.io
 #------------------------------------------------------------------------#
 
+climate_cropcombo <- function(state1, county1, commodity1, damage1, climvariable, startyear, endyear) {
 
-#----SETUP SECTION----------------------------------------------------#
-
-#--clear the variable list and set the working directory----#
-
-rm(list = ls()) #--clears all lists------#
-cat("\14")
-
-#----supress warnings
-
-options(warn=0)
-
-#----set packages--------------------------------------------------------#
 
 library("ncdf")
 library("raster")
@@ -95,1063 +84,366 @@ stateFromLower <-function(x) {
   
 }
 
-#Define how many cores you want to use
-UseCores <- detectCores() -7
-
-#Register CoreCluster
-cl       <- makeCluster(UseCores)
-registerDoParallel(cl)
-
-#memory.size(10000)
-#----Setting vectors for loops for years, variables, day, and rasters---#
-
-#----input ranges of years to examine----------#
-
-rm(list = ls()) #--clears all lists------#
-
-N1 <- readline("enter first year of data range: ")
-N2 <- readline("enter last year of data range: ")
-LAT1 <- readline("enter Lat min: ")
-LAT2 <- readline("enter Lat max: ")
-LON1 <- readline("enter Lon min: ")
-LON2 <- readline("enter Lon max: ")
-STATE <- readline("enter state: ")
-dcause <- readline("enter damage cause to focus on: ")
-assign("N1", N1, envir = .GlobalEnv)
-assign("N2", N2, envir = .GlobalEnv)
-
-#----writes subset variables to file for shell script operations--#
-
-RSCENARIO <- sample(50000:100000, 1, replace=F)
-#scen <- paste("scenario_", RSCENARIO, sep="")
-
-print(paste("Creating R Scenario ", RSCENARIO, sep=""))
-
-#--writes data to a temp file for use later
-
-fileConn<-file("/tmp/agmesh-subset-R-scenario.txt", "w")
-writeLines(c(paste('yearstart=', N1, sep='')), fileConn)
-writeLines(c(paste('yearend=', N2, sep='')), fileConn)
-writeLines(c(paste('lat1=', LAT1, sep='')), fileConn)
-writeLines(c(paste('lat2=', LAT2, sep='')), fileConn)
-writeLines(c(paste('lon1=', LON1, sep='')), fileConn)
-writeLines(c(paste('lon2=', LON2, sep='')), fileConn)
-writeLines(c(paste('state=', STATE, sep='')), fileConn)
-writeLines(c(paste('scenario=', "scenario_", RSCENARIO, sep='')), fileConn)
-close(fileConn)
-
-#--call bash script to run nc operator functions to extract
-#--nc data for each file - using the input of file saved above
-
-#write.table(data.frame(ID,N1,N2,LAT1,LAT2,LON1,LON2), "/tmp/agmesh-subset-vartmp.txt", sep="\t")
-system("/agmesh-code/agmesh-subset.sh")
-#system("rm /tmp/agmesh-subset-vartmp.txt")
-
-
-
-
-#---Second portion of script that extracts data by county and
-#---generates a matrix
-
-scen <- read.table("/tmp/agmesh-subset-R-scenario.txt")
-scen <- t(scen)
-
-scen7 = unlist(strsplit(scen[8], split='=', fixed=TRUE))[2]
-scen1 = unlist(strsplit(scen[1], split='=', fixed=TRUE))[2]
-scen2 = unlist(strsplit(scen[2], split='=', fixed=TRUE))[2]
-scen_state = unlist(strsplit(scen[7], split='=', fixed=TRUE))[2]
-
-setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen7, sep="")) 
-yearspan <- c(scen1:scen2)
-
-scen <- scen7
-dirname <- paste("/dmine/data/USDA/agmesh-scenarios/", scen, sep = "")
-
-print("Generating raster arrays for analysis...")
-
-
-setwd("/dmine/data/counties/")
-
-counties <- readShapePoly('UScounties.shp', 
-                          proj4string=CRS
-                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
-statez = c("Idaho", "Washington", "Oregon")
-Idaho_list1 <- paste("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
-Washington_list1 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", sep="|")
-Oregon_list1 <- paste("Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", sep="|")
-
-
-combinedlist2 <- paste("Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", "Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", "Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", sep="|")
-combinedlist <- c(Idaho_list1, Washington_list1, Oregon_list1)
-
-#alllist <- c("Idaho", "Oregon", "Washington")
-
-
-#--Oregon
-
-setwd("/dmine/data/counties/")
-
-counties <- readShapePoly('UScounties.shp', 
-                          proj4string=CRS
-                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
-or_counties <- counties[grep("Oregon", counties@data$STATE_NAME),]
-palouse_Oregon_counties <- or_counties[grep(Oregon_list1, or_counties@data$NAME),]
-kk="Oregon"
-
-#counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
-counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Oregon_counties)
-#counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
-
-#--loop list for county by fip
-countyfiploop <- counties@data$FIPS
-
-#--data frame of county fip list
-countyfiplist <- data.frame(counties@data$FIPS)
-
-#--data frame of county names
-countynames <- data.frame(counties@data$NAME)
-
-#combo of county names and fip for this list
-countylist <- cbind(countynames, countyfiplist)
-
-#--number of rows in county list
-countylistrows <- 12 * nrow(countylist)
-
-list <- list.files(path = dirname)
-list2 = list
-list2 = substr(list2,1,nchar(list2)-3)
-list3 <- data.frame(list2)
-
-listcols <- nrow(list)
-
-
-#--creates an empty matrix that is the number of counties mulitiplied by the number of months (one year standards for the runs.  
-#This will be the length of the full final matrix, which will be 14 variables/columns wide
-#longlist <- matrix(NA, nrow=countylistrows * 12)
-
-#--loop to generate raster brick from each nc file, subset by the county, extact the values 
-#--for each variable, for each month and year combo.
-library(raster)
-
-dirname <- paste("/dmine/data/VIC/month", sep = "")
-dirname2 <- paste("/dmine/data/VIC/county", sep="")
-dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
-setwd(dirname)
-#varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
-monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(1989:2015)
-
-
-for (i in yearspan) { 
-  ##cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
-  #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-  #cdl <- projectRaster(cdl, crs = sr)
-  ##wintercdl <- cdl == 24 #spring wheat
-  ##wintercdl <- crop(wintercdl, extent(counties))
-  ##wintercdl[wintercdl==0] <- NA
-  #writeRaster(wintercdl, paste(dirname3, "/", "CDL_", kk, "-", i, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
-  #print(paste("cdl yearly winter wheat construction for:", kk, "-", i, "-", "-", name_county, "-", j,  sep=""))
-  #--new matrix to contain variable, month, year, and county
-  newmatrix <- matrix(NA, nrow=countylistrows, ncol=4)
-  colnames(newmatrix) <- c("soil_moisture", "month", "year", "county")
-  varspannumber = 0
-  #for (j in varspan) { 
-  #  varspannumber = varspannumber + 1
-  jj=0
-    for (k in monthspan) {
-      ncfile <- paste(dirname, "/total_column_moisture_", k, "_", i, ".nc", sep="")
-      rasterout <- raster(ncfile)
-      #rasterout <- brick(ncfile) #create a brick
-      #rasterout <- mean(rasterout) #get the mean of all 30 days for the month
-      rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
-      rasterout4 <- crop(rasterout, extent(counties)) #now crop it for the state
-      #r.new = resample(rasterout3, wintercdl, "bilinear")
-      #rasterout4 <- mask(r.new, wintercdl)
-      #png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
-      #plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
-      #plot(counties, add=TRUE)
-      #dev.off() 
-      #rasterout <- t(rasterout)
-      #proj4string(rasterout) <- projection 
-      for (l in countyfiploop) {
-        jj = jj + 1
-        subset_county <- counties[counties@data$FIPS == l,]
-        name_county <- subset_county$NAME
-        e <- crop(rasterout4, subset_county) 
-        
-        r <- raster(ncol=90, nrow=45)
-        extent(r) <- extent(subset_county)
-        r.polys <- rasterize(subset_county, r, field = subset_county@data[,1], fun = "mean", 
-                  update = TRUE, updateValue = "NA")
-        #plot(r.polys)
-        
-        extent(r.polys) <- extent(subset_county)
-        r.new2 = resample(r.polys, e, "bilinear")
-        
-        
-        ee <- raster::mask(e, r.new2)
-        sp <- SpatialPoints(ee)
-        eee <- extract(ee, sp, method='bilinear')
-        newmatrix[jj,1] <- mean(eee, na.rm=TRUE)
-        #newmatrix[jj,16] <- l
-        newmatrix[jj,2] <- k #--month
-        newmatrix[jj,3] <- i #--year
-        newmatrix[jj,4] <- l #-county
-        #writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
-        print(paste("writing raster, creating matrix of soil moisture for:", kk, "-", i, "-", k, "-", name_county,  sep=""))
-      }  
-    } 
-  #} --for varspan
-  setwd(dirname2)
-  name <- paste(kk, "_", i, "_soil_moisture", sep="") #--used for individual states
-  #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
-  write.matrix(newmatrix, file=name, sep=",")
-}
-
-
-#-Washington
-
-
-
-setwd("/dmine/data/counties/")
-
-counties <- readShapePoly('UScounties.shp', 
-                          proj4string=CRS
-                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
-wa_counties <- counties[grep("Washington", counties@data$STATE_NAME),]
-palouse_Washington_counties <- wa_counties[grep(Washington_list1, wa_counties@data$NAME),]
-kk="Washington"
-
-#counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
-counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Washington_counties)
-#counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
-
-#--loop list for county by fip
-countyfiploop <- counties@data$FIPS
-
-#--data frame of county fip list
-countyfiplist <- data.frame(counties@data$FIPS)
-
-#--data frame of county names
-countynames <- data.frame(counties@data$NAME)
-
-#combo of county names and fip for this list
-countylist <- cbind(countynames, countyfiplist)
-
-#--number of rows in county list
-countylistrows <- 12 * nrow(countylist)
-
-list <- list.files(path = dirname)
-list2 = list
-list2 = substr(list2,1,nchar(list2)-3)
-list3 <- data.frame(list2)
-
-listcols <- nrow(list)
-
-
-#--creates an empty matrix that is the number of counties mulitiplied by the number of months (one year standards for the runs.  
-#This will be the length of the full final matrix, which will be 14 variables/columns wide
-#longlist <- matrix(NA, nrow=countylistrows * 12)
-
-#--loop to generate raster brick from each nc file, subset by the county, extact the values 
-#--for each variable, for each month and year combo.
-library(raster)
-
-dirname <- paste("/dmine/data/VIC/month", sep = "")
-dirname2 <- paste("/dmine/data/VIC/county", sep="")
-#dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
-setwd(dirname)
-#varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
-monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(1989:2015)
-
-
-for (i in yearspan) { 
-  ##cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
-  #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-  #cdl <- projectRaster(cdl, crs = sr)
-  ##wintercdl <- cdl == 24 #spring wheat
-  ##wintercdl <- crop(wintercdl, extent(counties))
-  ##wintercdl[wintercdl==0] <- NA
-  #writeRaster(wintercdl, paste(dirname3, "/", "CDL_", kk, "-", i, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
-  #print(paste("cdl yearly winter wheat construction for:", kk, "-", i, "-", "-", name_county, "-", j,  sep=""))
-  #--new matrix to contain variable, month, year, and county
-  newmatrix <- matrix(NA, nrow=countylistrows, ncol=4)
-  colnames(newmatrix) <- c("soil_moisture", "month", "year", "county")
-  varspannumber = 0
-  #for (j in varspan) { 
-  #  varspannumber = varspannumber + 1
-  jj=0
-  for (k in monthspan) {
-    ncfile <- paste(dirname, "/total_column_moisture_", k, "_", i, ".nc", sep="")
-    rasterout <- raster(ncfile)
-    #rasterout <- brick(ncfile) #create a brick
-    #rasterout <- mean(rasterout) #get the mean of all 30 days for the month
-    rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
-    rasterout4 <- crop(rasterout, extent(counties)) #now crop it for the state
-    #r.new = resample(rasterout3, wintercdl, "bilinear")
-    #rasterout4 <- mask(r.new, wintercdl)
-    #png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
-    #plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
-    #plot(counties, add=TRUE)
-    #dev.off() 
-    #rasterout <- t(rasterout)
-    #proj4string(rasterout) <- projection 
-    for (l in countyfiploop) {
-      jj = jj + 1
-      subset_county <- counties[counties@data$FIPS == l,]
-      name_county <- subset_county$NAME
-      e <- crop(rasterout4, subset_county) 
-      
-      r <- raster(ncol=90, nrow=45)
-      extent(r) <- extent(subset_county)
-      r.polys <- rasterize(subset_county, r, field = subset_county@data[,1], fun = "mean", 
-                           update = TRUE, updateValue = "NA")
-      #plot(r.polys)
-      
-      extent(r.polys) <- extent(subset_county)
-      r.new2 = resample(r.polys, e, "bilinear")
-      
-      
-      ee <- raster::mask(e, r.new2)
-      sp <- SpatialPoints(ee)
-      eee <- extract(ee, sp, method='bilinear')
-      newmatrix[jj,1] <- mean(eee, na.rm=TRUE)
-      #newmatrix[jj,16] <- l
-      newmatrix[jj,2] <- k #--month
-      newmatrix[jj,3] <- i #--year
-      newmatrix[jj,4] <- l #-county
-      #writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
-      print(paste("writing raster, creating matrix of soil moisture for:", kk, "-", i, "-", k, "-", name_county,  sep=""))
-    }  
-  } 
-  #} --for varspan
-  setwd(dirname2)
-  name <- paste(kk, "_", i, "_soil_moisture", sep="") #--used for individual states
-  #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
-  write.matrix(newmatrix, file=name, sep=",")
-}
-
-
-
-#-Idaho
-
-setwd("/dmine/data/counties/")
-
-counties <- readShapePoly('UScounties.shp', 
-                          proj4string=CRS
-                          ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
-projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
-
-id_counties <- counties[grep("Idaho", counties@data$STATE_NAME),]
-palouse_Idaho_counties <- id_counties[grep(Idaho_list1, id_counties@data$NAME),]
-kk="Idaho"
-#counties <- counties[grep("Idaho|Washington|Oregon|Montana", counties@data$STATE_NAME),]
-counties <- assign(paste("palouse_", kk, "_counties", sep=""), palouse_Idaho_counties)
-#counties <- counties[grep(scen_state, counties@data$STATE_NAME),]
-
-#--loop list for county by fip
-countyfiploop <- counties@data$FIPS
-
-#--data frame of county fip list
-countyfiplist <- data.frame(counties@data$FIPS)
-
-#--data frame of county names
-countynames <- data.frame(counties@data$NAME)
-
-#combo of county names and fip for this list
-countylist <- cbind(countynames, countyfiplist)
-
-#--number of rows in county list
-countylistrows <- 12 * nrow(countylist)
-
-list <- list.files(path = dirname)
-list2 = list
-list2 = substr(list2,1,nchar(list2)-3)
-list3 <- data.frame(list2)
-
-listcols <- nrow(list)
-
-
-#--creates an empty matrix that is the number of counties mulitiplied by the number of months (one year standards for the runs.  
-#This will be the length of the full final matrix, which will be 14 variables/columns wide
-#longlist <- matrix(NA, nrow=countylistrows * 12)
-
-#--loop to generate raster brick from each nc file, subset by the county, extact the values 
-#--for each variable, for each month and year combo.
-library(raster)
-
-dirname <- paste("/dmine/data/VIC/month", sep = "")
-dirname2 <- paste("/dmine/data/VIC/county", sep="")
-dirname3 <- paste("/dmine/data/USDA/agmesh-scenarios/", kk, "/cdl", sep="")
-setwd(dirname)
-#varspan = c("bi", "pr", "th", "pdsi", "pet", "erc", "rmin", "rmax", "tmmn", "tmmx", "srad", "sph", "vs", "fm1000", "fm100") 
-monthspan = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
-yearspan = c(1989:2015)
-
-
-for (i in yearspan) { 
-  ##cdl <- raster(paste("/dmine/data/CDL/", "CDL_", i, ".grd", sep=""))
-  #sr = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-  #cdl <- projectRaster(cdl, crs = sr)
-  ##wintercdl <- cdl == 24 #spring wheat
-  ##wintercdl <- crop(wintercdl, extent(counties))
-  ##wintercdl[wintercdl==0] <- NA
-  #writeRaster(wintercdl, paste(dirname3, "/", "CDL_", kk, "-", i, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
-  #print(paste("cdl yearly winter wheat construction for:", kk, "-", i, "-", "-", name_county, "-", j,  sep=""))
-  #--new matrix to contain variable, month, year, and county
-  newmatrix <- matrix(NA, nrow=countylistrows, ncol=4)
-  colnames(newmatrix) <- c("soil_moisture", "month", "year", "county")
-  varspannumber = 0
-  #for (j in varspan) { 
-  #  varspannumber = varspannumber + 1
-  jj=0
-  for (k in monthspan) {
-    ncfile <- paste(dirname, "/total_column_moisture_", k, "_", i, ".nc", sep="")
-    rasterout <- raster(ncfile)
-    #rasterout <- brick(ncfile) #create a brick
-    #rasterout <- mean(rasterout) #get the mean of all 30 days for the month
-    rasterout <- raster::mask(rasterout, counties) #- mask just the raster for the state in question
-    rasterout4 <- crop(rasterout, extent(counties)) #now crop it for the state
-    #r.new = resample(rasterout3, wintercdl, "bilinear")
-    #rasterout4 <- mask(r.new, wintercdl)
-    #png(paste(dirname, "/", j, "_", k, "_", i, ".png", sep=""))
-    #plot(rasterout, main = paste0("Monthly Plot for: ", j, ", ", k, ", ", i, sep=""))
-    #plot(counties, add=TRUE)
-    #dev.off() 
-    #rasterout <- t(rasterout)
-    #proj4string(rasterout) <- projection 
-    for (l in countyfiploop) {
-      jj = jj + 1
-      subset_county <- counties[counties@data$FIPS == l,]
-      name_county <- subset_county$NAME
-      e <- crop(rasterout4, subset_county) 
-      
-      r <- raster(ncol=90, nrow=45)
-      extent(r) <- extent(subset_county)
-      r.polys <- rasterize(subset_county, r, field = subset_county@data[,1], fun = "mean", 
-                           update = TRUE, updateValue = "NA")
-      #plot(r.polys)
-      
-      extent(r.polys) <- extent(subset_county)
-      r.new2 = resample(r.polys, e, "bilinear")
-      
-      
-      ee <- raster::mask(e, r.new2)
-      sp <- SpatialPoints(ee)
-      eee <- extract(ee, sp, method='bilinear')
-      newmatrix[jj,1] <- mean(eee, na.rm=TRUE)
-      #newmatrix[jj,16] <- l
-      newmatrix[jj,2] <- k #--month
-      newmatrix[jj,3] <- i #--year
-      newmatrix[jj,4] <- l #-county
-      #writeRaster(ee, paste(dirname3, "/", "CDL_", kk, "-", i, "-", k, "-", name_county, "-", j, ".grd", sep=""), overwrite=TRUE)
-      print(paste("writing raster, creating matrix of soil moisture for:", kk, "-", i, "-", k, "-", name_county,  sep=""))
-    }  
-  } 
-  #} --for varspan
-  setwd(dirname2)
-  name <- paste(kk, "_", i, "_soil_moisture", sep="") #--used for individual states
-  #name <- paste(dirname, "/", variable, "_", month, "_", year, "_summary", sep="")
-  write.matrix(newmatrix, file=name, sep=",")
-}
-
-
-#end cluster
-stopCluster(cl)
-
-
-palouse_counties <- rbind(palouse_Idaho_counties, palouse_Washington_counties, palouse_Oregon_counties)
-
-
-#alllist <- c(palouse_Idaho_counties, palouse_Washington_counties, palouse_Oregon_counties)
-
-
-#-------finished states, which creates summary files for each year, per state. 
-#---newstart
-
-
-#----Now we need to merge the state files into one large matrix, and assign a 
-#-----continuous value column to allow us to sequentially select values across many years
-
-
-
-usda000 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1988.txt", sep="")
-usda000 <- read.csv(usda000, header=FALSE, sep="|")
-usda000 <- data.frame(usda000)
-
-
-usda0 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2000.txt", sep="")
-usda0 <- read.csv(usda0, header=FALSE, sep="|")
-usda0 <- data.frame(usda0)
-
-usda89 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1989.txt", sep="")
-usda89 <- read.csv(usda89, header=FALSE, sep="|")
-usda89 <- data.frame(usda89)
-
-usda90 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1990.txt", sep="")
-usda90 <- read.csv(usda90, header=FALSE, sep="|")
-usda90 <- data.frame(usda90)
-
-usda91 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1991.txt", sep="")
-usda91 <- read.csv(usda91, header=FALSE, sep="|")
-usda91 <- data.frame(usda91)
-
-usda92 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1992.txt", sep="")
-usda92 <- read.csv(usda92, header=FALSE, sep="|")
-usda92 <- data.frame(usda92)
-
-usda93 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1993.txt", sep="")
-usda93 <- read.csv(usda93, header=FALSE, sep="|")
-usda93 <- data.frame(usda93)
-
-usda94 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1994.txt", sep="")
-usda94 <- read.csv(usda94, header=FALSE, sep="|")
-usda94 <- data.frame(usda94)
-
-
-usda95 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1995.txt", sep="")
-usda95 <- read.csv(usda95, header=FALSE, sep="|")
-usda95 <- data.frame(usda95)
-
-usda96 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1996.txt", sep="")
-usda96 <- read.csv(usda96, header=FALSE, sep="|")
-usda96 <- data.frame(usda96)
-
-usda97 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1997.txt", sep="")
-usda97 <- read.csv(usda97, header=FALSE, sep="|")
-usda97 <- data.frame(usda97)
-
-usda98 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1998.txt", sep="")
-usda98 <- read.csv(usda98, header=FALSE, sep="|")
-usda98 <- data.frame(usda98)
-
-usda99 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "1999.txt", sep="")
-usda99 <- read.csv(usda99, header=FALSE, sep="|")
-usda99 <- data.frame(usda99)
-
-usda0 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2000.txt", sep="")
-usda0 <- read.csv(usda0, header=FALSE, sep="|")
-usda0 <- data.frame(usda0)
-
-
-
-
-
-
-
-usda1 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2001.txt", sep="")
-usda1 <- read.csv(usda1, header=FALSE, sep="|")
-usda1 <- data.frame(usda1)
-usda2 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2002.txt", sep="")
-usda2 <- read.csv(usda2, header=FALSE, sep="|")
-usda2 <- data.frame(usda2)
-usda3 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2003.txt", sep="")
-usda3 <- read.csv(usda3, header=FALSE, sep="|")
-usda3 <- data.frame(usda3)
-usda4 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2004.txt", sep="")
-usda4 <- read.csv(usda4, header=FALSE, sep="|")
-usda4 <- data.frame(usda4)
-usda5 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2005.txt", sep="")
-usda5 <- read.csv(usda5, header=FALSE, sep="|")
-usda5 <- data.frame(usda5)
-usda6 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2006.txt", sep="")
-usda6 <- read.csv(usda6, header=FALSE, sep="|")
-usda6 <- data.frame(usda6)
-usda7 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2007.txt", sep="")
-usda7 <- read.csv(usda7, header=FALSE, sep="|")
-usda7 <- data.frame(usda7)
-usda8 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2008.txt", sep="")
-usda8 <- read.csv(usda8, header=FALSE, sep="|")
-usda8 <- data.frame(usda8)
-usda9 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2009.txt", sep="")
-usda9 <- read.csv(usda9, header=FALSE, sep="|")
-usda9 <- data.frame(usda9)
-usda10 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2010.txt", sep="")
-usda10 <- read.csv(usda10, header=FALSE, sep="|")
-usda10 <- data.frame(usda10)
-usda11 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2011.txt", sep="")
-usda11 <- read.csv(usda11, header=FALSE, sep="|")
-usda11 <- data.frame(usda11)
-usda12 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2012.txt", sep="")
-usda12 <- read.csv(usda12, header=FALSE, sep="|")
-usda12 <- data.frame(usda12)
-usda13 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2013.txt", sep="")
-usda13 <- read.csv(usda13, header=FALSE, sep="|")
-usda13 <- data.frame(usda13)
-usda14 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2014.txt", sep="")
-usda14 <- read.csv(usda14, header=FALSE, sep="|")
-usda14 <- data.frame(usda14)
-usda15 <- paste("/dmine/data/USDA/crop_indemnity_txt/", "2015.txt", sep="")
-usda15 <- read.csv(usda15, header=FALSE, sep="|")
-usda15 <- data.frame(usda15)
-
-usdabound <- rbind(usda1,usda2,usda3,usda4,usda5,usda6,usda7,usda8,usda9,usda10,usda11,usda12,usda13,usda14,usda15)
-usdabound2 <- rbind(usda89,usda90,usda91,usda92,usda93,usda94,usda95,usda96,usda97,usda98,usda99,usda0)
-
-usdabound2a <- data.frame(append(usdabound2, list(acres=NA), after=match("V14", names(usdabound2)))) 
-usdabound2b <- usdabound2a[,1:16]
-colnames(usdabound2b) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
-
-colnames(usdabound2) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
-colnames(usdabound) <- c("year", "statecode", "state", "countycode", "county", "commoditycode", "commodity", "insuranceplancode", "insurancename", "stagecode", "damagecausecode", "damagecause", "monthcode", "month", "acres", "loss")
-
-usdabound3 <- rbind(usdabound2b,usdabound)
-
-
-usdabound3$county <- trimws(usdabound3$county)
-usdabound3$commodity <- trimws(usdabound3$commodity)
-usdabound3$damagecause <- trimws(usdabound3$damagecause)
-
-
-usdabound$county <- trimws(usdabound$county)
-usdabound$commodity <- trimws(usdabound$commodity)
-usdabound$damagecause <- trimws(usdabound$damagecause)
-
-usdabound <- usdabound3
-
-
-#--loss
-
-
-u1 <- subset(usdabound, damagecause != "")
-u1 <- subset(u1, acres != 0)
-u1 <- subset(u1, month != "")
-
-u1a<- subset(u1, state == "OR")
-u2<- subset(u1, state == "ID")
-u3<- subset(u1, state == "WA")
-u4 <- rbind(u1a, u2, u3)
-
-u4a <- subset(u4, monthcode != 0)
-u4a <- subset(u4a, county != "All Other Counties")
-
-
-#---all of ID, OR, and WA
-
-claimagg <- aggregate(loss ~ month + year + damagecause + county + state + commodity, u4a, sum)
-#toBeRemoved<-which(claimagg$month == "   ")
-#claimagg<-droplevels(claimagg[-toBeRemoved,])
-
-claimaggmean <- aggregate(loss ~ month + year + damagecause + county + state + commodity, u4a, mean)
-#toBeRemoved<-which(claimaggmean$month == "   ")
-#claimaggmean<-droplevels(claimaggmean[-toBeRemoved,])
-
-claimaggcount <- aggregate(loss ~ month + year + damagecause + county + state + commodity, u4a, length)
-#toBeRemoved<-which(claimaggcount$month == "   ")
-#claimaggcount<-droplevels(claimaggcount[-toBeRemoved,])
-
-claimaggacres <- aggregate(acres ~ month + year + damagecause + county + state + commodity, u4a, sum)
-#toBeRemoved<-which(claimaggacres$month == "   ")
-#claimaggacres<-droplevels(claimaggacres[-toBeRemoved,])
-
-
-colnames(claimaggcount)[7] <- "count"
-colnames(claimaggmean)[7] <- "meanloss"
-#--testing
-
-#test1 <- subset(claimaggpalouse, commodity == "WHEAT")
-#test2 <- subset(test1, county == "Whitman")
-#test3 <- subset(test2, damagecause == "Drought")
-
-#---only palouse
-
-Idaho_list1 <- paste("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai", "Okananogan", "Douglas", "Grant", "Benton", "Franklin", "Walla Walla", "Adams", "Lincoln", "Spokane", "Whitman", "Columbia", "Garfield", "Asotin", "Wasco", "Sherman", "Gilliam", "Morrow", "Umatilla", "Union", "Wallowa", sep="|")
-
-claimaggpalouse <- subset(claimagg, county == "Idaho" | county == "Lewis" | county == "Nez Perce" | county == "Clearwater" | county == "Latah" | county == "Benewah" | county == "Kootenai" | county == "Okananogan" | county == "Douglas" | county == "Grant" | county == "Benton" | county == "Franklin" | county == "Walla Walla" | county == "Adams" | county == "Lincoln" | county == "Spokane" | county == "Whitman" | county == "Columbia" | county == "Garfield" | county == "Asotin" | county == "Wasco" | county == "Sherman" | county == "Gilliam" | county == "Morrow" | county == "Umatilla" | county == "Union" | county == "Wallowa")
-claimaggmeanpalouse <- subset(claimaggmean, county == "Idaho" | county == "Lewis" | county == "Nez Perce" | county == "Clearwater" | county == "Latah" | county == "Benewah" | county == "Kootenai" | county == "Okananogan" | county == "Douglas" | county == "Grant" | county == "Benton" | county == "Franklin" | county == "Walla Walla" | county == "Adams" | county == "Lincoln" | county == "Spokane" | county == "Whitman" | county == "Columbia" | county == "Garfield" | county == "Asotin" | county == "Wasco" | county == "Sherman" | county == "Gilliam" | county == "Morrow" | county == "Umatilla" | county == "Union" | county == "Wallowa")
-claimaggcountpalouse <- subset(claimaggcount, county == "Idaho" | county == "Lewis" | county == "Nez Perce" | county == "Clearwater" | county == "Latah" | county == "Benewah" | county == "Kootenai" | county == "Okananogan" | county == "Douglas" | county == "Grant" | county == "Benton" | county == "Franklin" | county == "Walla Walla" | county == "Adams" | county == "Lincoln" | county == "Spokane" | county == "Whitman" | county == "Columbia" | county == "Garfield" | county == "Asotin" | county == "Wasco" | county == "Sherman" | county == "Gilliam" | county == "Morrow" | county == "Umatilla" | county == "Union" | county == "Wallowa")
-claimaggacrespalouse <- subset(claimaggacres, county == "Idaho" | county == "Lewis" | county == "Nez Perce" | county == "Clearwater" | county == "Latah" | county == "Benewah" | county == "Kootenai" | county == "Okananogan" | county == "Douglas" | county == "Grant" | county == "Benton" | county == "Franklin" | county == "Walla Walla" | county == "Adams" | county == "Lincoln" | county == "Spokane" | county == "Whitman" | county == "Columbia" | county == "Garfield" | county == "Asotin" | county == "Wasco" | county == "Sherman" | county == "Gilliam" | county == "Morrow" | county == "Umatilla" | county == "Union" | county == "Wallowa")
-
-
-colnames(claimaggcountpalouse)[7] <- "count"
-colnames(claimaggmeanpalouse)[7] <- "meanloss"
-
-setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/summaries/")
-write.csv(claimaggcountpalouse, file = "Palouse_summary_counts.csv")
-write.csv(claimaggmeanpalouse, file = "Palouse_summary_meanloss.csv")
-write.csv(claimaggpalouse, file = "Palouse_summary_sumloss.csv")
-write.csv(claimaggacrespalouse, file = "Palouse_summary_sumacres.csv")
-
-write.csv(claimaggcount, file = "PNW_summary_counts.csv")
-write.csv(claimaggmean, file = "PNW_summary_meanloss.csv")
-write.csv(claimagg, file = "PNW_summary_sumloss.csv")
-write.csv(claimaggacres, file = "PNW_summary_sumacres.csv")
-
-
-claimaggallpalouse <- cbind(claimaggpalouse, claimaggcountpalouse$count, claimaggmeanpalouse$meanloss, claimaggacrespalouse$acres) 
-yt <- as.data.frame(claimaggallpalouse$loss / claimaggallpalouse[10])
-ytt <- round(yt, 4)
-claimaggallpalouse <- cbind(claimaggallpalouse, ytt)
-
-claimaggall <- cbind(claimagg, claimaggcount$count, claimaggmean$meanloss, claimaggacres$acres) 
-xt <- as.data.frame(claimaggall$loss / claimaggall[10])
-xtt <- round(xt, 4)
-claimaggall <- cbind (claimaggall, xtt)
-
-
-colnames(claimaggallpalouse)[8] <- "count"
-colnames(claimaggallpalouse)[9] <- "meanloss"
-colnames(claimaggallpalouse)[10] <- "acres"
-colnames(claimaggallpalouse)[11] <- "lossperacre"
-
-
-colnames(claimaggall)[8] <- "count"
-colnames(claimaggall)[9] <- "meanloss"
-colnames(claimaggall)[10] <- "acres"
-colnames(claimaggall)[11] <- "lossperacres"
-
-setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/summaries/")
-write.csv(claimaggall, file = "PNW_summary_all.csv")
-write.csv(claimaggallpalouse, file = "palouse_summary_all.csv")
-
-
-for (p in listercomb) {
-
-
-
-setwd("/dmine/data/VIC/county")
-files  <- list.files(pattern = 'Idaho')
-tables <- lapply(files, read.csv, header = TRUE)
-combined_idaho.df <- do.call(rbind , tables)
-combined_idaho.df$state <- "Idaho"
-
-setwd("/dmine/data/VIC/county")
-files  <- list.files(pattern = 'Oregon')
-tables <- lapply(files, read.csv, header = TRUE)
-combined_oregon.df <- do.call(rbind , tables)
-combined_oregon.df$state <- "Oregon"
-
-setwd("/dmine/data/VIC/county")
-files  <- list.files(pattern = 'Washington')
-tables <- lapply(files, read.csv, header = TRUE)
-combined_washington.df <- do.call(rbind , tables)
-combined_washington.df$state <- "Washington"
-#----sums <- read.csv(paste(kk, "_", i, "_palouse_summary", sep=""))
-
-combined.df <- rbind(combined_idaho.df, combined_washington.df, combined_oregon.df)
-
-#---construct a county fips name file
-library(maps)
-data(county.fips)
-colnames(combined.df)[4] <- "fips"
-library(stringr)
-county.fips2 <- data.frame(str_split_fixed(county.fips$polyname, ",", 2))
-colnames(county.fips2) <- c("state", "county")
-county.fips3 <- cbind(county.fips, county.fips2)
-combined1.df <- merge(combined.df,county.fips3, by = 'fips')
-
-#--create unique values for each county grouping for palouse region
-lister <- unique(combined1.df$county)
-listerstate <- unique(combined1.df$state.x)
-listeridaho<- paste(lister[1:7], "_", listerstate[1], sep="")
-listeroregon <- paste(lister[8:14], "_", listerstate[2], sep="")
-listerwashington <- paste(lister[15:26], "_", listerstate[3], sep="")
-listercomb <- c(listeridaho, listeroregon, listerwashington)
-
-capFirst <- function(s) {
-  paste(toupper(substring(s, 1, 1)), substring(s, 2), sep = "")
-}
-
-#for (n in lister) {
-#  newcounty <- subset(combined1.df, county == n)
-#  newcounty$month <- capFirst(newcounty$month)
-#  newcounty$month <- trimws(newcounty$month)
-#  newcounty <-newcounty[with(newcounty, order(year, match(newcounty$month, month.abb))), ]
-#  newcounty$ID<-seq.int(nrow(newcounty))
-#  write.csv(newcounty, file = paste("2001_2015_palouse_", n, "_", newcounty$state[1], sep=""))
-#}
-
-#yearspan <- c(2001:2015)
-
-#for (m in yearspan) {
-#  setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/")
-#  lister2 <- list.files(pattern = paste(m, "_palouse_summary", sep=""))
-#  one <- read.csv(lister2[1], strip.white = TRUE)
-#  two <- read.csv(lister2[2], strip.white = TRUE)
-#  three <- read.csv(lister2[3], strip.white = TRUE)
-#  #three$month <- trimws(three$month)
-#  sumbound <- rbind(one, two, three)
-#  setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/annual-allstate-summaries/")
-#  write.csv(sumbound, file = paste(m, "_allstate_palouse_summary", sep=""))
-#}
-
-#---algorithm selection
-
-#-combine all three states climate data - all counties in all three states
-#setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/annual-county-summaries")
-#files  <- list.files(pattern = '\\_palouse_summary')
-#tables <- lapply(files, read.csv, header = TRUE)
-#combined.df2 <- do.call(rbind , tables)
-
-
-
-
-##-merge climate data into one file
-
-
-#--put text notification here
-#--test from here on
-
-
-
-
-#---new start!
-
-
-
-
-
-#setwd(dirname)
-
-#setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, sep=""))
-#system("mkdir netcdf")
-#system("mv *.nc ./netcdf")
-
-
-#system(paste("mkdir", "summaries"))
-#system(paste("mkdir", " month"))
-#system(paste("mkdir", " raster_commodity"))
-#system(paste("mkdir", " raster_commodity_plots"))
-#setwd(paste("/dmine/data/USDA/agmesh-scenarios/", scen, sep=""))
-#system(paste("mkdir", " gridmet_monthly_plots"))
-#system(paste("mkdir", " commodity_csv"))
-#system(paste("mkdir", " month_positive"))
-#system(paste("mkdir", " commodity_csv_agr"))
-#system(paste("mkdir", " commodity_csv_agr_month"))
-#system(paste("mkdir", " month_png"))
-
-#system(paste("mv *summary", " ./summaries", sep=""))
-#system(paste("mv *.png", " ./gridmet_monthly_plots", sep=""))
-
-#--alter yearspan below to minimize the number of years processed for merging.
-#--done because years before 2001 have a different structure for USDA data,
-#--and thus require an additional loop or alteration to the following loop
-#--to factor in that alternative structure (so gridmet can merge correctly)
-
-
-
-
-
-statespan <- c("idaho", "oregon", "washington")
-
-#if (N1 > '2000') {
-  
-  yearspan <- c(1989:2015)
-  #--merge usda data with gridmet data
-  #for (qq in statespan) {
-  #for (i in yearspan) {
-  
-  
-  
-
-     library(Hmisc)
-     
-     
-     simpleCap <- function(x) {
-       s <- strsplit(x, " ")[[1]]
-       paste(toupper(substring(s, 1,1)), substring(s, 2),
-             sep="", collapse=" ")
-     }
-     
-     #'x' is the column of a data.frame that holds 2 digit state codes
-     stateFromLower <-function(x) {
-       #read 52 state codes into local variable [includes DC (Washington D.C. and PR (Puerto Rico)]
-       st.codes<-data.frame(
-         state=as.factor(c("AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
-                           "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME",
-                           "MI", "MN", "MO", "MS",  "MT", "NC", "ND", "NE", "NH", "NJ", "NM",
-                           "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN",
-                           "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY")),
-         full=as.factor(c("alaska","alabama","arkansas","arizona","california","colorado",
-                          "connecticut","district of columbia","delaware","florida","georgia",
-                          "hawaii","iowa","idaho","illinois","indiana","kansas","kentucky",
-                          "louisiana","massachusetts","maryland","maine","michigan","minnesota",
-                          "missouri","mississippi","montana","north carolina","north dakota",
-                          "nebraska","new hampshire","new jersey","new mexico","nevada",
-                          "new york","ohio","oklahoma","oregon","pennsylvania","puerto rico",
-                          "rhode island","south carolina","south dakota","tennessee","texas",
-                          "utah","virginia","vermont","washington","wisconsin",
-                          "west virginia","wyoming"))
-       )
-       #create an nx1 data.frame of state codes from source column
-       st.x<-data.frame(state=x)
-       #match source codes with codes from 'st.codes' local variable and use to return the full state name
-       refac.x<-st.codes$state[match(st.x$state,st.codes$full)]
-       #return the full state names in the same order in which they appeared in the original source
-       return(refac.x)
-       
-     }
-     
-     
-     
-     
-     listersplitter <- unlist(strsplit(p, "[_]"))
-     countyz <- listersplitter[1]
-     statez <- listersplitter[2]
-     pu <- capitalize(countyz)
-     pu <- simpleCap(pu)
-     p <- tolower(p) #--p is the county and state combined.  eg. whitman_washington
-     statez <- tolower(statez)
-     pp <- stateFromLower(statez)
-     pp <- as.vector(pp) #--pp is state capitialized, abbrieviated.  eg. WA
-     
-     
-     usdaboundsub <- subset(usdabound, state == pp)
-     usdaboundsub <- subset(usdaboundsub, county == pu)
-     commodityspan <- c(unique(usdaboundsub$commodity))
-   
- 
-    #setwd("/dmine/data/USDA/agmesh-scenarios/palouse/summaries3/")
-    p <- tolower(p)
-    countyz <- tolower(countyz)
-    #statez <- toupper(statez)
     
-    #files  <- list.files(pattern = '\\_palouse_summary$')
-    #tables <- lapply(files, read.csv, header = TRUE, strip.white = TRUE)
-    #gridmetmonthly <- do.call(rbind , tables)
+    #------
+    
+    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/summaries/")
+    sumcount1 <-  read.csv("Palouse_summary_counts.csv")
+    sumcount2 <- subset(sumcount1, state == state1)
+    sumcount2 <- subset(sumcount2, county == county1)
+    sumcount2 <- subset(sumcount2, commodity == commodity1)
+    claimaggcount_final2 <- subset(sumcount2, damagecause == damage1)
+    
+    meanloss1 <- read.csv("Palouse_summary_meanloss.csv")
+    meanloss2 <- subset(meanloss1, state == statez1)
+    meanloss2 <- subset(meanloss2, county == county1)
+    meanloss2 <- subset(meanloss2, commodity == commodity1)
+    claimaggmean_final2 <- subset(meanloss2, damagecause == damage1)
+    
+    sumloss1 <- read.csv("Palouse_summary_sumloss.csv")
+    sumloss2 <- subset(sumloss1, state == state1)
+    sumloss2 <- subset(sumloss2, county == county1)
+    sumloss2 <- subset(sumloss2, commodity == commodity1)
+    claimaggloss_final2 <- subset(sumloss2, damagecause == damage1)
+    
+    sumacres1 <- read.csv("Palouse_summary_sumacres.csv")
+    sumacres2 <- subset(sumacres1, state == state1)
+    sumacres2 <- subset(sumacres2, county == county1)
+    sumacres2 <- subset(sumacres2, commodity == commodity1)
+    claimaggacres_final2 <- subset(sumacres2, damagecause == damage1)
+    
+    claimaggloss_aggy <- aggregate(loss ~ month + damagecause + county + state + commodity, claimaggloss_final2, sum)
+    
+    yearr <- as.data.frame(toupper(month.abb))
+    colnames(yearr) <- "month"
+    claimaggloss_aggy2 <- join(yearr, claimaggloss_aggy)
+    
+    sumall1 <- read.csv("palouse_summary_all.csv")
+    sumall2 <- subset(sumall1, state == state1)
+    sumall2 <- subset(sumall2, county == county1)
+    sumall2 <- subset(sumall1, commodity == commodity1)
+    claimaggall_final2 <- subset(sumall2, damagecause == damage1)
+    claimaggall_final2 <- subset(claimaggall_final2, month == "JAN" | month == "FEB" | month == "MAR" | month == "APR" | month == "MAY" | month == "JUN" | month == "JUL" | month == "AUG" | month == "SEP" )
+    
+    setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/summaries")
+    nassacrescdl <- read.csv("palouse_2007-2015_NASS_WHEAT_acres.csv")
+    #nassacrescdl$state <- state.name(nassacrescdl$state)
+    nassacrescdl$state <- state.abb[match(nassacrescdl$state,state.name)]
+    colnames(nassacrescdl)[2] <- "totalacres"
+    
+    
+    Math.cbrt <- function(x) {
+      sign(x) * abs(x)^(1/3)
+    }
+    
+    claimaggall_final2$cube_acres <- Math.cbrt(claimaggall_final2$acres)
+    claimaggall_final2$cube_loss <- Math.cbrt(claimaggall_final2$loss)
+    nassacrescdl$cube_totalacres <- Math.cbrt(nassacrescdl$totalacres)
+    
+    
+    #--by county
+    claimaggall_aggy_loss <- aggregate(cube_loss ~ county + damagecause + state + commodity, claimaggall_final2, sum)
+    claimaggall_aggy_acres <- aggregate(cube_acres ~ county + damagecause + state + commodity, claimaggall_final2, sum)
+    claimaggall_aggy_lossacres <- aggregate((cube_loss/cube_acres) ~ county + damagecause + state + commodity, claimaggall_final2, sum)
+    
+    #--by year
+    claimaggall_aggy_lossacres_year <- aggregate(cube_acres ~  year + damagecause + county + state + commodity, claimaggall_final2, sum)
+    claimaggall_aggy_loss_year <- aggregate(cube_loss ~  year + damagecause + county + state + commodity, claimaggall_final2, sum)
+    
+    
+    combined <- merge(claimaggall_aggy_lossacres_year, nassacrescdl, by = c("state", "county", "year"))
+    combined$percent_cube_acres_loss <- combined$cube_acres / combined$cube_totalacres
+    
+    combined2 <- subset(combined, year >= startyear | year <= endyear)
+    colnames(combined2) <- c("state", "county", "year", "damagecause", "commodity", "acres", "ID", "NASS_totalacres", "percent_acres_loss" )
+    combined2 <- combined2[-7]
+    
+    
+    
+    #--
+    #climvar <- c("pr", "th", "pdsi", "pet", "erc", "rmin", "rmax",  "tmmn",  "tmmx",  "srad",  "sph", "vs", "fm1000",  "fm100")
+    #startingmonth <- tolower(month.abb)
+    #monthrange <- rev(c(1:12))
+    
+    #for (n in climvar) {}
+    
+      #for (o in startingmonth) {}
+    
+    
+    
+    setwd("/dmine/data/USDA/agmesh-scenarios/Idaho/summaries5")
+    files  <- list.files(pattern = 'Idaho')
+    tables <- lapply(files, read.csv, header = TRUE)
+    combined_idaho.df <- do.call(rbind , tables)
+    combined_idaho.df$state <- "Idaho"
+    
+    setwd("/dmine/data/USDA/agmesh-scenarios/Oregon/summaries5")
+    files  <- list.files(pattern = 'Oregon')
+    tables <- lapply(files, read.csv, header = TRUE)
+    combined_oregon.df <- do.call(rbind , tables)
+    combined_oregon.df$state <- "Oregon"
+    
+    setwd("/dmine/data/USDA/agmesh-scenarios/Washington/summaries5")
+    files  <- list.files(pattern = 'Washington')
+    tables <- lapply(files, read.csv, header = TRUE)
+    combined_washington.df <- do.call(rbind , tables)
+    combined_washington.df$state <- "Washington"
+    #----sums <- read.csv(paste(kk, "_", i, "_palouse_summary", sep=""))
+    
+    combined.df <- rbind(combined_idaho.df, combined_washington.df, combined_oregon.df)
+    
     
     gridmetmonthly <- data.frame(combined1.df)
-    colnames(gridmetmonthly)[5] <- "state"
+    colnames(gridmetmonthly)[19] <- "state"
     
-    statez = simpleCap(statez)
     countyz = simpleCap(countyz)
-    countyz = tolower(countyz)
-    #statez = state.abb[grep(statez, state.name)]
-    gridmetmonthly <- subset(gridmetmonthly, state == statez)
+    countyz = tolower(county1)
+    statez1a = state.name[grep(simpleCap(state1), state.abb)]
+    gridmetmonthly <- subset(gridmetmonthly, state == statez1a)
     gridmetmonthly <- subset(gridmetmonthly, county == countyz)
-
+    
     gridmetmonthly$monthchar <- as.character(gridmetmonthly$month)
     gridmetmonthly$monthchar <- trimws(gridmetmonthly$monthchar)
     library(Hmisc)
     gridmetmonthly$monthchar <- capitalize(gridmetmonthly$monthchar)
     gridmetmonthly$monthchar <- factor(gridmetmonthly$monthchar, levels=month.abb)
     #gridmetmonthly$monthchar <- as.numeric(gridmetmonthly$monthchar)
-    gridmetmonthly <- gridmetmonthly[order(gridmetmonthly[,4], gridmetmonthly[,9]),]
+    gridmetmonthly <- gridmetmonthly[order(gridmetmonthly[,18], gridmetmonthly[,23]),]
     #gridmetmonthly$monthyear <- paste(as.numeric(gridmetmonthly$monthchar), ".", gridmetmonthly$year, sep="")
     gridmetmonthly$ID<-seq.int(nrow(gridmetmonthly))
     
+    gridmetmonthly$month <- trimws(gridmetmonthly$month)
     #---05.18.17 need to create loop thru all claims and assign short term and long term drought variables.  mar 2009 is go back 3 and 6.  June 2009 is go back 6 and 9
-   
+    
     gridmetmonthly <- data.frame(gridmetmonthly)
-    listersplit <- unlist(strsplit(p, "[_]"))
-    countyz <- listersplit[1]
-    countyz <- simpleCap(countyz)
-    
-    statez <- listersplit[2]
-    #countyz <- capitalize(countyz)
-    statez1 <- stateFromLower(statez)
-    statez1 <- as.vector(statez1)
     
     
     
+         ymll <- c(1990:2015)
     
+     yearmatchlist <- c(1990,1990,1991,1991,1992,1992,1993,1993,1994,1994,1995,1995,1996,1996,1997,1997,1998,1998,1999,1999,2000,2000,2001,2001,2002,2002,2003,2003,2004,2004,2005,2005,2006,2006,2007,2007,2008,2008,2009,2009,2010,2010,2011,2011,2012,2012,2013,2013,2014,2014,2015,2015)
+     yml <- data.frame(yearmatchlist)
+     colnames(yml)  <- "yearmatch"
+         
+      monthlist <- as.data.frame(rep(tolower(month.abb), each = 12))   
+      numlist <- as.data.frame(rep((1:12), times = 12))
+      monthnumlist <- as.data.frame(cbind(monthlist, numlist))
+      colnames(monthnumlist) <- c("month", "monthcode")
+      monthnumlist$combined <- paste(monthnumlist$month, monthnumlist$monthcode, sep="")
+      climmonth <- monthnumlist$combined  
+         
+         
+      jan1 <- subset(gridmetmonthly, month == "jan"  | month == "dec")
+      jan2 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov")
+      jan3 <- subset(gridmetmonthly, month == "jan"  | month == "dec"| month == "nov" | month == "oct")
+      jan4 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+      jan5 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+      jan6 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+      jan7 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+      jan8 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+      jan9 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+      jan10 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+      jan11 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+      jan12 <- subset(gridmetmonthly, month == "jan"  | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" )
     
-    
-    for (q in commodityspan) {
-      usdaboundsub2 <- subset(usdaboundsub, commodity == q)
-      damagespan <- c(unique(usdaboundsub2$damagecause))
+      feb1 <- subset(gridmetmonthly, month == "feb"  | month == "jan")
+      feb2 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec")
+      feb3 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov")
+      feb4 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+      feb5 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+      feb6 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+      feb7 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+      feb8 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+      feb9 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+      feb10 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+      feb11 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+      feb12 <- subset(gridmetmonthly, month == "feb"  | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" )
       
-      for (m in damagespan) {
+      mar1 <- subset(gridmetmonthly, month == "mar"  | month == "feb")
+      mar2 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan")
+      mar3 <- subset(gridmetmonthly, month == "mar"  | month == "feb"| month == "jan" | month == "dec")
+      mar4 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+      mar5 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+      mar6 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+      mar7 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+      mar8 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+      mar9 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+      mar10 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+      mar11 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+      mar12 <- subset(gridmetmonthly, month == "mar"  | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" )
+     
+      
+      apr1 <- subset(gridmetmonthly, month == "apr"  | month == "mar")
+      apr2 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb")
+      apr3 <- subset(gridmetmonthly, month == "apr"  | month == "mar"| month == "feb" | month == "jan")
+      apr4 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+      apr5 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+      apr6 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+      apr7 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+      apr8 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+      apr9 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+      apr10 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+      apr11 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+      apr12 <- subset(gridmetmonthly, month == "apr"  | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" )
     
-    library(zoo)
-    
-    
-    #usda_county$commodity <- trimws(usda_county$commodity)
-    
-    wheatdroughtclaim_allID <- subset(usdabound, state == "ID")
-    wheatdroughtclaim_allID <- subset(wheatdroughtclaim_allID, county == "Idaho" | county == "Nez Perce" | county == "Clearwater" | county == "Latah" | county == "Benewah" | county == "Kootenai" | county == "Lewis")
-    wheatdroughtclaim_allWA <- subset(usdabound, state == "WA")
-    wheatdroughtclaim_allWA <- subset(wheatdroughtclaim_allWA, county == "Okananogan" | county == "Douglas" | county == "Grant" | county == "Benton" | county == "Franklin" | county == "Walla Walla" | county == "Adams" | county == "Lincoln" | county == "Spokane" | county == "Whitman" | county == "Columbia" | county == "Garfield" | county == "Asotin")
-    wheatdroughtclaim_allOR <- subset(usdabound, state == "OR")
-    wheatdroughtclaim_allOR <- subset(wheatdroughtclaim_allOR, county == "Wasco" | county == "Sherman" | county == "Gilliam" | county == "Morrow" | county == "Umatilla" | county == "Union" | county == "Wallowa")
-    wheatdroughtclaim_allall <- rbind(wheatdroughtclaim_allWA, wheatdroughtclaim_allOR, wheatdroughtclaim_allID)
+      
+      may1 <- subset(gridmetmonthly, month == "may"  | month == "apr")
+      may2 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar")
+      may3 <- subset(gridmetmonthly, month == "may"  | month == "apr"| month == "mar" | month == "feb")
+      may4 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+      may5 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+      may6 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+      may7 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+      may8 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+      may9 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+      may10 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+      may11 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+      may12 <- subset(gridmetmonthly, month == "may"  | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" )
 
-    wheatdroughtclaim_allall_comm <- subset(wheatdroughtclaim_allall, commodity == q)
-    #wheatdroughtclaim_allall_drought <- wheatdroughtclaim_allall_comm
-    wheatdroughtclaim_allall_drought <- subset(wheatdroughtclaim_allall_comm, damagecause == m)
-    #--only March thru Oct
-    #wheatdroughtclaim_allall_final <- subset(wheatdroughtclaim_allall_drought, monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10)
-    #--all months below
-    wheatdroughtclaim_allall_final <- subset(wheatdroughtclaim_allall_drought, monthcode == 1 | monthcode == 2 | monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10 | monthcode == 11 | monthcode == 12)
+      
+      jun1 <- subset(gridmetmonthly, month == "jun"  | month == "may")
+      jun2 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr")
+      jun3 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar")
+      jun4 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb")
+      jun5 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+      jun6 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+      jun7 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+      jun8 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+      jun9 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+      jun10 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+      jun11 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+      jun12 <- subset(gridmetmonthly, month == "jun"  | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" )
+      
+      
+      jul1 <- subset(gridmetmonthly, month == "jul"  | month == "jun")
+      jul2 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may")
+      jul3 <- subset(gridmetmonthly, month == "jul"  | month == "jun"| month == "may" | month == "apr")
+      jul4 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar")
+      jul5 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+      jul6 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+      jul7 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+      jul8 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+      jul9 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+      jul10 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+      jul11 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+      jul12 <- subset(gridmetmonthly, month == "jul"  | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" )
+  
+      
+      aug1 <- subset(gridmetmonthly, month == "aug"  | month == "jul")
+      aug2 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun")
+      aug3 <- subset(gridmetmonthly, month == "aug"  | month == "jul"| month == "jun" | month == "may")
+      aug4 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr")
+      aug5 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+      aug6 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+      aug7 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+      aug8 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+      aug9 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+      aug10 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+      aug11 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep")
+      aug12 <- subset(gridmetmonthly, month == "aug"  | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" | month == "aug" )
+      
+      
+      
+      sep1 <- subset(gridmetmonthly, month == "sep"  | month == "aug")
+      sep2 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul")
+      sep3 <- subset(gridmetmonthly, month == "sep"  | month == "aug"| month == "jul" | month == "jun")
+      sep4 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may")
+      sep5 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+      sep6 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+      sep7 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+      sep8 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+      sep9 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+      sep10 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+      sep11 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct")
+      sep12 <- subset(gridmetmonthly, month == "sep"  | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" | month == "sep" )
+     
+      oct1 <- subset(gridmetmonthly, month == "oct"  | month == "sep")
+      oct2 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug")
+      oct3 <- subset(gridmetmonthly, month == "oct"  | month == "sep"| month == "aug" | month == "jul")
+      oct4 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+      oct5 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+      oct6 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+      oct7 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+      oct8 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+      oct9 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+      oct10 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+      oct11 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov")
+      oct12 <- subset(gridmetmonthly, month == "oct"  | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" | month == "oct" )
     
-    wheatdroughtclaim_allall_final$monthyear <- paste(wheatdroughtclaim_allall_final$year, ".", wheatdroughtclaim_allall_final$monthcode, sep="")
+      
+      nov1 <- subset(gridmetmonthly, month == "nov"  | month == "oct")
+      nov2 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep")
+      nov3 <- subset(gridmetmonthly, month == "nov"  | month == "oct"| month == "sep" | month == "aug")
+      nov4 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+      nov5 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+      nov6 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+      nov7 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+      nov8 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+      nov9 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+      nov10 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+      nov11 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec")
+      nov12 <- subset(gridmetmonthly, month == "nov"  | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" | month == "nov" )
+     
+      
+      dec1 <- subset(gridmetmonthly, month == "dec"  | month == "nov")
+      dec2 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct")
+      dec3 <- subset(gridmetmonthly, month == "dec"  | month == "nov"| month == "oct" | month == "sep")
+      dec4 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug")
+      dec5 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul")
+      dec6 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun")
+      dec7 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may")
+      dec8 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr")
+      dec9 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar")
+      dec10 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb")
+      dec11 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan")
+      dec12 <- subset(gridmetmonthly, month == "dec"  | month == "nov" | month == "oct" | month == "sep" | month == "aug" | month == "jul" | month == "jun" | month == "may" | month == "apr" | month == "mar" | month == "feb" | month == "jan" | month == "dec" )
+ 
+      
+      
+      
+         
+       for (p in climmonth[1:12]){  
+         
+         monthnum <- 1
+         pp <- get(p)
+         num1 <- length(unique(pp$month))
+         num2 <- as.data.frame(rep(ymll, each = num1))
+         colnames(num2) <- "yearmatch"
+         p2 <-tail(pp, -monthnum)
+         monthnum2 <- num1 - monthnum
+         if (monthnum2 > 0) {p2 <- head(p2, -(monthnum2))} 
+         p3 <- cbind(p2, num2)         
+         colnames(p3)[25] <- "yearmatch"
+         p4 <- aggregate(p3[, 2:16], list(p3$yearmatch), mean)
+         setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix/")
+         colnames(p4)[1] <- "year"
+         write.csv(p4, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_", p, ".csv", sep="") )
+       }
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         monthfull <- rbind(janfull, febfull, marfull, aprfull, mayfull, junfull, julfull, augfull, sepfull, octfull, novfull, decfull)
+         monthfull2 <- monthfull[1:9,]
+         rownames(monthfull2) <- c("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP")
+         colnames(monthfull2) <- c(1:12)
+         
+         
+         
+          combined3 <- as.data.frame(rep(combined2$cube_acres[1], time = 9))
+          colnames(combined3) <- "NASS_totalacres"
+         
+         x <- cbind(as.data.frame(monthfull2), as.data.frame(combined3))
+         
+     
+         pairs(x)
     
-    
-    #--claims summarized by month associated to climate short term and long term drought
-    claimagg <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, sum)
-    claimaggmean <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, mean)
-    claimaggcount <- aggregate(loss ~ month + year, wheatdroughtclaim_allall_final, length)
-    
-    claimagg$month <- tolower(claimagg$month)
-    claimaggmean$month <- tolower(claimaggmean$month)
-    claimaggcount$month <- tolower(claimaggcount$month)
-    
-    claimagg$month <- capitalize(claimagg$month)
-    claimaggmean$month <- capitalize(claimaggmean$month)
-    claimaggcount$month <- capitalize(claimaggcount$month)
-    
-    claimagg$month <- factor(claimagg$month, levels=month.abb)
-    claimaggmean$month <- factor(claimaggmean$month, levels=month.abb)
-    claimaggcount$month <- factor(claimaggcount$month, levels=month.abb)
-    
-    claimaggloss_final <- claimagg[order(claimagg[,2], claimagg[,1]),]
-    claimaggmean_final <- claimaggmean[order(claimaggmean[,2], claimaggmean[,1]),]
-    claimaggcount_final <- claimaggcount[order(claimaggcount[,2], claimaggcount[,1]),]
-    
-    
-    claimaggloss_final$monthcode <-  c(jan=1,feb=2,mar=3,apr=4,may=5,jun=6,jul=7,aug=8,sep=9,oct=10,nov=11,dec=12)[tolower(claimaggloss_final$month)]
-    
-    my1 <- as.data.frame(as.yearmon(seq(as.Date("1989-01-01"), as.Date("2015-12-01"), by = "month")))
-    
-    library(stringr)
-    colnames(my1) <- c("monthyear")
-    my2 <- as.data.frame(str_split_fixed(my1$monthyear, " ", 2))
-    colnames(my2) <- c("month", "year")
-    claimaggloss_final$year <- factor(claimaggloss_final$year)
-    claimaggmean_final$year <- factor(claimaggloss_final$year)
-    claimaggcount_final$year <- factor(claimaggloss_final$year)
-    
-    library(plyr)
-    claimaggloss_final2 <- join(my2, claimaggloss_final, by = c("month", "year"))
-    claimaggmean_final2 <- join(my2, claimaggmean_final, by = c("month", "year"))
-    claimaggcount_final2 <- join(my2, claimaggcount_final, by = c("month", "year"))
-    
-    
-    
-    
-    
-    
-    #for (l in 1:nrow(claimaggloss_final)) {
-    #  shortermmean <- mean(claimaggmean_final$loss)
-    #}
-    
-    #claimagg_countratio <- nrow(wheatdrought2001)/nrow(wheatdroughtclaim_all2001)
-    #ca_factored <- wheatdroughtclaim_allall_final[order(wheatdroughtclaim_allall_final[,1], wheatdroughtclaim_allall_final[,14]),]
-    
-    #ca <- data.frame(table(wheatdroughtclaim_allall_final$monthyear))
-    
-
-    #---annual claim summary and association to climate short term and long term
-    
-    wheatdroughtclaim1 <- subset(usdabound, state == statez1)
-    wheatdroughtclaim2 <- subset(wheatdroughtclaim1, county == capitalize(countyz))
-    wheatdroughtclaim3 <- subset(wheatdroughtclaim2, commodity == q)
-    wheatdroughtclaim4 <- subset(wheatdroughtclaim3, damagecause == m)
-    wheatdroughtclaim <- subset(wheatdroughtclaim4, monthcode == 3 | monthcode == 4 | monthcode == 5 | monthcode == 6 | monthcode == 7 | monthcode == 8 | monthcode == 9 | monthcode == 10)
-    
-    #--
-    
-    longterm1989 <- gridmetmonthly[1:6,]
-    shortterm1989 <- gridmetmonthly[3:6,]
     climmeanlongterm1989<- mean(longterm1989[,2])
-    climmeanshortterm1989 <- mean(shortterm1989[,2])
     wheatdrought1989 <- subset(wheatdroughtclaim, year == 1989)
     wheatdroughtclaim_all1989 <- subset(wheatdroughtclaim_allall_final, year == 1989)
     wheatclaimlosssum1989 <- sum(wheatdrought1989$loss)
