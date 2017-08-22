@@ -485,9 +485,9 @@ stateFromLower <-function(x) {
          write.csv(claimaggall_aggy_lossacres_year, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_loss_per_acres.csv", sep=""))
          write.csv(claimaggall_aggy_loss_year, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_loss_year.csv", sep=""))
          
-         write.csv(combined4a, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "pct_total_acres_harvested.csv", sep=""))
-         write.csv(combined5a, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "pct_total_acres_loss.csv", sep=""))
-         write.csv(combined6a, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "pct_total_acres_harvested.csv", sep=""))
+         write.csv(combined4a, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_total_acres_harvested.csv", sep=""))
+         write.csv(combined5a, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_total_acres_loss.csv", sep=""))
+         write.csv(combined6a, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_cube_root_loss.csv", sep=""))
          
        }
       #writing aggregated loss by month for the palouse region.
