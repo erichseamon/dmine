@@ -59,3 +59,17 @@ for (i in yearspan) {
 }
 
 
+matrixxx2 <- as.data.frame(matrixxx)
+colnames(matrixxx2) <- c("WHEAT_totalacres_CDL", "county", "year")
+
+ID <- rep("Idaho", times = 7)
+OR <- rep("Oregon", times = 7)
+WA <- rep("Washington", times = 12)
+
+statess <- as.data.frame(rep(c(WA, OR, ID), times = 9))
+colnames(statess) <- "state"
+
+m3 <- cbind(matrixxx2, statess)
+
+setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/summaries/")
+write.csv(m3, file = "palouse_2007-2015_NASS_WHEAT_acres.csv")
