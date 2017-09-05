@@ -20,7 +20,7 @@
   designmatrix <- matrix(NA, ncol=12, nrow=12)
   
   #create an empty 144 vector to fill up with correlations between loss and climate
-  dmvector <- as.data.frame(rep(NA, times=144))
+  dmvector <- data.frame(rep(NA, times=144))
   
   cl = 0
   for (ppp in climmonth) {
@@ -41,14 +41,23 @@
    colnames(climatevar[3]) <- "zscore"
     kor <- join(climatevar, file2, by = "year")
     kor2 <- subset(kor, damagecause != "NA")
-   #colnames(kor2)[9] <- "zscore"
+   colnames(kor2)[3] <- "zscore"
     kor3 <- cor(kor2[3], kor2[9])
   
    #insert kor3 into designmatrix iteratively
   
    dmvector[cl,] <- kor3
-
+   
   }
+  
+  dmvector <- as.data.frame(dmvector)
+  colnames(dmvector) <- "correlations"
+     
+  dmv <- which.max( dmvector[,1] )
+   dmv <- as.data.frame(dmv)
+   colnames(dmv)[1] <- "row" 
+
+  
   
   dmvector <- as.data.frame(dmvector)
   colnames(dmvector) <- "correlations"
@@ -56,7 +65,7 @@
   dmvector2 <- dmvector2[nrow(dmvector2):1, ]
   dmvector3 <- dmvector2[4:12,]
   
-  my_palette <- colorRampPalette(c("red", "yellow", "green"))(n = 144)
+  my_palette <- colorRampPalette(c("red", "yellow", "green"))(n = 112)
   
   setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_pngs")
  
