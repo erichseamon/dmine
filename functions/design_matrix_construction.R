@@ -42,7 +42,7 @@
     kor <- join(climatevar, file2, by = "year")
     kor2 <- subset(kor, damagecause != "NA")
    colnames(kor2)[3] <- "zscore"
-    kor3 <- cor(kor2[3], kor2[9])
+    kor3 <- cor(kor2[1], kor2[9])
   
    #insert kor3 into designmatrix iteratively
   
@@ -61,7 +61,7 @@
   
   dmvector <- as.data.frame(dmvector)
   colnames(dmvector) <- "correlations"
-  dmvector2 <- t(matrix(dmvector$correlations, 12, 12, TRUE) ) 
+  dmvector2 <- (matrix(dmvector$correlations, 12, 12, TRUE) ) 
   dmvector2 <- dmvector2[nrow(dmvector2):1, ]
   dmvector3 <- dmvector2[4:12,]
   
