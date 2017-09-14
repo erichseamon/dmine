@@ -96,6 +96,7 @@ stateFromLower <-function(x) {
     #sumcount2 <- subset(sumcount2, county == county1)
     sumcount2 <- subset(sumcount1, commodity == commodity1)
     claimaggcount_final2 <- subset(sumcount2, damagecause == damage1)
+    claimaggcount_final2 <- subset(claimaggcount_final2, month == "JAN" | month == "FEB" | month == "MAR" | month == "APR" | month == "MAY" | month == "JUN" | month == "JUL" | month == "AUG" | month == "SEP" )
     
     #loading palouse summary mean loss
     
@@ -104,6 +105,7 @@ stateFromLower <-function(x) {
     meanloss2 <- subset(meanloss2, county == county1)
     meanloss2 <- subset(meanloss2, commodity == commodity1)
     claimaggmean_final2 <- subset(meanloss2, damagecause == damage1)
+    claimaggmean_final2 <- subset(claimaggmean_final2, month == "JAN" | month == "FEB" | month == "MAR" | month == "APR" | month == "MAY" | month == "JUN" | month == "JUL" | month == "AUG" | month == "SEP" )
   
     #loading palouse summary loss
     
@@ -112,6 +114,7 @@ stateFromLower <-function(x) {
     #sumloss2 <- subset(sumloss2, county == county1)
     sumloss2 <- subset(sumloss1, commodity == commodity1)
     claimaggloss_final2 <- subset(sumloss2, damagecause == damage1)
+    claimaggloss_final2 <- subset(claimaggloss_final2, month == "JAN" | month == "FEB" | month == "MAR" | month == "APR" | month == "MAY" | month == "JUN" | month == "JUL" | month == "AUG" | month == "SEP" )
     
     #loading palouse summary acres
     
@@ -120,9 +123,15 @@ stateFromLower <-function(x) {
     #sumacres2 <- subset(sumacres2, county == county1)
     sumacres2 <- subset(sumacres1, commodity == commodity1)
     claimaggacres_final2 <- subset(sumacres2, damagecause == damage1)
+    claimaggacres_final2 <- subset(claimaggall_final2, month == "JAN" | month == "FEB" | month == "MAR" | month == "APR" | month == "MAY" | month == "JUN" | month == "JUL" | month == "AUG" | month == "SEP" )
+    
     
     #--merge loss and acres for loss to acres calc
     cliamaggloss_and_acres_final2 <- merge(claimaggacres_final2, claimaggloss_final2, by = c("year", "month", "state", "county"))
+    drops <- c("loss.y","commodity.y", "damagecause.y", "X.y")
+    cliamaggloss_and_acres_final2 <- cliamaggloss_and_acres_final2[ , !(names(cliamaggloss_and_acres_final2) %in% drops)]
+    colnames(cliamaggloss_and_acres_final2) <- c("year", "month", "state", "county", "ID", "damagecause", "commodity", "loss", "count", "meanloss", "acres", "lossperacre", "cube_acres", "cube_loss")
+    
     
     #aggregating loss by month
     
@@ -191,12 +200,12 @@ stateFromLower <-function(x) {
     claimaggcount_aggy_loss <- aggregate(count ~ county + damagecause + state + commodity, claimaggcount_final2, sum)
     claimaggloss_aggy_loss <- aggregate(cube_loss ~ county + damagecause + state + commodity, claimaggloss_final2, sum)
     claimaggacres_aggy_loss <- aggregate(cube_acres ~ county + damagecause + state + commodity, claimaggacres_final2, sum)
-    claimaggacres_aggy_lossacres <- aggregate((loss/acres) ~ county + damagecause.x + state + commodity.x, cliamaggloss_and_acres_final2, sum)
+    claimaggacres_aggy_lossacres <- aggregate((loss/acres) ~ county + damagecause + state + commodity, cliamaggloss_and_acres_final2, sum)
     
     
     
     #--by year for all counties
-    claimaggall_aggy_lossacres_year <- aggregate(cube_acres ~  year + damagecause + county + state + commodity, claimaggall_final2, sum)
+    claimaggall_aggy_lossacres_year <- aggregate(cube_acres ~  year + damagecause + county + state + commodity, claimaggall_final2, sum, all = TRUE)
     claimaggall_aggy_loss_year <- aggregate(cube_loss ~  year + damagecause + county + state + commodity, claimaggall_final2, sum)
     claimaggall_agg_count <- aggregate(count ~  year + damagecause + county + state + commodity, claimaggall_final2, sum)
     
@@ -208,7 +217,7 @@ stateFromLower <-function(x) {
     claimaggcount_aggy_loss_year <- aggregate(count ~  year + damagecause + county + state + commodity, claimaggcount_final2, sum)
     claimaggloss_agg_loss <- aggregate(cube_loss ~  year + damagecause + county + state + commodity, claimaggloss_final2, sum)
     claimaggloss_agg_loss_nocube <- aggregate(loss ~  year + damagecause + county + state + commodity, claimaggloss_final2, sum)
-    claimaggacres_agg_lossacres <- aggregate((loss/acres) ~  year + damagecause.x + county + state + commodity.x, cliamaggloss_and_acres_final2, sum)
+    claimaggacres_agg_lossacres <- aggregate((loss/acres) ~  year + damagecause + county + state + commodity, cliamaggloss_and_acres_final2, sum, all = TRUE)
     
     
     
@@ -755,12 +764,12 @@ stateFromLower <-function(x) {
          p3 <- cbind(pp, num2)         
          colnames(p3)[25] <- "yearmatch"
          p4 <- aggregate(p3[, 2:16], list(p3$yearmatch), mean)
-         setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix/")
+         setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_rev2/")
          colnames(p4)[1] <- "year"
          write.csv(p4, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_", p, ".csv", sep="") )
          
          #writing aggregated loss by month for the palouse region.
-         setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_summaries/")
+         setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_summaries_rev2/")
          write.csv(claimaggloss_aggy2, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_loss_month.csv", sep=""))
          
          write.csv(claimaggall_aggy_lossacres_year, file = paste(state1, "_", county1, "_", commodity1, "_", damage1, "_loss_per_acres.csv", sep=""))

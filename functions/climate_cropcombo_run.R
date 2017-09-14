@@ -5,7 +5,7 @@ counties <- readShapePoly('UScounties.shp',
                           ("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"))
 projection = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
-statez = c("Oregon")
+statez = c("Washington")
 
 
 Idaho_list1 <- c("Idaho", "Lewis", "Nez Perce", "Clearwater", "Latah", "Benewah", "Kootenai")
