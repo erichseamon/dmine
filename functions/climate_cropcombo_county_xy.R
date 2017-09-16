@@ -225,7 +225,38 @@ return(dmvectorappend)
 
 }
 
-dmvectorappend <- climate_cropcombo_county_xy("WHEAT", "Drought", "pet", "cube_root_loss", "jul3")
+
+dmvectorappend <- climate_cropcombo_county_xy("WHEAT", "Drought", "pet", "cube_root_loss", "jan3")
+
+
+library(RColorBrewer)
+
+lll <- unique(dmvectorappend$county)
+lll2 <- length(lll)
+coldm <- colorRampPalette(brewer.pal(11, "Spectral"))
+
+
+
+
+color_pallet_function <- colorRampPalette(
+  colors = c("red", "orange", "blue"),
+  space = "Lab" # Option used when colors do not represent a quantitative scale
+)
+
+num_colors <- length(unique(dmvectorappend$state))
+graph_colors <- color_pallet_function(num_colors)
+
+
+
+
+statelll <- unique(dmvectorappend$state)
+statelll2 <- length(statelll)
+statelll3 <- colorRampPalette(brewer.pal(3, "Spectral"))
+
+
+
+
+
 
 
 dmvectorappend$clim_zscore <- scale(dmvectorappend[1], center = TRUE, scale = TRUE)
@@ -235,10 +266,17 @@ dmvectorappend$loss_zscore <- scale(dmvectorappend[2], center = TRUE, scale = TR
 
 corr <- cor(dmvectorappend[,8], dmvectorappend[,9])
 
-plot(dmvectorappend[,8], dmvectorappend[,9], type="p", main = paste("Zscore space correlation: ", input$climate_variable, " vs ", input$predictor, "\n correlation: ", corr, sep=""), xlab = paste("zscore ", input$climate_variable, sep=""), ylab = "zscore cubed crop loss")
+plot(dmvectorappend[,8], dmvectorappend[,9], type="p", main = paste("All Palouse counties, 1989-2015: ", input$climate_variable12, " vs ", input$predictor12, "\n correlation: ", corr, sep=""), xlab = paste("zscore ", sep=""), ylab = "zscore cubed crop loss", col = graph_colors)
 
+legend("topright", legend = unique(dmvectorappend$state),
+       cex = 0.8,
+       pch = 19,
+       fill = graph_colors
+)
+library(ggplot2)
+qplot(dmvectorappend[,8], dmvectorappend[,9], data = dmvectorappend, main = paste("All Palouse counties, 1989-2015: ",  " vs ",  "\n correlation: ", corr, sep=""), xlab = paste("zscore ", sep=""), ylab = "zscore cubed crop loss", colour = state) + theme(plot.title = element_text(hjust = 0.5))
+p1 <- ggplot(dmvectorappend, aes(y = dmvectorappend[,9], x = dmvectorappend[,8]))
 
-
-
+p1 + geom_point(aes(color = state)) 
 
 #}

@@ -124,7 +124,7 @@ for (ll in c_statelist) {
   
   commodity1 <- "WHEAT"
   damage1 <- "Drought"
-  response <- "cube_root_loss"
+  response <- "loss"
   climate_variable <- jj
   
   
@@ -217,7 +217,7 @@ for (ll in c_statelist) {
   #design_matrix_construction(state1a, county1, commodity1, damage1, climate_variable, response)
   
   setwd("/dmine/data/USDA/agmesh-scenarios/Allstates/climatematrix_correlations")
-  write.csv(dmvector3, file = paste(state2, "_", county1, "_", commodity1, "_", damage1, "_", climate_variable, "_", response, "_", "correlations.csv", sep=""))
+  write.csv(dmvector3, file = paste(state2, "_", county1, "_", commodity1, "_", damage1, "_", climate_variable, "_", "crop_commodity_loss", "_", "correlations.csv", sep=""))
   
   
   
