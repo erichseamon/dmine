@@ -244,9 +244,9 @@ par(mfrow=c(2,3))
 layout(matrix(c(1,3,2,3),2, 2, byrow=TRUE))
 par(mai=c(.5,1,.7,0))
 
-b <- barplot(msub$LOSS, names.arg = msub$NAME, las=2, col = newmatrix_sub, cex.names=1, horiz=TRUE, main = paste(state, " crop loss bar chart ($) \n", " ", plotyear, " ", commodity, sep=""), cex.axis=.8, cex.main=1.5, width=4)
+b <- barplot(msub$LOSS, names.arg = msub$NAME, las=2, col = newmatrix_sub, cex.names=1, horiz=TRUE, main = paste(state, " annual crop loss ($) \n", " ", plotyear, " ", commodity, sep=""), cex.axis=.8, cex.main=1.5, width=4)
 #text(bb, midpoint_loss, labels=mz$loss, srt=90)
-plot(m, col = newmatrix, main = paste(state, " crop loss map ($) \n", " ", plotyear, " ", commodity, sep=""), cex.main=1.5)
+plot(m, col = newmatrix, main = paste(state, " annual crop loss map ($) \n", " ", plotyear, " ", commodity, sep=""), cex.main=1.5)
 
 plot.new()
 addtable2plot(-0.2,0,mzz, 
@@ -255,7 +255,7 @@ addtable2plot(-0.2,0,mzz,
               display.rownames = TRUE, 
               hlines = TRUE,
               vlines = TRUE, 
-              title = "Monthly Crop Loss Summarized by County and Commodity")
+              title = "Annual Crop Loss Summarized by County and Commodity")
 
 dev.off()
 

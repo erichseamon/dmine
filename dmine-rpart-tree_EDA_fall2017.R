@@ -35,6 +35,55 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor)
 
 
 
+palouse_sumloss <- read.csv("/waf/agmesh-scenarios/Allstates/summaries/Palouse_summary_sumloss.csv")
+palouse_counts <- read.csv("/waf/agmesh-scenarios/Allstates/summaries/Palouse_summary_counts.csv")
+palouse_sumloss <- aggregate(loss ~ year + damagecause + county,  palouse_sumloss, sum)
+palouse_counts <- aggregate(count ~ year + damagecause + county,  palouse_counts, sum)
+
+
+Math.cbrt <- function(x) {
+  sign(x) * abs(x)^(1/3)
+}
+
+palouse_sumloss$cube_loss <- Math.cbrt(palouse_sumloss$loss)
+palouse_counts$cube_counts <- Math.cbrt(palouse_counts$count)
+
+
+palouse_sumloss$county = factor(palouse_sumloss$county,
+                      levels=unique(palouse_sumloss$county))
+
+interaction.plot(x.factor     = palouse_sumloss$year,
+                 trace.factor = palouse_sumloss$damagecause, 
+                 response     = palouse_sumloss$cube_loss, 
+                 fun = mean,
+                 las = 2,
+                 type="b",
+                 col=c("black","red","green"),  ### Colors for levels of trace var.
+                 pch=c(19, 17, 15),             ### Symbols for levels of trace var.
+                 fixed=TRUE,                    ### Order by factor order in data
+                 leg.bty = "o")
+
+interaction.plot(x.factor     = palouse_counts$year,
+                 trace.factor = palouse_counts$county, 
+                 response     = palouse_counts$count, 
+                 fun = mean,
+                 las = 2,
+                 type="b",
+                 col=c("black","red","green"),  ### Colors for levels of trace var.
+                 pch=c(19, 17, 15),             ### Symbols for levels of trace var.
+                 fixed=TRUE,                    ### Order by factor order in data
+                 leg.bty = "o")
+
+
+
+fit <- aov(cube_counts~damagecause, data=palouse_counts)
+summary(fit) #Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and Ftests
+
+plot(fit)
+
+
+
 
 
 var1 <- read.csv("/waf/tmp/pr_jun2_cube_root_acres_climatecorrelation.csv")
