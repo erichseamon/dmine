@@ -1,0 +1,520 @@
+---
+title: "PhD Research Notebook 101317"
+author: "Erich Seamon"
+date: "10/4/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Agricultural Commodity Loss, AOV, interactions, overall distributions
+
+This in Notebook 101317 that analyzes commodity loss data with NO climate data.  We look at qqplots to visually look for normality for commodity loss, commodity claim counts, as well as transformed loss (cube root).  We then look at AOV for single interactions and look at the outputs.  We then looked at a linear model
+with multiple factors (commodity, damage cause, county, year).
+
+We looked at two different datasets - 1) one dataset for ALL the commodity claims from 1989 - 2015, and 2) another dataset that has ONLY wheat claims, for all damage causes, from 1989 - 2015
+
+
+DESCRIPTION: We initially load our needed libraries, and load our CSV files of agriculture data that have been pre-wrangled.
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+
+library(rpart)				        # Popular decision tree algorithm
+library(rattle)					# Fancy tree plot
+library(rpart.plot)				# Enhanced tree plots
+library(RColorBrewer)				# Color selection for fancy tree plot
+library(party)					# Alternative decision tree algorithm
+library(partykit)				# Convert rpart object to BinaryTree
+library(caret)					# Just a data source for this script
+library(mvnormtest)
+# but probably one of the best R packages ever. 
+data(segmentationData)				# Get some data
+data <- segmentationData[,-c(1,2)]
+library(maptools)
+#------
+```
+
+
+
+
+```{r}
+
+#-Loading all commodities for the palouse 1989 - 2015
+
+palouse_sumloss_allcomm <- read.csv("/waf/agmesh-scenarios/Allstates/summaries/palouse_summary_all.csv")
+palouse_sumloss_allcomm2  <- aggregate(loss ~ year + damagecause + county + commodity, palouse_sumloss_allcomm, sum)
+
+palouse_sumloss_allcomm3 <- subset(palouse_sumloss_allcomm2, commodity == "WHEAT")
+palouse_sumloss_allcomm4 <- subset(palouse_sumloss_allcomm3, damagecause == "Drought")
+
+palouse_count_allcomm2  <- aggregate(count ~ year + damagecause + county + commodity,  palouse_sumloss_allcomm, sum)
+
+palouse_sumloss_drought <- subset(palouse_sumloss_allcomm2, damagecause =="Drought")
+palouse_sumloss_drought$year <- factor(palouse_sumloss_drought$year)
+
+#-Loading all WHEAT claims for the palouse from 1989-2015
+
+palouse_sumloss <- read.csv("/waf/agmesh-scenarios/Allstates/summaries/Palouse_summary_sumloss.csv")
+palouse_counts <- read.csv("/waf/agmesh-scenarios/Allstates/summaries/Palouse_summary_counts.csv")
+#palouse_sumloss <- aggregate(loss ~ year + damagecause + county,  palouse_sumloss, sum)
+#palouse_counts <- aggregate(count ~ year + damagecause + county,  palouse_counts, sum)
+
+aa <- subset(palouse_sumloss, damagecause == "Drought")
+aa1 <- subset(aa, commodity == "WHEAT")
+aa2 <- aggregate(loss ~ year + damagecause + county, aa1, sum)
+aa2$cube_loss <- Math.cbrt(aa2$loss)
+
+#-aa2 is essentially the same ag data as what is listed in climate1 - except climate1 has climate data connected.  done
+#-for cross checking - just for WHEAT - Drought claims
+
+#--loading climate ag data pre-assemled 
+
+climate1 <- read.csv("/waf/tmp/pr_jan1_loss_climatecorrelation.csv")
+climate1$cube_loss <- Math.cbrt(climate1$loss)
+
+climate1$year <- factor(climate1$year)
+
+#palouse_sumloss_drought <- subset(palouse_sumloss, damagecause == "Drought")
+#qqnorm(palouse_sumloss_drought$cube_loss)
+
+```
+
+
+
+DESCRIPTION: Below we prepare for our qqplots.
+
+```{r}
+
+#use a cube transformation on loss for WHEAT claims
+
+Math.cbrt <- function(x) {
+  sign(x) * abs(x)^(1/3)
+}
+
+#palouse_sumloss2 <- subset(palouse_sumloss, loss > 0)
+
+palouse_sumloss$cube_loss <- Math.cbrt(palouse_sumloss$loss)
+palouse_counts$cube_counts <- Math.cbrt(palouse_counts$count)
+
+#use a cube transformation on loss for all commodity claims
+
+palouse_sumloss_allcomm2$cube_loss <- Math.cbrt(palouse_sumloss_allcomm2$loss)
+
+#-use a log transform on the same WHEAT claims data
+
+palouse_sumloss$log_loss <- log(which(!is.na(palouse_sumloss$loss)))
+
+# - plot some qqplots to see how normal the data is
+
+palouse_sumloss_whitman$cube_loss <- Math.cbrt(palouse_sumloss_whitman$loss)
+
+```
+
+
+DESCRIPTION: Below we print out qqplots for each group we are looking at, to see if any of the response variables are somewhat normally distributed.
+
+
+```{r}
+
+qqnorm(palouse_sumloss$loss)
+qqnorm(palouse_sumloss$cube_loss)
+qqnorm(palouse_sumloss$log_loss)
+qqnorm(palouse_sumloss_allcomm2$cube_loss)
+qqnorm(palouse_counts$count)
+
+```
+
+
+
+```{r}
+
+#-factor counties
+palouse_sumloss$county = factor(palouse_sumloss$county,
+                                levels=unique(palouse_sumloss$county))
+#-factor years
+palouse_sumloss$year = factor(palouse_sumloss$year,
+                                levels=unique(palouse_sumloss$year))
+
+#-plot basic interaction plots for WHEAT cube root loss using year as x and damagecause as the line
+
+interaction.plot(x.factor     = climate1$year,
+                 trace.factor = climate1$county, 
+                 response     = climate1$loss, 
+                 fun = mean,
+                 las = 2,
+                 type="b",
+                 col=c("black","red","green"),  ### Colors for levels of trace var.
+                 pch=c(19, 17, 15),             ### Symbols for levels of trace var.
+                 fixed=TRUE,                    ### Order by factor order in data
+                 leg.bty = "o")
+
+```
+
+
+
+
+
+DESCRIPTION: Below is an interaction plot of cube root loss with year and damagecause
+
+```{r}
+
+#-factor counties
+palouse_sumloss$county = factor(palouse_sumloss$county,
+                                levels=unique(palouse_sumloss$county))
+#-factor years
+palouse_sumloss$year = factor(palouse_sumloss$year,
+                                levels=unique(palouse_sumloss$year))
+
+#-plot basic interaction plots for WHEAT cube root loss using year as x and damagecause as the line
+
+interaction.plot(x.factor     = palouse_sumloss$year,
+                 trace.factor = palouse_sumloss$damagecause, 
+                 response     = palouse_sumloss$cube_loss, 
+                 fun = mean,
+                 las = 2,
+                 type="b",
+                 col=c("black","red","green"),  ### Colors for levels of trace var.
+                 pch=c(19, 17, 15),             ### Symbols for levels of trace var.
+                 fixed=TRUE,                    ### Order by factor order in data
+                 leg.bty = "o")
+
+```
+
+
+
+DESCRIPTION: Below is an interaction plot of commodity counts with year and damagecause
+
+```{r}
+
+interaction.plot(x.factor     = palouse_counts$year,
+                 trace.factor = palouse_counts$damagecause, 
+                 response     = palouse_counts$count, 
+                 fun = mean,
+                 las = 2,
+                 type="b",
+                 col=c("black","red","green"),  ### Colors for levels of trace var.
+                 pch=c(19, 17, 15),             ### Symbols for levels of trace var.
+                 fixed=TRUE,                    ### Order by factor order in data
+                 leg.bty = "o")
+
+```
+
+
+DESCRIPTION: Below is an interaction plot of commodity counts with year and county
+
+```{r}
+
+interaction.plot(x.factor     = palouse_counts$year,
+                 trace.factor = palouse_counts$county, 
+                 response     = palouse_counts$count, 
+                 fun = mean,
+                 las = 2,
+                 type="b",
+                 col=c("black","red","green"),  ### Colors for levels of trace var.
+                 pch=c(19, 17, 15),             ### Symbols for levels of trace var.
+                 fixed=TRUE,                    ### Order by factor order in data
+                 leg.bty = "o")
+
+```
+
+
+
+```{r}
+
+bartlett.test(palouse_sumloss_allcomm2$loss, palouse_sumloss_allcomm2$county)
+bartlett.test(palouse_sumloss$loss, palouse_sumloss$county)
+bartlett.test(palouse_sumloss$loss, palouse_sumloss$year)
+#--All Bartlett tests show that the variances are not homogeneous
+#--Fligner-Killeen test for homoskedasticity
+fligner.test(palouse_sumloss_allcomm2$loss, palouse_sumloss_allcomm2$year)
+qchisq(0.95, 25)
+
+```
+
+
+
+```{r}
+
+fit <- aov(loss~county, data=climate1)
+summary(fit) #Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and Ftests
+
+```
+
+
+
+DESCRIPTION: performing an one way analysis of variance all all commodities, using damage cause as the factor.
+
+```{r}
+
+fit <- aov(cube_loss~damagecause, data=palouse_sumloss_allcomm2)
+summary(fit) #Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and Ftests
+
+```
+
+DESCRIPTION: performing tukey ad hoc testing on the above aov model.  We are plotting only those combinations of damage causes that had an adjusted p value of below .05.  We are highlighting those combinations in red.
+
+```{r}
+
+library(broom)
+library(magrittr)
+
+#--ad hoc test
+tuk <- TukeyHSD(fit)
+
+psig=as.numeric(apply(tuk$`damagecause`[,2:3],1,prod)>=0)+1
+plot(tuk,col=psig,yaxt="n")
+
+```
+
+
+DESCRIPTION: A table of all the combinations indicated above in red (those with a p-value less than .05)
+
+```{r}
+
+tuk2 <- as.data.frame(tidy(tuk))
+
+#-listing combos where the mean differences in damage causes are significant
+#Damage causes coming to forefront include: Drought and Decline in Price 
+
+tuk3 <- subset(tuk2, adj.p.value < .05)
+
+tuk3
+
+```
+
+
+DESCRIPTION: performing an one way analysis of variance on only WHEAT claims in the PNW, using cube root loss, with damage cause as the factor.  We then produce a barplot of the ranges of CI for each combination.  
+
+
+```{r}
+
+fit <- aov(cube_loss~damagecause + county + year, data=palouse_sumloss)
+summary(fit) #Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and Ftests
+
+#plot(fit)
+
+library(broom)
+library(magrittr)
+#--ad hoc test
+
+tukk <- TukeyHSD(fit)
+
+psig=as.numeric(apply(tukk$`damagecause`[,2:3],1,prod)>=0)+1
+plot(tukk,col=psig,yaxt="n")
+
+```
+
+
+DESCRIPTION: Table of significant combinations
+
+```{r}
+
+tukk2 <- as.data.frame(tidy(tukk))
+
+#-listing combos where the mean differences in damage causes are significant
+#Damage causes coming to forefront include: Drought and Decline in Price 
+tukk3 <- subset(tukk2, adj.p.value < .05)
+
+tukk3
+```
+
+
+DESCRIPTION: performing an one way analysis of variance on only WHEAT claims in the PNW, using counts, with damage cause as the factor.  We then produce a barplot of the ranges of CI for each combination.
+
+```{r}
+#--performing an single interaction aov for loss transformed by a cube root function
+#--by damagecuase.  This is for ONLY WHEAT counts
+
+fit <- aov(count~damagecause, data=palouse_counts)
+summary(fit) #Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and Ftests
+
+#plot(fit)
+
+library(broom)
+library(magrittr)
+#--ad hoc test
+
+tukk <- TukeyHSD(fit)
+
+psig=as.numeric(apply(tukk$`damagecause`[,2:3],1,prod)>=0)+1
+plot(tukk,col=psig,yaxt="n")
+
+```
+
+
+DESCRIPTION: Table of significant combinations
+
+```{r}
+
+tukk2 <- as.data.frame(tidy(tukk))
+#subset(tukk2, adj.p.value < .05)
+
+#-listing combos where the mean differences in damage causes are significant
+#Damage causes coming to forefront include: Drought and Decline in Price 
+tukk3 <- subset(tukk2, adj.p.value < .05)
+
+tukk3
+```
+
+DESCRIPTION: performing an one way analysis of variance on all commidity claims in the Palouse region, using cube root loss, with commodity as the factor.  We then produce a barplot of the ranges of CI for each combination.
+
+```{r}
+
+#--performing an single interaction aov for loss transformed by a cube root function
+#--by commodity  This is for ALL commodities
+
+fit <- aov(cube_loss~commodity, data=palouse_sumloss_allcomm2)
+summary(fit) #Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and Ftests
+
+library(broom)
+library(magrittr)
+#--ad hoc test
+
+tukk <- TukeyHSD(fit)
+
+psig=as.numeric(apply(tukk$`commodity`[,2:3],1,prod)>=0)+1
+plot(tukk,col=psig,yaxt="n")
+
+```
+
+DESCRIPTION: Table of significant combinations
+
+```{r}
+tukk2 <- as.data.frame(tidy(tukk))
+
+#-listing combos where the mean differences in damage causes are significant
+#Damage causes coming to forefront include: Drought and Decline in Price 
+tukk3 <- subset(tukk2, adj.p.value < .05)
+
+tukk3
+
+```
+
+DESCRIPTION: performing an one way analysis of variance on all commidity claims in the Palouse region, using cube root loss, with county as the factor.  We then produce a barplot of the ranges of CI for each combination.
+
+```{r}
+
+fit <- aov(loss~county, data=palouse_sumloss_drought)
+summary(fit) #Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and Ftests
+
+```
+
+
+```{r}
+#--performing an single interaction aov for loss transformed by a cube root function
+#--by year  This is for ALL commodities
+
+fit <- aov(loss~county, data=palouse_sumloss_allcomm2)
+summary(fit) #Type I ANOVA table
+drop1(fit,~.,test="F") # type III SS and Ftests
+
+library(broom)
+library(magrittr)
+#--ad hoc test
+
+tukk <- TukeyHSD(fit)
+
+psig=as.numeric(apply(tukk$`county`[,2:3],1,prod)>=0)+1
+plot(tukk,col=psig,yaxt="n")
+
+```
+
+DESCRIPTION: Table of significant combinations
+
+```{r}
+tukk2 <- as.data.frame(tidy(tukk))
+
+#-listing combos where the mean differences in damage causes are significant
+#Damage causes coming to forefront include: Drought and Decline in Price 
+tukk3 <- subset(tukk2, adj.p.value < .05)
+
+tukk3
+
+```
+
+
+```{r}
+climate1a <- subset(climate1, year != 2009)
+fit_climate1 = lm(formula = climate1$loss ~ climate1$year + climate1$county)
+anova(fit_climate1)
+
+fit_c = lm(formula = palouse_sumloss_allcomm2$loss ~ palouse_sumloss_allcomm2$county)
+anova(fit_c)
+fit_d = lm(formula = palouse_sumloss_allcomm2$loss ~ palouse_sumloss_allcomm2$damagecause)
+anova(fit_d)
+fit_co = lm(formula = palouse_sumloss_allcomm2$loss ~ palouse_sumloss_allcomm2$commodity)
+anova(fit_co)
+fit_y = lm(formula = palouse_sumloss_allcomm2$loss ~ factor(palouse_sumloss_allcomm2$year))
+anova(fit_y)
+
+```
+
+
+```{r}
+
+all1 <- anova(lm(loss ~ county + damagecause + year, data = palouse_sumloss))
+
+all_lm1 <- lm(cube_loss ~ county + damagecause + year, data = palouse_sumloss)
+
+palouse_sumloss_allcomm2$year <- factor(palouse_sumloss_allcomm2$year)
+
+all2 <- anova(lm(loss ~ commodity + county + damagecause + year + commodity:damagecause, data = palouse_sumloss_allcomm2))
+
+all_lm2 <- lm(loss ~ commodity + county + damagecause + year + commodity:damagecause, data = palouse_sumloss_allcomm2)
+
+```
+
+
+```{r}
+climate1 <- read.csv("/waf/tmp/tmmx_jul2_cube_root_loss_climatecorrelation.csv")
+
+climate1$year <- factor(climate1$year)
+library(car)
+
+psl1 <- subset(palouse_sumloss, damagecause == "Drought")
+
+qqPlot(lm(loss ~ year + county + state, data=climate1), 
+       envelope=.99)
+
+qqPlot(lm(cube_loss ~ year + county, data=psl1), 
+       envelope=.99)
+
+```
+
+
+```{r}
+
+#--ad hoc tukey for multiple 
+#-Post-hoc testing with lsmeans
+#-Because the main effects were significant, we will want to perform post-hoc mean separation tests 
+#-for each main effect factor variable.
+
+library(lsmeans)
+
+lsmeans(all_lm1,
+        pairwise ~ county, 
+        adjust="tukey")  
+
+```
+
+
+```{r}
+plot(cube_loss ~ county + commodity + damagecause + year, data=palouse_sumloss_allcomm2, las = 2)
+
+```
+
+
+```{r}
+plot(cube_loss ~ county + damagecause + year, data=palouse_sumloss, las = 2)
+
+```
+
+
