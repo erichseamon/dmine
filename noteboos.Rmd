@@ -1,0 +1,294 @@
+---
+title: "Prelim_stats_ver5_binary"
+author: "Erich Seamon"
+date: "10/14/2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## QUESTION 2
+
+\noindent {\bf Conduct a data analysis for the "SAMPLE DATASET" compare/contrast the performance (10-CV with AUC- measure) of various models (including variables/features selections), using the following algorithms:
+
+  1) Null,
+  2) NB, 
+  3) knn, 
+  4) logistic regression, 
+  5) SVM Polynomial kernel, 
+  6) SVM Gaussian kernel, 
+  7) Tree, 
+  7) Bagging, 
+  8) Random Forest, 
+  9) Noisy Replications Ensembling, 
+  10) plus one feasible model of your choice which was not covered in class). 
+
+  Overlay all model ROC curves in one figure for the same data set, with a legend key. Discuss your modeling process, interesting     findings, and conclusions.
+
+  Specifics:
+
+    1) Use 10CV mAUC measure to find the optimal model hyper-parameters 
+    2) For SVM, do both the polynomial and Gaussian kernel with the optimal model hyper-meters 
+    3) For Ensembling, do Bagging, Random Forest, and Noisy Replications 
+    3) Measure and report the execution time for running each of these 10 models. }
+
+
+\bfseries
+\noindent
+\bf
+
+```{r}
+
+#library(MASS)
+#library(ks)
+library(data.table)
+#library(hydroTSM)
+#library(rpart)
+#library(e1071)
+#library(class)
+#library(RCurl) 
+#library(magrittr)
+#library(dplyr)
+#library(assertthat)
+
+
+
+#set.seed(123)
+
+#--read in the file
+dat <- data.frame(fread("http://dmine.io/waf/prelims/T8_3_FOOTBALL.DAT"))
+
+#--make classes a factor as a separate variable
+gp=as.factor(dat[,1])
+
+
+onez <- data.frame(rep("one", 30))
+colnames(onez) <- c("class")
+twoz <- data.frame(rep("two", 30))
+colnames(twoz) <- c("class")
+threez <- data.frame(rep("three", 30))
+colnames(threez) <- c("class")
+CLASS <- rbind(onez, twoz, threez)
+
+dat <- dat[-1]
+dat <- cbind(CLASS, dat)
+
+
+colnames(dat) <- c("CLASS", "WDIM", "CIRCUM", "FBEYE", "EYEHD", "EARHD", "JAW")
+
+gp=as.factor(dat[,1])
+
+```
+
+\begin{verbatim}
+
+\end{verbatim}
+
+\bfseries
+\noindent
+\bf
+
+\noindent {\bf Naive Bayes }
+
+
+
+```{r}
+#nb uses full set for training
+# load the library
+library(caret)
+#library(ROCR)
+# load the iris dataset
+set.seed(101)
+
+inTrain <- createDataPartition(dat$CLASS, p=.7)
+training <- dat[inTrain[[1]], ]
+testing <- dat[-inTrain[[1]], ]
+
+# define training control
+train_control <- trainControl(method="repeatedcv", number=10, repeats=20, classProbs = TRUE, returnData = TRUE, summaryFunction=defaultSummary)
+# train the model
+nbmodel <- train(as.factor(CLASS)~., data=training, trControl=train_control, method="nb")
+# summarize results
+#multiclass.roc(as.factor(dat$CLASS), predict(nbmodel, dat, probability = TRUE) )
+
+pred.nb <- predict(nbmodel, testing, type="raw")
+
+print(nbmodel)
+
+plot(nbmodel)
+
+#confusion matrix with sensitivity, specificity and accuracy listed for
+#nb model
+confusionMatrix(pred.nb, dat$CLASS)
+
+confusionMatrix(as.vector(pred.nb), as.vector(testing$CLASS))
+```
+
+
+
+Support Vector Machines (SVM)
+
+
+```{r}
+
+#-Support Vector Machines
+
+set.seed(101)
+
+inTrain <- createDataPartition(dat$CLASS, p=.7)
+training <- dat[inTrain[[1]], ]
+testing <- dat[-inTrain[[1]], ]
+
+# define training control
+train_control <- trainControl(method="repeatedcv", number=10, repeats=20, classProbs = TRUE, returnData = TRUE, summaryFunction=defaultSummary)
+# train the model
+svmmodel <- train(as.factor(CLASS)~., data=training, trControl=train_control, preProc=c('center', 'scale'),
+            method='svmLinear',
+            importance=TRUE)
+
+# summarize results
+#multiclass.roc(as.factor(dat$CLASS), predict(nbmodel, dat, probability = TRUE) )
+
+pred.svm <- predict(svmmodel, testing)
+
+print(svmmodel)
+
+plot(svmmodel)
+
+confusionMatrix(as.vector(pred.svm), as.vector(testing$CLASS))
+
+```
+
+
+
+
+
+
+\begin{verbatim}
+
+\end{verbatim}
+
+\bfseries
+\noindent
+\bf
+
+\noindent {\bf Random Forest  }
+
+
+```{r}
+
+
+set.seed(101)
+
+inTrain <- createDataPartition(dat$CLASS, p=.7)
+training <- dat[inTrain[[1]], ]
+testing <- dat[-inTrain[[1]], ]
+
+# define training control
+train_control <- trainControl(method="repeatedcv", number=10, repeats=20, classProbs = TRUE, returnData = TRUE, summaryFunction=defaultSummary)
+# train the model
+rfmodel <- train(as.factor(CLASS)~., data=training, trControl=train_control, preProc=c('center', 'scale'),
+            method='rf',
+            importance=TRUE)
+# summarize results
+#multiclass.roc(as.factor(dat$CLASS), predict(nbmodel, dat, probability = TRUE) )
+
+pred.nb <- predict(rfmodel, testing, type="prob")
+
+print(rfmodel)
+
+plot(rfmodel)
+
+plot(rfmodel$finalModel)
+
+#-plot variable importance
+plot(varImp(rfmodel), top = 6)
+
+```
+
+
+Bagged Random Forest
+
+
+```{r}
+#-Bagging is essentially taking repeated samples from the single training set in order to generate X number of different bootstrapped training data sets. We then train our method on the Xth training set and average all the predictions.
+
+set.seed(101)
+
+inTrain <- createDataPartition(dat$CLASS, p=.7)
+training <- dat[inTrain[[1]], ]
+testing <- dat[-inTrain[[1]], ]
+
+# define training control
+train_control <- trainControl(method="repeatedcv", number=10, repeats=20, classProbs = TRUE, returnData = TRUE, summaryFunction=defaultSummary)
+# train the bagged model
+rfmodel <- train(as.factor(CLASS)~., data=training, trControl=train_control, method="bag", )
+
+                 
+bagControl = bagControl(fit = rfBag$fit, predict = rfBag$pred, aggregate = rfBag$aggregate)
+
+bag(as.factor(CLASS)~., B = 10, vars = ncol(CLASS), bagControl = NULL)
+# summarize results
+#multiclass.roc(as.factor(dat$CLASS), predict(nbmodel, dat, probability = TRUE) )
+
+pred.nb <- predict(rfmodel, testing, type="raw")
+
+print(rfmodel)
+
+
+
+```
+
+
+
+
+```{r}
+#-Boosting
+
+set.seed(101)
+
+#simple boost tree fitting model
+
+
+inTrain <- createDataPartition(dat$CLASS, p=.7)
+training <- dat[inTrain[[1]], ]
+testing <- dat[-inTrain[[1]], ]
+
+# define training control
+train_control <- trainControl(method="repeatedcv", number=10, repeats=20, classProbs = TRUE, returnData = TRUE, summaryFunction=defaultSummary)
+# train the model
+boostmodel <- train(as.factor(CLASS)~., data=training, trControl=train_control, method="gbm", verbose = F)
+# summarize results
+#multiclass.roc(as.factor(dat$CLASS), predict(nbmodel, dat, probability = TRUE) )
+
+pred.boost <- predict(boostmodel, testing, type="raw")
+
+print(boostmodel)
+
+boostacc <- confusionMatrix(pred.boost, as.factor(testing$CLASS))
+
+boostacc$overall
+
+```
+
+ 
+```{r}
+
+## model tuning 
+ gbmGrid <- expand.grid(.interaction.depth=(1:3)*2, .n.trees=(1:5)*20, .shrinkage=.1, .n.minobsinnode = c(10))
+ bootControl <- trainControl(number=50)
+ set.seed(2)
+
+boostmodel <- train(as.factor(CLASS)~., data=training, trControl=train_control, bag.fraction=0.7, tuneGrid=gbmGrid, method="gbm", verbose = F)
+
+plot(boostmodel)
+
+plot(boostmodel,plotType = "level")
+
+resampleHist((boostmodel))
+```
+
