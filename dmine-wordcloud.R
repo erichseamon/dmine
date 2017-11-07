@@ -11,19 +11,22 @@
 #
 #--Setting the working directory an d clearing the workspace-----------
 
-
 library(twitteR)
 library(tm)
 library(wordcloud)
 library(RColorBrewer)
 library(SnowballC)
+library(httr) 
+library(base64enc)
 #--twitter authentication
 options(httr_oauth_cache=T)
-api_key <- "aoMASn5GMUb7cFciJiyHNn70z"
-api_secret <- "zo6sOFA9x7waw1VGvi5R0i3gGn9hrmDDKcz7hH6mY6ehyjfuP3"
-access_token <- "11766682-JXMveG0dc97FUpkF1o8EapLsGGMdyddbFKQpgKefH"
-access_token_secret <- "bjy8lXYh5yroi7QzTkSw1in9k70ANTueRiLNUkZrvnz5Q"
+api_key <- "fEudPDoHEj9xz6gYKZ7Qc2f8V"
+api_secret <- "P1WHRbwi8v9SV41a1BeMnmugmGjiJSjQQYGb6PhscrZJMQspMq"
+access_token <- "11766682-euvpiRXoStHgcwyFSwVDnIncmhxZdr0wbF7PFoC9O"
+access_token_secret <- "b3pzUvIijfYvBEAftFSac3rLLuo82Gy6BTo2KSwc6Jc7M"
+
 setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
+
 #-uses the twitter api and twitteR to search the last n number of tweets
 mach_tweets = searchTwitter("climate+change", n=500, lang="en", resultType = "recent")
 #mach_tweets = searchTwitter("climate+change", n=500, lang="en", geocode='46.732,-117.001, 100mi', resultType = "recent")
